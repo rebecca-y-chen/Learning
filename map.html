@@ -11,37 +11,34 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;  /* 全螢幕置中 */
+  height: 100vh;  /* 撐滿視窗 */
   font-family: 'Arvo', serif;
   background: #fff;
 }
 
 .page_404 {
-  text-align: center;
+  text-align: center; 
 }
 
 .four_zero_four_bg {
   background-image: url(https://cdn.dribbble.com/users/285475/screenshots/2083086/dribbble_1.gif);
-  height: 300px;
-  width: 100%;
+  height: 400px;
   background-position: center;
   background-repeat: no-repeat;
-  background-size: contain;
-  margin-bottom: 20px;
+  background-size: contain; /* 保持比例 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .four_zero_four_bg h1 {
-  display: none; /* 不要文字跟 gif 疊在一起 */
-}
-
-.big-404 {
   font-size: 80px;
   color: #000;
-  margin: 0 0 20px 0;
+  margin: 0;
 }
 
 .contant_box_404 {
-  margin-top: 10px;
+  margin-top: 20px;
 }
 
 .link_404 {
@@ -57,13 +54,10 @@ body {
 	</head>
 <body>
 <section class="page_404">
-  <!-- 先放 GIF -->
-  <div class="four_zero_four_bg"></div>
+  <div class="four_zero_four_bg">
+    <h1>404</h1>
+  </div>
 
-  <!-- 再獨立顯示 404 數字 -->
-  <h1 class="big-404">404</h1>
-
-  <!-- 文字內容 -->
   <div class="contant_box_404">
     <h3>Look like you're lost</h3>
     <p>The page you are looking for is not available!</p>
