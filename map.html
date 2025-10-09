@@ -11,7 +11,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;  /* 撐滿視窗 */
+  height: 100vh;  /* 撐滿整個視窗 */
   font-family: 'Arvo', serif;
   background: #fff;
 }
@@ -23,17 +23,20 @@ body {
 .four_zero_four_bg {
   background-image: url(https://cdn.dribbble.com/users/285475/screenshots/2083086/dribbble_1.gif);
   height: 400px;
+  width: 100%;
   background-position: center;
   background-repeat: no-repeat;
-  background-size: contain; /* 保持比例 */
+  background-size: contain;
+
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: center;  /* 水平置中 */
+  align-items: center;      /* 垂直置中 */
 }
 
 .four_zero_four_bg h1 {
   font-size: 80px;
   color: #000;
+  margin: 0;
 }
 
 .contant_box_404 {
