@@ -5,35 +5,214 @@
   <title>102 Learning area</title>
   <link rel="icon" type="image/svg" href="images/puzzle.svg">
   <style>
-    body {
-      font-family: "Arial", sans-serif;
-      background-color: #f4f3ec;
+  body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #202a5e; /* 深藍底 */
+      font-family: 'Love Ya Like A Sister', regular;
+      overflow: hidden;
+    }
+
+    .container {
       text-align: center;
-      padding: 50px;
+      position: relative;
+      z-index: 1; /* 保證文字在裝飾之上 */
     }
-    h1 {
-      color: #000000;
+
+    /* HELLO CLASS 標題 */
+    .title {
+      font-size: 100px;
+      font-weight: 900;
+      text-transform: uppercase;
+      line-height: 1;
     }
-    p {
-      font-size: 18px;
-      color: #413f3f;
+
+    .hello span:nth-child(1) { color: #6a5acd; } /* H 紫 */
+    .hello span:nth-child(2) { color: #ff4500; } /* E 橘紅 */
+    .hello span:nth-child(3) { color: #008000; } /* L 綠 */
+    .hello span:nth-child(4) { color: #ff9933; } /* L 黃 */
+    .hello span:nth-child(5) { color: #ff69b4; } /* O 粉 */
+
+    .class span:nth-child(1) { color: #ff9933; } 
+    .class span:nth-child(2) { color: #6a5acd; } 
+    .class span:nth-child(3) { color: #ff69b4; } 
+    .class span:nth-child(4) { color: #008000; } 
+    .class span:nth-child(5) { color: #ff4500; } 
+
+    /* Let's do it! */
+    .subtitle {
+      margin-top: 100px;
+      font-size: 32px;
+      font-weight: bold;
+      animation: wobble 1.5s infinite ease-in-out;
     }
-    audio {
-      margin-top: 20px;
+
+    .subtitle span:nth-child(1) { color: #6a5acd; } /* Let's */
+    .subtitle span:nth-child(2) { color: #ffa500; } /* do */
+    .subtitle span:nth-child(3) { color: #ff69b4; } /* it! */
+
+    @keyframes wobble {
+      0%   { transform: translateX(0); }
+      25%  { transform: translateX(-5px) rotate(-3deg); }
+      50%  { transform: translateX(0) rotate(0deg); }
+      75%  { transform: translateX(5px) rotate(3deg); }
+      100% { transform: translateX(0); }
     }
+  /* 波浪線 */
+    .zigzag {
+      margin-top: 15px;
+      display: inline-block;
+      animation: float 2s infinite ease-in-out;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
+    }
+    /* 背景裝飾角落塊 */
+    .shape {
+      position: absolute;
+      width: 300px;
+      height: 300px;
+      border-radius: 50% 50% 0 0;
+      z-index: 0;
+    }
+    .top-left {
+      top: -150px;
+      left: -150px;
+      background: #e64a19; /* 橘紅 */
+      transform: rotate(220deg);
+    }
+    .top-right {
+      top: -150px;
+      right: -150px;
+      background: #f48fb1; /* 粉紅 */
+      transform: rotate(-220deg);
+    }
+    .bottom-left {
+      bottom: -150px;
+      left: -150px;
+      background: #388e3c; /* 綠色 */
+      transform: rotate(-40deg);
+    }
+    .bottom-right {
+      bottom: -150px;
+      right: -150px;
+      background: #fbc02d; /* 黃橘 */
+      transform: rotate(40deg);
+    }
+
+     /* 背景裝飾 (圓點 / 十字 / 閃光) */
+    .decor {
+      position: absolute;
+      z-index: 1;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: white;
+      animation: twinkle 2s infinite alternate;
+    }
+
+    .cross {
+      width: 16px;
+      height: 16px;
+      background: none;
+      animation: spin 3s infinite linear;
+    }
+    .cross::before, .cross::after {
+      content: '';
+      position: absolute;
+      background: white;
+    }
+    .cross::before {
+      width: 2px; height: 100%;
+      left: 50%; top: 0;
+      transform: translateX(-50%);
+    }
+    .cross::after {
+      width: 100%; height: 2px;
+      top: 50%; left: 0;
+      transform: translateY(-50%);
+    }
+
+    .spark {
+      width: 14px;
+      height: 14px;
+      background: radial-gradient(circle, white 0%, transparent 70%);
+      border-radius: 50%;
+      animation: sparkle 1.5s infinite ease-in-out;
+    }
+
+    /* 動畫效果 */
+    @keyframes twinkle {
+      0% { opacity: 0.3; transform: scale(0.8); }
+      100% { opacity: 1; transform: scale(1.2); }
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    @keyframes sparkle {
+      0%, 100% { opacity: 0.2; transform: scale(0.5); }
+      50% { opacity: 1; transform: scale(1.5); }
+    }
+
+    /* 裝飾位置 */
+    .dot1 { top: 100px; left: 60px; background:#ffeb3b; }
+    .dot2 { top: 180px; right: 100px; background:#4caf50; }
+    .dot3 { bottom: 140px; left: 180px; background:#9c27b0; }
+    .dot4 { bottom: 200px; right: 240px; background:#ff5722; }
+
+    .cross1 { top: 80px; right: 250px; }
+    .cross2 { bottom: 100px; left: 250px; }
+
+    .spark1 { top: 50px; left: 200px; }
+    .spark2 { bottom: 150px; right: 180px; }
+    .spark3 { top: 220px; left: 100px; }
   </style>
 </head>
 <body>
-  <h1>歡迎來到102線上學習區</h1>
-  <p>這裡的資源可自由使用</p>
+ <!-- 背景角落塊 -->
+  <div class="shape top-left"></div>
+  <div class="shape top-right"></div>
+  <div class="shape bottom-left"></div>
+  <div class="shape bottom-right"></div>
 
-  <!-- 播放音檔 -->
-  <audio controls>
-    <source src="audio/ㄊㄞˊ.mp3" type="audio/mpeg">
-    你的瀏覽器不支援音樂播放。
-  </audio>
+  <!-- 背景裝飾 -->
+  <div class="decor dot dot1"></div>
+  <div class="decor dot dot2"></div>
+  <div class="decor dot dot3"></div>
+  <div class="decor dot dot4"></div>
+  <div class="decor cross cross1"></div>
+  <div class="decor cross cross2"></div>
+  <div class="decor spark spark1"></div>
+  <div class="decor spark spark2"></div>
+  <div class="decor spark spark3"></div>
 
-  <!-- 加入一個連結 -->
-  <p><a href="about.html">老師的話</a></p>
+  <!-- 前景文字 -->
+  <div class="container">
+    <div class="title hello">
+      <span>H</span><span>E</span><span>L</span><span>L</span><span>O</span>
+    </div>
+    <div class="title class">
+      <span>C</span><span>L</span><span>A</span><span>S</span><span>S</span>
+    </div>
+    <div class="subtitle">
+      <span>Let's</span> <span>do</span> <span>it!</span>
+    </div>
+     <!-- 波浪線 (SVG) -->
+    <div class="zigzag">
+      <svg width="120" height="20" viewBox="0 0 120 20" xmlns="http://www.w3.org/2000/svg">
+        <polyline points="0,15 10,5 20,15 30,5 40,15 50,5 60,15 70,5 80,15 90,5 100,15 110,5 120,15" 
+                  stroke="#6a5acd" stroke-width="3" fill="none"/>
+      </svg>
+    </div>
+  </div>
 </body>
 </html>
