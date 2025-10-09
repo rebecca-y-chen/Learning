@@ -54,6 +54,15 @@
     .subtitle span:nth-child(2) { color: #ffa500; } /* do */
     .subtitle span:nth-child(3) { color: #ff69b4; } /* it! */
 
+    .subtitle a {
+  text-decoration: none;
+  color: inherit;   /* 保持文字顏色 */
+  display: inline-block;
+}
+.subtitle a:hover {
+  opacity: 0.8;     /* 滑過有小小變化 */
+}
+
     @keyframes wobble {
       0%   { transform: translateX(0); }
       25%  { transform: translateX(-5px) rotate(-3deg); }
@@ -204,6 +213,7 @@
       <span>C</span><span>L</span><span>A</span><span>S</span><span>S</span>
     </div>
     <div class="subtitle">
+      <a href="map.html">
       <span>Let's</span> <span>do</span> <span>it!</span>
     </div>
      <!-- 波浪線 (SVG) -->
