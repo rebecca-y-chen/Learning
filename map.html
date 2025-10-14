@@ -1,250 +1,83 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>學習地圖 | 102 Learning Area</title>
-<link rel="icon" type="image/svg+xml" href="images/puzzle.svg" />
-<style>
-  /* ===== 背景：柔和漸層 + 玻璃感氣泡 ===== */
-  :root{
-    --glass-bg: rgba(255,255,255,0.18);
-    --glass-brd: rgba(255,255,255,0.35);
-    --glass-halo: rgba(255,255,255,0.55);
-    --ink: #1f2a44;
-    --muted:#6b7a90;
-    --accent:#ffd36b;
-  }
-  *{box-sizing:border-box}
-  /* 背景：天空漸層 + 飄雲感 */
-  body {
-   margin: 0;
-   min-height: 100vh;
-   font-family: "Noto Sans TC", sans-serif;
-   background: linear-gradient(to bottom, #a1c4fd, #c2e9fb);
-   display: flex;
-   justify-content: center;
-   align-items: center;
-   padding: 40px 20px;
-   overflow: hidden;
-  }
+<html lang="en">
 
-  /* 飄動小雲裝飾 */
-  .cloud {
-   position: absolute;
-   background: #fff;
-   border-radius: 50%;
-   opacity: 0.8;
-   animation: floatClouds 40s linear infinite;
-  }
-  .cloud.small { width: 60px; height: 60px; top: 10%; left: -80px; }
-  .cloud.big { width: 120px; height: 120px; top: 30%; left: -200px; }
+  <head>
+    <meta charset="UTF-8">
+    <title>CodePen Challenge: Shine</title>
+    <link rel="stylesheet" href="./map.style.css">
 
-  @keyframes floatClouds {
-   0% { transform: translateX(0); }
-   100% { transform: translateX(120vw); }
-  }
+  </head>
+    
+  <body>
+  <div class="showcase">
+  <div class="header">
+    <h1 class="main-title">學習地圖</h1>
+    <p class="description">點一個方塊，出發冒險！</p>
+  </div>
 
-  .wrap{
-    width:min(1100px, 96vw);
-  }
-
-  header{
-    text-align:center;
-    margin-bottom: clamp(16px, 3vw, 28px);
-  }
-  header h1{
-    margin:0 0 6px;
-    font-weight:900;
-    letter-spacing:.02em;
-    color:#fff;
-    font-size: clamp(24px, 4.6vw, 40px);
-  }
-  header p{
-    margin:0;
-    color:#e6e9f599;
-    font-size: clamp(13px, 2.4vw, 16px);
-  }
-
-  /* ===== 卡片網格 ===== */
-  .grid{
-   display: grid;
-   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-   gap: 24px;
-   width: 100%;
-   max-width: 1000px;
-   position: relative;
-   z-index: 2;
-  }
-
-  /* 童趣液態玻璃 */
-  .card {
-   aspect-ratio: 4 / 3;
-   border-radius: 28px;
-   background: rgba(255, 255, 255, 0.25);
-   border: 2px solid rgba(255, 255, 255, 0.4);
-   backdrop-filter: blur(12px) saturate(160%);
-   -webkit-backdrop-filter: blur(12px) saturate(160%);
-   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-   display: flex;
-   justify-content: center;
-   align-items: center;
-   text-decoration: none;
-   color: #333;
-   transition: transform 0.25s ease, box-shadow 0.25s ease;
-  }
-
-  /* 卡片 hover 動態 */
-  .card:hover {
-    transform: translateY(-6px) rotate(-2deg) scale(1.05);
-    box-shadow: 0 12px 30px rgba(0,0,0,0.25);
-  }
-
-  /* 點擊彈跳 */
-  .card:active {
-    transform: scale(0.9);
-    transition: transform 0.1s ease;
-  }
-
-  /* 鍵盤導覽聚焦 */
-  .card:focus-visible {
-    outline: 3px solid #ffd36b;
-    outline-offset: 4px;
-  }
-
-  
-  /* 沒支援 backdrop-filter 時的優雅降級 */
-  @supports not ((backdrop-filter: blur(10px)) or (-webkit-backdrop-filter: blur(10px))) {
-    .card{
-      background: rgba(255,255,255,0.08);
-      border-color: rgba(255,255,255,0.18);
-    }
-  }
-
-  /* 卡片內文 */
-  .card .inner{
-    text-align: center;
-  }
-  .emoji{
-    font-size: 2.2rem;
-    margin-bottom: 10px;
-  }
-  .title{
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: #222;
-  }
-  .hint{
-    font-size: 0.9rem;
-    color: #555;
-  }
-
-  /* 玻璃邊緣高光 */
-  .card::before{
-    content:"";
-    position:absolute; inset:0;
-    background: linear-gradient(180deg, rgba(255,255,255,.22), transparent 40% 60%, rgba(255,255,255,.06));
-    z-index:1;
-    pointer-events:none;
-  }
-
-  /* 光斜切掃過（微微的，不俗氣） */
-  .card::after{
-    content:"";
-    position:absolute;
-    inset:-40% -60%;
-    background: linear-gradient(60deg, transparent 45%, rgba(255,255,255,.16) 50%, transparent 55%);
-    transform: translateX(-30%) rotate(8deg);
-    transition: transform .6s ease;
-    z-index:1;
-    pointer-events:none;
-  }
-
-  .card:hover{
-    transform: translateY(-6px) scale(1.02);
-    box-shadow: 0 18px 50px rgba(0,0,0,0.35);
-    border-color: rgba(255,255,255,0.55);
-  }
-  .card:hover::after{
-    transform: translateX(15%) rotate(8deg);
-  }
-
-  /* 小動態：整張地圖慢慢浮動感 */
-  .grid{ animation: rise .9s ease-out both }
-  @keyframes rise {from{opacity:0; transform: translateY(8px)} to{opacity:1; transform:none} }
-
-  /* 頁尾返回 */
-  .back{
-    margin-top: clamp(16px, 3vw, 24px);
-    text-align:center;
-  }
-  .back a{
-    color:#ffe9a6; text-decoration:none; font-weight:700;
-  }
-  .back a:hover{ text-decoration:underline }
-
-</style>
-</head>
-<body>
-  <main class="wrap">
-    <header>
-      <h1>學習地圖</h1>
-      <p>點一個方塊，出發冒險！</p>
-    </header>
-
-    <section class="grid">
-      <a class="card" href="rubiks-cube.html" aria-label="魔術方塊">
-        <div class="inner">
-          <div class="emoji">🪄</div>
-          <div class="title">魔術方塊</div>
-          <div class="hint">你能完成一面嗎？</div>
-        </div>
-      </a>
-
-      <a class="card" href="math.html" aria-label="數學森林">
-        <div class="inner">
-          <div class="emoji">🔢</div>
-          <div class="title">數學森林</div>
-          <div class="hint">加減法・圖形・邏輯</div>
-        </div>
-      </a>
-
-      <a class="card" href="english.html" aria-label="英文冒險">
-        <div class="inner">
-          <div class="emoji">🗣️</div>
-          <div class="title">英文冒險</div>
-          <div class="hint">單字・發音・小對話</div>
-        </div>
-      </a>
-
-      <a class="card" href="science.html" aria-label="科學實驗屋">
-        <div class="inner">
-          <div class="emoji">🧪</div>
-          <div class="title">科學實驗屋</div>
-          <div class="hint">觀察・小實驗・自然</div>
-        </div>
-      </a>
-
-      <a class="card" href="art.html" aria-label="藝術樂園">
-        <div class="inner">
-          <div class="emoji">🎨</div>
-          <div class="title">藝術樂園</div>
-          <div class="hint">塗鴉・配色・音樂</div>
-        </div>
-      </a>
-
-      <a class="card" href="life.html" aria-label="生活技能村">
-        <div class="inner">
-          <div class="emoji">🧭</div>
-          <div class="title">生活技能村</div>
-          <div class="hint">時間・金錢・安全</div>
-        </div>
-      </a>
-    </section>
-
-    <div class="back">
-      <a href="index.html">回到首頁</a>
+  <div class="button-collection">
+    <div class="button-wrapper">
+      <span class="button-label">魔術方塊</span>
+      <button class="shine-button button-ocean" onclick="location.href='rubiks-cube.html'">Go!</button>
     </div>
-  </main>
-</body>
+
+    <div class="button-wrapper">
+      <span class="button-label">Emerald Forest</span>
+      <button class="shine-button button-emerald">Explore More</button>
+    </div>
+
+    <div class="button-wrapper">
+      <span class="button-label">Sunset Glow</span>
+      <button class="shine-button button-sunset">Learn More</button>
+    </div>
+
+    <div class="button-wrapper">
+      <span class="button-label">Deep Ocean</span>
+      <button class="shine-button button-deep">Dive In</button>
+    </div>
+
+    <div class="button-wrapper">
+      <span class="button-label">Golden Hour</span>
+      <button class="shine-button button-gold">Discover</button>
+    </div>
+
+    <div class="button-wrapper">
+      <span class="button-label">Chrome Polish</span>
+      <button class="shine-button button-chrome">Premium</button>
+    </div>
+
+    <div class="button-wrapper">
+      <span class="button-label">Royal Purple</span>
+      <button class="shine-button button-purple">Upgrade</button>
+    </div>
+
+    <div class="button-wrapper">
+      <span class="button-label">Fresh Mint</span>
+      <button class="shine-button button-mint">Refresh</button>
+    </div>
+
+    <div class="button-wrapper">
+      <span class="button-label">Electric Lime</span>
+      <button class="shine-button button-electric">Energise</button>
+    </div>
+
+    <div class="button-wrapper">
+      <span class="button-label">Soft Lavender</span>
+      <button class="shine-button button-lavender">Relax</button>
+    </div>
+
+    <div class="button-wrapper">
+      <span class="button-label">Fire Ember</span>
+      <button class="shine-button button-fire">Ignite</button>
+    </div>
+
+    <div class="button-wrapper">
+      <span class="button-label">Forest Depths</span>
+      <button class="shine-button button-forest">Explore</button>
+    </div>
+  </div>
+</div>
+    
+  </body>
+  
 </html>
