@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>學習地圖 | 102 Learning Area</title>
+<link rel="icon" type="image/svg+xml" href="images/puzzle.svg" />
+<style>
+  /* ===== 背景：柔和漸層 + 玻璃感氣泡 ===== */
+  :root{
+    --glass-bg: rgba(255,255,255,0.18);
+    --glass-brd: rgba(255,255,255,0.35);
+    --glass-halo: rgba(255,255,255,0.55);
+    --ink: #1f2a44;
+    --muted:#6b7a90;
+    --accent:#ffd36b;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    min-height:100svh;
+    font-family: ui-sans-serif, -apple-system, "Noto Sans TC", "Segoe UI", Roboto, Inter, Arial, sans-serif;
+    color: var(--ink);
+    background:
+      radial-gradient(1200px 800px at 10% -10%, #6da7ff33, transparent 60%),
+      radial-gradient(1000px 900px at 110% 10%, #ff7ab833, transparent 60%),
+      radial-gradient(1000px 900px at 50% 110%, #7bffcf33, transparent 60%),
+      linear-gradient(180deg,#0f1530,#1b2248 40%, #0f1530 100%);
+    display:grid;
+    place-items:center;
+    padding: clamp(16px, 4vw, 32px);
+  }
+
+  .wrap{
+    width:min(1100px, 96vw);
+  }
+
+  header{
+    text-align:center;
+    margin-bottom: clamp(16px, 3vw, 28px);
+  }
+  header h1{
+    margin:0 0 6px;
+    font-weight:900;
+    letter-spacing:.02em;
+    color:#fff;
+    font-size: clamp(24px, 4.6vw, 40px);
+  }
+  header p{
+    margin:0;
+    color:#e6e9f599;
+    font-size: clamp(13px, 2.4vw, 16px);
+  }
+
+  /* ===== 玻璃卡片網格 ===== */
+  .grid{
+    display:grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px,1fr));
+    gap: clamp(14px, 2.2vw, 22px);
+  }
+
+  /* 超重點：4:3 比例 + 玻璃質感 */
+  .card{
+    position:relative;
+    aspect-ratio: 4 / 3;
+    border-radius: 22px;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-brd);
+    box-shadow:
+      0 10px 30px rgba(0,0,0,0.25),
+      inset 0 1px 0 var(--glass-halo);
+    backdrop-filter: blur(12px) saturate(160%);
+    -webkit-backdrop-filter: blur(12px) saturate(160%);
+    overflow:hidden;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    text-decoration:none;
+    color:#fff;
+    transition: transform .28s cubic-bezier(.2,.8,.2,1), box-shadow .28s ease, border-color .28s ease;
+    isolation:isolate; /* 讓內部特效不外溢 */
+  }
+  
+  /* 滑鼠點下去 → 微彈跳 */
+  .card:active {
+   transform: scale(0.95);
+   transition: transform 0.12s ease;
+  }
+
+  /* 鍵盤導覽 → 聚焦框 */
+  .card:focus-visible {
+   outline: 3px solid #ffd36b;
+   outline-offset: 4px;
+  }
+  
+  /* 沒支援 backdrop-filter 時的優雅降級 */
+  @supports not ((backdrop-filter: blur(10px)) or (-webkit-backdrop-filter: blur(10px))) {
+    .card{
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(255,255,255,0.18);
+    }
+  }
+
+  /* 卡片內文 */
+  .card .inner{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:8px;
+    padding: 10px;
+    z-index:2;
+  }
+  .emoji{
+    font-size: clamp(28px, 4.2vw, 40px);
+    filter: drop-shadow(0 2px 6px rgba(0,0,0,.35));
+  }
+  .title{
+    font-weight:800;
+    letter-spacing:.02em;
+    font-size: clamp(16px, 2.8vw, 20px);
+  }
+  .hint{
+    font-size: 12px;
+    color:#e8ecffb3;
+  }
+
+  /* 玻璃邊緣高光 */
+  .card::before{
+    content:"";
+    position:absolute; inset:0;
+    background: linear-gradient(180deg, rgba(255,255,255,.22), transparent 40% 60%, rgba(255,255,255,.06));
+    z-index:1;
+    pointer-events:none;
+  }
+
+  /* 光斜切掃過（微微的，不俗氣） */
+  .card::after{
+    content:"";
+    position:absolute;
+    inset:-40% -60%;
+    background: linear-gradient(60deg, transparent 45%, rgba(255,255,255,.16) 50%, transparent 55%);
+    transform: translateX(-30%) rotate(8deg);
+    transition: transform .6s ease;
+    z-index:1;
+    pointer-events:none;
+  }
+
+  .card:hover{
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: 0 18px 50px rgba(0,0,0,0.35);
+    border-color: rgba(255,255,255,0.55);
+  }
+  .card:hover::after{
+    transform: translateX(15%) rotate(8deg);
+  }
+
+  /* 小動態：整張地圖慢慢浮動感 */
+  .grid{ animation: rise .9s ease-out both }
+  @keyframes rise {from{opacity:0; transform: translateY(8px)} to{opacity:1; transform:none} }
+
+  /* 頁尾返回 */
+  .back{
+    margin-top: clamp(16px, 3vw, 24px);
+    text-align:center;
+  }
+  .back a{
+    color:#ffe9a6; text-decoration:none; font-weight:700;
+  }
+  .back a:hover{ text-decoration:underline }
+
+</style>
+</head>
+<body>
+  <main class="wrap">
+    <header>
+      <h1>學習地圖</h1>
+      <p>點一個方塊，出發冒險！</p>
+    </header>
+
+    <section class="grid">
+      <a class="card" href="rubiks-cube.html" aria-label="魔術方塊">
+        <div class="inner">
+          <div class="emoji">🪄</div>
+          <div class="title">魔術方塊</div>
+          <div class="hint">你能完成一面嗎？</div>
+        </div>
+      </a>
+
+      <a class="card" href="subjects/math/index.html" aria-label="數學森林">
+        <div class="inner">
+          <div class="emoji">🔢</div>
+          <div class="title">數學森林</div>
+          <div class="hint">加減法・圖形・邏輯</div>
+        </div>
+      </a>
+
+      <a class="card" href="subjects/english/index.html" aria-label="英文冒險">
+        <div class="inner">
+          <div class="emoji">🗣️</div>
+          <div class="title">英文冒險</div>
+          <div class="hint">單字・發音・小對話</div>
+        </div>
+      </a>
+
+      <a class="card" href="subjects/science/index.html" aria-label="科學實驗屋">
+        <div class="inner">
+          <div class="emoji">🧪</div>
+          <div class="title">科學實驗屋</div>
+          <div class="hint">觀察・小實驗・自然</div>
+        </div>
+      </a>
+
+      <a class="card" href="subjects/art/index.html" aria-label="藝術樂園">
+        <div class="inner">
+          <div class="emoji">🎨</div>
+          <div class="title">藝術樂園</div>
+          <div class="hint">塗鴉・配色・音樂</div>
+        </div>
+      </a>
+
+      <a class="card" href="subjects/life/index.html" aria-label="生活技能村">
+        <div class="inner">
+          <div class="emoji">🧭</div>
+          <div class="title">生活技能村</div>
+          <div class="hint">時間・金錢・安全</div>
+        </div>
+      </a>
+    </section>
+
+    <div class="back">
+      <a href="index.html">← 回到首頁</a>
+    </div>
+  </main>
+</body>
+</html>
