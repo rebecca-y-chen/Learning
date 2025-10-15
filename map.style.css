@@ -53,8 +53,8 @@ body {
   color: #ffd6ea;
   font-weight: 400;
   letter-spacing: 0.5px;
-  line-height: 2;     /* 行距加大 */
-  margin-bottom: 1rem; /* 行與行之間額外留白 */
+  line-height: 1.2;     /* 行距加大 */
+  margin-bottom: 2rem; /* 行與行之間額外留白 */
 }
 
 .button-collection {
@@ -87,7 +87,7 @@ body {
   color: #fff;
   border-radius: 20px;
   padding: 2rem;
-  font-size: 1.8rem;
+  font-size: 1.5rem;
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   overflow: hidden;
