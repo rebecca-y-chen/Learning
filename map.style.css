@@ -49,10 +49,12 @@ body {
   text-shadow: 2px 2px 0px rgba(0,0,0,0.1);
 }
 .description {
-  font-size: 1rem;
+  font-size: 1.2rem;
   color: #ffd6ea;
   font-weight: 400;
   letter-spacing: 0.5px;
+  line-height: 2;     /* 行距加大 */
+  margin-bottom: 1rem; /* 行與行之間額外留白 */
 }
 
 .button-collection {
