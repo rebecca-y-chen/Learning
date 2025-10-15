@@ -35,8 +35,9 @@ body {
 .main-title {
   font-size: 3rem;
   font-weight: 900;
-  text-transform: none;
   letter-spacing: 2px;
+  margin-bottom: 1rem;
+  line-height: 1.6;   /* 標題字之間的行距 */
   font-family:'zhuyinRound-R', 'Inter', sans-serif;
 }
 
