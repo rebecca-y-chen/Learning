@@ -55,7 +55,6 @@ body {
   font-weight: 400;
   letter-spacing: 0.5px;
   line-height: 1.2;     /* 行距加大 */
-  margin-bottom: 2rem; /* 行與行之間額外留白 */
 }
 
 .button-collection {
