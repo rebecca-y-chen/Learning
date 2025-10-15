@@ -2,6 +2,7 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>102 Learning area</title>
   <link rel="icon" type="image/svg" href="images/puzzle.svg">
   <style>
@@ -24,7 +25,7 @@
 
     /* HELLO CLASS 標題 */
     .title {
-      font-size: 100px;
+      font-size: clamp(40px, 12vw, 100px);
       font-weight: 900;
       text-transform: uppercase;
       line-height: 1;
@@ -44,8 +45,8 @@
 
     /* Let's do it! */
     .subtitle {
-      margin-top: 100px;
-      font-size: 32px;
+      margin-top: clamp(30px, 8vw, 100px);
+      font-size: clamp(18px, 4vw, 32px);
       font-weight: bold;
       animation: wobble 1.5s infinite ease-in-out;
     }
@@ -102,11 +103,8 @@
     }
     /* 背景裝飾角落塊 */
     .shape {
-      position: absolute;
-      width: 300px;
-      height: 300px;
-      border-radius: 50% 50% 0 0;
-      z-index: 0;
+      width: clamp(120px, 30vw, 300px);
+      height: clamp(120px, 30vw, 300px);
     }
     .top-left {
       top: -150px;
