@@ -344,18 +344,11 @@ body {
   }
 
   .main-title {
-    font-size: 2rem;
+    font-size: 3rem;
     letter-spacing: 1px;
   }
 
   .description {
-    font-size: 1rem;
-  }
-}
-
-/* 📱 超小手機（螢幕寬度 <= 480px） */
-@media (max-width: 480px) {
-  .shine-button {
-    font-size: 2.2rem;
+    font-size: 1.2rem;
   }
 }
