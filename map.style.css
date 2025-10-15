@@ -94,21 +94,7 @@ body {
   overflow: hidden;
   font-family:'zhuyinRound-R', 'Inter', sans-serif;
 }
-/* 📱 手機版（螢幕寬度 <= 768px） */
-@media (max-width: 768px) {
-  .shine-button {
-    font-size: 2rem;   /* 字大一點 */
-    padding: 2.5rem;   /* 增加內距，點擊更好點 */
-  }
-}
 
-/* 📱 超小手機（螢幕寬度 <= 480px） */
-@media (max-width: 480px) {
-  .shine-button {
-    font-size: 2.2rem;
-    padding: 3rem;
-  }
-}
 
 .shine-button:hover {
   transform: translateY(-6px) scale(1.05);
@@ -354,8 +340,8 @@ body {
   .shine-button {
     width: 100%;
     min-width: unset;  /* 移除 200px 限制 */
-    padding: 1.5rem;
-    font-size: 1rem;
+    padding: 2.5rem;
+    font-size: 2rem;
   }
 
   .main-title {
@@ -365,5 +351,13 @@ body {
 
   .description {
     font-size: 1rem;
+  }
+}
+
+/* 📱 超小手機（螢幕寬度 <= 480px） */
+@media (max-width: 480px) {
+  .shine-button {
+    font-size: 2.2rem;
+    padding: 3rem;
   }
 }
