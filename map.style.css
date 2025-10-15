@@ -8,11 +8,11 @@
 
 body {
   min-height: 100vh;
-  background: #f8fafc;
+  background: radial-gradient(circle at 20% 30%, #ffecd2, #fcb69f);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: 'Inter', sans-serif;
+  font-family:'Love Ya Like A Sister', cursive, sans-serif;
   padding: 2rem;
 }
 
@@ -291,16 +291,27 @@ body {
 
 @media (max-width: 768px) {
   .button-collection {
-    grid-template-columns: 1fr;
-    gap: 2rem;
+    grid-template-columns: 1fr; /* 單欄 */
+    gap: 1.5rem;
+  }
+
+  .button-wrapper {
+    width: 100%;
+  }
+
+  .shine-button {
+    width: 100%;
+    min-width: unset;  /* 移除 200px 限制 */
+    padding: 1.5rem;
+    font-size: 1rem;
   }
 
   .main-title {
-    font-size: 2.5rem;
+    font-size: 2rem;
     letter-spacing: 1px;
   }
 
   .description {
-    font-size: 1.1rem;
+    font-size: 1rem;
   }
 }
