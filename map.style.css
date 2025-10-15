@@ -71,7 +71,7 @@ body {
 }
 
 .shine-button {
-  position: relative; /* 🔑 修正亮光定位 */
+  position: relative;
   background: rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(10px);
   border: 2px solid rgba(255, 255, 255, 0.2);
@@ -81,7 +81,7 @@ body {
   font-size: 1.2rem;
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  overflow: hidden; /* 🔑 避免亮光超出去 */
+  overflow: hidden;
 }
 
 .shine-button:hover {
@@ -89,6 +89,20 @@ body {
   box-shadow: 0 12px 25px rgba(0,0,0,0.25);
 }
 
+/* 果凍彈跳 */
+.shine-button:active {
+  animation: jelly 0.6s ease;
+}
+
+@keyframes jelly {
+  0%   { transform: scale(1, 1); }
+  25%  { transform: scale(0.9, 1.1); }
+  50%  { transform: scale(1.1, 0.9); }
+  75%  { transform: scale(0.95, 1.05); }
+  100% { transform: scale(1, 1); }
+}
+
+/* 亮光掃過效果 */
 .shine-button::before {
   content: '';
   position: absolute;
@@ -104,19 +118,13 @@ body {
   );
   transform: rotate(45deg) translateY(-35%);
   animation: shine 3s ease infinite;
-  pointer-events: none; /* 🔑 修正點擊問題 */
+  pointer-events: none;
 }
 
 @keyframes shine {
-  0% {
-    left: -80px;
-  }
-  40% {
-    left: calc(100% + 20px);
-  }
-  100% {
-    left: calc(100% + 20px);
-  }
+  0%   { left: -80px; }
+  40%  { left: calc(100% + 20px); }
+  100% { left: calc(100% + 20px); }
 }
 
 .button-ocean {
