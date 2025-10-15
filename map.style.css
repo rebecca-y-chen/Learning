@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Chiron+GoRound+TC:wght@200..900&family=Hina+Mincho&family=Lilita+One&family=Love+Ya+Like+A+Sister&family=Yomogi&display=swap');
 @font-face {
   font-family: 'zhuyinRound-R';
   src: url('fonts/zhuyinRound-R.ttf') format('truetype');
@@ -18,7 +18,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family:'zhuyinRound-R', 'Inter', sans-serif;
+  font-family:"Chiron GoRound TC", sans-serif;
   padding: 2rem;
 }
 
@@ -37,6 +37,7 @@ body {
   font-weight: 900;
   text-transform: none;
   letter-spacing: 2px;
+  font-family:'zhuyinRound-R', 'Inter', sans-serif;
 }
 
 /* 四個字分別上色 */
