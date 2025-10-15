@@ -28,9 +28,13 @@ body {
 
 .main-title {
   font-size: 3rem;
-  font-weight: 700;
-  color: #1f2937;
-  margin-bottom: 1rem;
+  font-weight: 900;
+  background: linear-gradient(90deg, #ff69b4, #ffa500, #32cd32, #4169e1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  background-size: 200% auto;
+  animation: gradientMove 3s linear infinite;
   letter-spacing: 2px;
 }
 
