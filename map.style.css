@@ -8,7 +8,7 @@
 
 body {
   min-height: 100vh;
-  background: #fff5f5;
+  background: #202a5e;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -34,16 +34,16 @@ body {
 }
 
 /* 四個字分別上色 */
-.main-title span:nth-child(1) { color: #ff69b4; } /* 學 粉紅 */
-.main-title span:nth-child(2) { color: #ff9933; } /* 習 橘黃 */
-.main-title span:nth-child(3) { color: #6a5acd; } /* 地 紫 */
-.main-title span:nth-child(4) { color: #32cd32; } /* 圖 綠 */
+.main-title span:nth-child(1) { color: #6a5acd; } /* 學 紫 */
+.main-title span:nth-child(2) { color: #ff4500; } /* 習 橘紅 */
+.main-title span:nth-child(3) { color: #008000; } /* 地 綠 */
+.main-title span:nth-child(4) { color: #ff9933; } /* 圖 黃 */
 .main-title span {
   text-shadow: 2px 2px 0px rgba(0,0,0,0.1);
 }
 .description {
-  font-size: 1.2rem;
-  color: #6b7280;
+  font-size: 1rem;
+  color: #ffd6ea;
   font-weight: 400;
   letter-spacing: 0.5px;
 }
