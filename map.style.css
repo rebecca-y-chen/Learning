@@ -29,14 +29,15 @@ body {
 .main-title {
   font-size: 3rem;
   font-weight: 900;
-  background: linear-gradient(90deg, #ff69b4, #ffa500, #32cd32, #4169e1);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-
-  background-size: 200% auto;
-  animation: gradientMove 3s linear infinite;
+  text-transform: none;
   letter-spacing: 2px;
 }
+
+/* 四個字分別上色 */
+.main-title span:nth-child(1) { color: #ff69b4; } /* 學 粉紅 */
+.main-title span:nth-child(2) { color: #ff9933; } /* 習 橘黃 */
+.main-title span:nth-child(3) { color: #6a5acd; } /* 地 紫 */
+.main-title span:nth-child(4) { color: #32cd32; } /* 圖 綠 */
 
 .description {
   font-size: 1.2rem;
