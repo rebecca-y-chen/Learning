@@ -70,18 +70,23 @@ body {
   text-transform: uppercase;
 }
 
-.shine-button {
-  position: relative;
-  padding: 1.2rem 2.5rem;
-  font-size: 1.1rem;
-  font-weight: 600;
-  border: none;
-  border-radius: 12px;
+..shine-button {
+  position: relative; /* 🔑 修正亮光定位 */
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  border-radius: 20px;
+  padding: 2rem;
+  font-size: 1.2rem;
   cursor: pointer;
-  overflow: hidden;
-  transition: all 0.3s ease;
-  letter-spacing: 0.5px;
-  min-width: 200px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  overflow: hidden; /* 🔑 避免亮光超出去 */
+}
+
+.shine-button:hover {
+  transform: translateY(-6px) scale(1.05);
+  box-shadow: 0 12px 25px rgba(0,0,0,0.25);
 }
 
 .shine-button::before {
@@ -91,9 +96,15 @@ body {
   width: 40px;
   top: 0;
   left: -60px;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.6),
+    transparent
+  );
   transform: rotate(45deg) translateY(-35%);
   animation: shine 3s ease infinite;
+  pointer-events: none; /* 🔑 修正點擊問題 */
 }
 
 @keyframes shine {
