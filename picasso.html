@@ -59,6 +59,22 @@
     padding: 16px;
     border-right: 3px solid #374151;
   }
+
+  /* 響應式：手機版上下排列 */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column; /* 改成上下排列 */
+  }
+  .palette {
+    width: 100%;  /* 滿版 */
+    border-right: none;
+    border-bottom: 3px solid #374151;
+  }
+  .frame {
+    flex: 1;
+    min-height: 400px; /* 手機版確保有空間 */
+  }
+}
   details {
     margin-bottom: 12px;
     background: #1f2937;
@@ -233,6 +249,15 @@ for (const [label, {part, count}] of Object.entries(categories)) {
   section.appendChild(bin);
   palette.appendChild(section);
 }
+
+// 手風琴效果：一次只能展開一個
+palette.addEventListener("toggle", e => {
+  if (e.target.tagName.toLowerCase() === "details" && e.target.open) {
+    document.querySelectorAll(".palette details").forEach(d => {
+      if (d !== e.target) d.removeAttribute("open");
+    });
+  }
+});
 
 // 👉 頁面載入後，自動展開第一個 details
 document.querySelector("details")?.setAttribute("open", "true");
