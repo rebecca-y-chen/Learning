@@ -3768,37 +3768,25 @@ class Game {
         }, 500);
 
     }
-
+   
+    
+    
     initActions() {
 
         let tappedTwice = false;
 
         this.dom.game.addEventListener('click', event => {
 
-            if (this.transition.activeTransitions > 0) return;
-            if (this.state === STATE.Playing) return;
+         if (this.transition.activeTransitions > 0) return;
+         if (this.state === STATE.Playing) return;
 
-            if (this.state === STATE.Menu) {
-
-                if (!tappedTwice) {
-
-                    tappedTwice = true;
-                    setTimeout(() => tappedTwice = false, 300);
-                    return false;
-
-                }
-
-                this.game(SHOW);
-
-            } else if (this.state === STATE.Complete) {
-
-                this.complete(HIDE);
-
-            } else if (this.state === STATE.Stats) {
-
-                this.stats(HIDE);
-
-            }
+         if (this.state === STATE.Menu) {
+         this.game(SHOW);  // 一點就開始
+         } else if (this.state === STATE.Complete) {
+         this.complete(HIDE);
+         } else if (this.state === STATE.Stats) {
+         this.stats(HIDE);
+         }
 
         }, false);
 
