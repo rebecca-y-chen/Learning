@@ -125,6 +125,16 @@
     display: flex;
     gap: 4px;
   }
+
+  .toolbar, .handle-rotate, .handle-resize {
+   display: none;
+  }
+  .piece.selected .toolbar,
+  .piece.selected .handle-rotate,
+  .piece.selected .handle-resize {
+   display: block;
+  }
+  
   .tool-btn {
     background: #111;
     color: #fff;
@@ -185,7 +195,7 @@ const frame = document.getElementById('frame');
 const palette = document.getElementById('palette');
 const hint = document.getElementById('hint');
 const btnClear = document.getElementById('btnClear');
-const btnDownload = document.getElementById('btnDownload');
+const nload = document.getElementById('btnDownload');
 
 // 假設每種素材有多個版本
 const categories = {
@@ -353,7 +363,18 @@ function makeInteractive(piece, rotateHandle, resizeHandle) {
     piece.releasePointerCapture(e.pointerId);
     isDragging=false; isRotating=false; isResizing=false;
   });
+
+  piece.addEventListener('mousedown', e => {
+    document.querySelectorAll('.piece').forEach(p => {
+      p.classList.remove('selected');
+    });
+    piece.classList.add('selected');
+  });
+
+  frame.appendChild(piece);
+  return piece;
 }
+
 
 // 清空
 btnClear.addEventListener('click', ()=>{
@@ -363,29 +384,39 @@ btnClear.addEventListener('click', ()=>{
 
 // 下載 PNG
 btnDownload.addEventListener('click', async ()=>{
-  // 複製一份 frame（避免動到原本的）
   const clone = frame.cloneNode(true);
+  const angle = p.dataset.angle ? parseFloat(p.dataset.angle) : 0;
+  cp.style.transform = `rotate(${angle}rad)`;
 
-  // 移除提示字
-  const hintClone = clone.querySelector('.hint'); 
-  if (hintClone) hintClone.remove();
+  // 先抓原始 frame 的 rect
+  const origRect = frame.getBoundingClientRect();
 
-  // 移除工具列和把手
-  clone.querySelectorAll('.toolbar, .handle-rotate, .handle-resize').forEach(el => el.remove());
+  // 把每個 piece 的 transform 轉成 inline style
+  frame.querySelectorAll('.piece').forEach((p, idx) => {
+    const rect = p.getBoundingClientRect();
 
-  // 暫時掛到畫面外
-  clone.style.position = 'fixed';
-  clone.style.left = '-9999px';
+    // 找到 clone 裡的對應 piece
+    const cp = clone.querySelectorAll('.piece')[idx];
+
+    cp.style.left = (rect.left - origRect.left) + "px";
+    cp.style.top  = (rect.top - origRect.top) + "px";
+    cp.style.width = rect.width + "px";
+    cp.style.height = rect.height + "px";
+    cp.style.transform = "none"; // 清掉旋轉
+  });
+
+  // 移掉工具列、提示
+  clone.querySelectorAll('.toolbar, .handle-rotate, .handle-resize, .hint').forEach(el => el.remove());
+
+  clone.style.position='fixed';
+  clone.style.left='-9999px';
   document.body.appendChild(clone);
 
-  // 截圖
   const canvas = await html2canvas(clone, { backgroundColor: null, scale: 2 });
   const link = document.createElement('a');
   link.download = "my-picasso.png";
   link.href = canvas.toDataURL("image/png");
   link.click();
-
-  // 清掉暫存的 clone
   clone.remove();
 });
 </script>
