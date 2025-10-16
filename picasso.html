@@ -22,23 +22,30 @@
     padding: 16px;
     border-right: 3px solid #374151;
   }
-  .palette h2 {
-    font-size: 18px;
-    margin: 0 0 12px;
-    color: #facc15;
-  }
-  .item {
-    display: inline-block;
-    margin: 6px;
-    padding: 8px;
-    border-radius: 12px;
+  details {
+    margin-bottom: 8px;
+    border: 1px solid #374151;
+    border-radius: 8px;
     background: #1f2937;
-    cursor: grab;
+  }
+  summary {
+    padding: 8px;
+    cursor: pointer;
+    color: #facc15;
+    font-weight: bold;
+  }
+  .bin {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 8px;
+    gap: 8px;
   }
   .item img {
     width: 70px;
     height: auto;
-    display: block;
+    cursor: grab;
+    border-radius: 8px;
+    background: #111;
   }
 
   /* 右側相框 */
@@ -67,12 +74,43 @@
   }
 
   /* 放進相框的素材 */
-  .placed {
+  .piece {
     position: absolute;
     width: 100px;
     cursor: move;
     user-select: none;
+    transform-origin: center center;
   }
+  .piece img {
+    width: 100%;
+    display: block;
+    pointer-events: none;
+  }
+  .piece.selected {
+    outline: 2px dashed #facc15;
+  }
+  .toolbar {
+    position: absolute;
+    top: -32px;
+    left: 0;
+    display: flex;
+    gap: 6px;
+    opacity: 0;
+    transition: 0.2s;
+  }
+  .piece.selected .toolbar {
+    opacity: 1;
+  }
+  .tool-btn {
+    background: #111;
+    color: #fff;
+    border: none;
+    padding: 4px 6px;
+    border-radius: 6px;
+    font-size: 12px;
+    cursor: pointer;
+  }
+  .tool-btn.danger { background: #e11d48; }
 </style>
 </head>
 <body>
@@ -88,82 +126,139 @@
     <img src="images/picasso/Portrait.png" class="frame-bg" alt="背景相框">
   </div>
 
+  <!-- 控制列 -->
+  <div style="position:fixed; bottom:16px; left:50%; transform:translateX(-50%); display:flex; gap:12px;">
+    <button id="btnClear">全部清除</button>
+    <button id="btnDownload">下載 PNG</button>
+  </div>
+
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 <script>
 const frame = document.getElementById('frame');
 const palette = document.getElementById('palette');
+const hint = frame.querySelector('.hint');
 
-// 假設每種素材有多個版本
+// 各分類
 const categories = {
-    eye: 8,
-    eyebrow: 8,
-    face: 5,
-    hair: 6,
-    nose: 5,
-    mouth: 5,
-    ear: 5
+  face: 5,
+  eye: 8,
+  eyebrow: 6,
+  nose: 5,
+  mouth: 5,
+  ear: 5,
+  hair: 6,
+  hat: 3
 };
 
-// 生成左邊素材
+// 建立手風琴
 for (const [part, count] of Object.entries(categories)) {
-  for (let i = 1; i <= count; i++) {
+  const detail = document.createElement('details');
+  const summary = document.createElement('summary');
+  summary.textContent = part;
+  const bin = document.createElement('div');
+  bin.className = 'bin';
+
+  for (let i=1; i<=count; i++) {
     const div = document.createElement('div');
     div.className = 'item';
+    div.innerHTML = `<img src="images/picasso/${part}${i}.png" loading="lazy" alt="${part}${i}">`;
     div.draggable = true;
-    div.dataset.src = `images/picasso/${part}${i}.png`; // ✅ 用反引號
-    div.innerHTML = `<img src="${div.dataset.src}" alt="${part}${i}">`; // ✅ 用反引號
-    palette.appendChild(div);
+    div.addEventListener('dragstart', e=>{
+      e.dataTransfer.setData('src', `images/picasso/${part}${i}.png`);
+    });
+    bin.appendChild(div);
   }
+  detail.appendChild(summary);
+  detail.appendChild(bin);
+  palette.appendChild(detail);
 }
 
-// palette 拖曳開始
-document.querySelectorAll('.item').forEach(item => {
-  item.addEventListener('dragstart', e => {
-    e.dataTransfer.setData('src', item.dataset.src);
-  });
-});
-
-// 相框允許放置
-frame.addEventListener('dragover', e => e.preventDefault());
-
-// 拖曳放到相框
-frame.addEventListener('drop', e => {
+// 放置
+frame.addEventListener('dragover', e=>e.preventDefault());
+frame.addEventListener('drop', e=>{
   e.preventDefault();
   const src = e.dataTransfer.getData('src');
   if (!src) return;
-
-  const img = document.createElement('img');
-  img.src = src;
-  img.className = 'placed';
-
-  const rect = frame.getBoundingClientRect();
-  img.style.left = (e.clientX - rect.left - 50) + 'px';
-  img.style.top = (e.clientY - rect.top - 50) + 'px';
-
-  frame.appendChild(img);
-  makeDraggable(img);
+  createPiece(src, e.clientX, e.clientY);
+  hint.style.display = 'none';
 });
 
-// 讓放置後的圖能拖曳
-function makeDraggable(el) {
+// 建立 piece
+function createPiece(src, x, y) {
+  const piece = document.createElement('div');
+  piece.className = 'piece';
+  const img = document.createElement('img');
+  img.src = src;
+  piece.appendChild(img);
+
+  // 工具列
+  const toolbar = document.createElement('div');
+  toolbar.className = 'toolbar';
+  const btnTop = document.createElement('button');
+  btnTop.textContent = '置頂';
+  btnTop.className = 'tool-btn';
+  btnTop.onclick = e => { e.stopPropagation(); piece.style.zIndex = Date.now(); };
+  const btnTrash = document.createElement('button');
+  btnTrash.textContent = '刪除';
+  btnTrash.className = 'tool-btn danger';
+  btnTrash.onclick = e => { e.stopPropagation(); piece.remove(); };
+  const btnRotate = document.createElement('button');
+  btnRotate.textContent = '↻';
+  btnRotate.className = 'tool-btn';
+  btnRotate.onclick = e => { e.stopPropagation(); piece.dataset.angle = (parseFloat(piece.dataset.angle)||0) + 15; piece.style.transform = `rotate(${piece.dataset.angle}deg)`; };
+  toolbar.append(btnTop, btnRotate, btnTrash);
+  piece.appendChild(toolbar);
+
+  // 定位
+  const rect = frame.getBoundingClientRect();
+  piece.style.left = (x - rect.left - 50) + 'px';
+  piece.style.top  = (y - rect.top - 50) + 'px';
+
+  frame.appendChild(piece);
+  makeDraggable(piece);
+}
+
+// 可拖曳
+function makeDraggable(piece) {
   let offsetX, offsetY;
-  el.addEventListener('mousedown', e => {
-    offsetX = e.offsetX;
-    offsetY = e.offsetY;
-
-    function moveHandler(ev) {
+  piece.addEventListener('mousedown', e=>{
+    selectPiece(piece);
+    offsetX = e.offsetX; offsetY = e.offsetY;
+    function move(ev){
       const rect = frame.getBoundingClientRect();
-      el.style.left = (ev.clientX - rect.left - offsetX) + 'px';
-      el.style.top  = (ev.clientY - rect.top - offsetY) + 'px';
+      piece.style.left = (ev.clientX - rect.left - offsetX) + 'px';
+      piece.style.top  = (ev.clientY - rect.top - offsetY) + 'px';
     }
-    function upHandler() {
-      document.removeEventListener('mousemove', moveHandler);
-      document.removeEventListener('mouseup', upHandler);
-    }
-
-    document.addEventListener('mousemove', moveHandler);
-    document.addEventListener('mouseup', upHandler);
+    function up(){ document.removeEventListener('mousemove', move); document.removeEventListener('mouseup', up);}
+    document.addEventListener('mousemove', move);
+    document.addEventListener('mouseup', up);
   });
 }
+
+// 選取外觀
+function selectPiece(piece) {
+  document.querySelectorAll('.piece').forEach(p=>p.classList.remove('selected'));
+  piece.classList.add('selected');
+}
+
+// 全部清除
+document.getElementById('btnClear').onclick = ()=>{
+  document.querySelectorAll('.piece').forEach(p=>p.remove());
+  hint.style.display = 'block';
+};
+
+// 下載 PNG
+document.getElementById('btnDownload').onclick = async ()=>{
+  const clone = frame.cloneNode(true);
+  clone.querySelector('.hint')?.remove();
+  clone.querySelectorAll('.toolbar').forEach(t=>t.style.display='none');
+  document.body.appendChild(clone);
+  const canvas = await html2canvas(clone, {backgroundColor:null, scale:2});
+  const url = canvas.toDataURL('image/png');
+  const a = document.createElement('a');
+  a.href = url; a.download = 'my-picasso.png'; a.click();
+  clone.remove();
+};
 </script>
 </body>
 </html>
