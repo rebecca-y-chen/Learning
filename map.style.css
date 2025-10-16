@@ -22,6 +22,77 @@ body {
   padding: 2rem;
 }
 
+/* 背景裝飾 (圓點 / 十字 / 閃光) */
+    .decor {
+      position: absolute;
+      z-index: 1;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: white;
+      animation: twinkle 2s infinite alternate;
+    }
+
+    .cross {
+      width: 16px;
+      height: 16px;
+      background: none;
+      animation: spin 3s infinite linear;
+    }
+    .cross::before, .cross::after {
+      content: '';
+      position: absolute;
+      background: white;
+    }
+    .cross::before {
+      width: 2px; height: 100%;
+      left: 50%; top: 0;
+      transform: translateX(-50%);
+    }
+    .cross::after {
+      width: 100%; height: 2px;
+      top: 50%; left: 0;
+      transform: translateY(-50%);
+    }
+
+    .spark {
+      width: 14px;
+      height: 14px;
+      background: radial-gradient(circle, white 0%, transparent 70%);
+      border-radius: 50%;
+      animation: sparkle 1.5s infinite ease-in-out;
+    }
+
+    /* 動畫效果 */
+    @keyframes twinkle {
+      0% { opacity: 0.3; transform: scale(0.8); }
+      100% { opacity: 1; transform: scale(1.2); }
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    @keyframes sparkle {
+      0%, 100% { opacity: 0.2; transform: scale(0.5); }
+      50% { opacity: 1; transform: scale(1.5); }
+    }
+
+    /* 裝飾位置 */
+    .dot1 { top: 10%; left: 10%; background:#ffeb3b; }
+    .dot2 { top: 20%; right: 10%; background:#4caf50; }
+    .dot3 { bottom: 20%; left: 20%; background:#9c27b0; }
+    .dot4 { bottom: 25%; right: 20%; background:#ff5722; }
+
+    .cross1 { top: 15%; right: 25%; }
+    .cross2 { bottom: 15%; left: 25%; }
+
+    .spark1 { top: 5%; left: 30%; }
+    .spark2 { bottom: 15%; right: 30%; }
+    .spark3 { top: 30%; left: 20%; }
+
 .showcase {
   max-width: 900px;
   width: 100%;
