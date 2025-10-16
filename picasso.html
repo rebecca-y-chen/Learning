@@ -82,6 +82,18 @@
    }
   }
 
+  /* 手機版 palette bin 預設 2 欄 */
+  @media (max-width: 768px) {
+   .palette .bin {
+     display: grid;
+     grid-template-columns: repeat(2, 1fr); /* 預設 2 欄 */
+     gap: 6px;
+    }
+   .palette details[open] .bin {
+     grid-template-columns: 1fr; /* 展開時單欄 */
+    }
+  }
+
   details {
     margin-bottom: 12px;
     background: #1f2937;
@@ -261,9 +273,15 @@ for (const [label, {part, count}] of Object.entries(categories)) {
 document.querySelectorAll(".palette details").forEach(details => {
   details.addEventListener("toggle", e => {
     if (details.open) {
+      // 收起其他
       document.querySelectorAll(".palette details").forEach(d => {
         if (d !== details) d.open = false;
       });
+
+      // 👉 只在手機版時才置頂
+      if (window.matchMedia("(max-width: 768px)").matches) {
+        palette.prepend(details);
+      }
     }
   });
 });
