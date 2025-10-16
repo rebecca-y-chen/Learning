@@ -253,7 +253,7 @@ for (const [label, {part, count}] of Object.entries(categories)) {
 // 手風琴效果：一次只能展開一個
 palette.addEventListener("toggle", e => {
   if (e.target.tagName.toLowerCase() === "details" && e.target.open) {
-    document.querySelectorAll(".palette details").forEach(d => {
+    palette.querySelectorAll("details").forEach(d => {
       if (d !== e.target) d.removeAttribute("open");
     });
   }
