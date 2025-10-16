@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<title>拼貼我的畢卡索自畫像</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+  :root {
+    --bg:#202a5e;
+    --panel:#0f1538;
+    --frame:#f7f2e7;
+    --accent:#ff8a3d;
+  }
+  * { box-sizing: border-box; }
+  body{
+    margin:0; background:var(--bg); color:#fff; font-family: system-ui, -apple-system, "Segoe UI", Arial, "Noto Sans TC", sans-serif;
+    min-height:100vh; display:flex; flex-direction:column;
+  }
+  header{
+    padding:12px 16px; display:flex; align-items:center; gap:12px; border-bottom:1px solid rgba(255,255,255,.08);
+  }
+  header h1{ font-size:20px; margin:0; }
+  header .actions{ margin-left:auto; display:flex; gap:8px; }
+  button{
+    background:var(--accent); border:none; color:#111; padding:8px 12px; border-radius:10px; font-weight:700; cursor:pointer;
+  }
+  button.secondary{ background:#334155; color:#fff; }
+  main{ flex:1; display:grid; grid-template-columns: 300px 1fr; gap:16px; padding:16px; }
+  @media (max-width: 900px){
+    main{ grid-template-columns: 1fr; }
+  }
+  /* 左側素材欄 */
+  .palette{
+    background:var(--panel); border-radius:16px; padding:12px; overflow:auto;
+  }
+  .palette h2{ font-size:16px; margin:4px 0 12px; opacity:.9; }
+  .bin{
+    display:grid; grid-template-columns: repeat(3, 1fr); gap:10px;
+  }
+  .item{
+    background:#1c224a; border:2px dashed rgba(255,255,255,.12); border-radius:12px; padding:6px; display:flex; align-items:center; justify-content:center;
+    touch-action:none; /* 讓拖曳不被瀏覽器手勢攔截 */
+  }
+  .item img{ max-width:100%; max-height:80px; user-select:none; pointer-events:none; display:block; }
+  .hint{ font-size:12px; opacity:.7; margin-top:10px; line-height:1.5; }
+
+  /* 右側畫布（相框） */
+  .stage-wrap{
+    background:var(--panel); border-radius:16px; padding:12px; display:flex; align-items:center; justify-content:center; position:relative;
+  }
+  .stage{
+    width:min(90vw, 720px);
+    aspect-ratio: 3 / 4; /* 直立相框 */
+    background:var(--frame);
+    border:12px solid #d9c9a5;
+    border-radius:12px;
+    box-shadow: inset 0 0 0 2px rgba(0,0,0,.05), 0 8px 30px rgba(0,0,0,.35);
+    position:relative;
+    overflow:hidden; /* 限制素材不可超出相框可視區 */
+    background-image:
+      radial-gradient(100px 100px at 20% 20%, rgba(0,0,0,.06) 0 60%, transparent 60%),
+      radial-gradient(120px 120px at 80% 15%, rgba(0,0,0,.05) 0 60%, transparent 60%),
+      linear-gradient(180deg, #fff 0%, #f5efe4 60%, #ecdfcf 100%);
+  }
+  .drop-hint{
+    position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+    color:#6b7280; font-weight:700; letter-spacing:1px; pointer-events:none;
+  }
+
+  /* 畫布內的素材克隆 */
+  .piece{
+    position:absolute; left:40%; top:40%;
+    touch-action:none;
+    transform-origin: center center;
+    border:2px solid transparent; border-radius:12px;
+  }
+  .piece img{ display:block; width:120px; height:auto; pointer-events:none; user-select:none; }
+  .piece.selected{ border-color: rgba(0,0,0,.15); background: rgba(255,255,255,.15); }
+  /* 右下角縮放把手 */
+  .handle{
+    position:absolute; right:-8px; bottom:-8px; width:18px; height:18px; border-radius:50%;
+    background:#111; border:2px solid #fff; cursor:nwse-resize; touch-action:none;
+  }
+  /* 浮動工具列（刪除、置頂） */
+  .toolbar{
+    position:absolute; top:-36px; left:0; display:flex; gap:6px; opacity:0; pointer-events:none; transition:opacity .2s;
+  }
+  .piece.selected .toolbar{ opacity:1; pointer-events:auto; }
+  .tool-btn{ background:#111; color:#fff; border:none; padding:6px 8px; border-radius:8px; font-size:12px; cursor:pointer; }
+  .tool-btn.danger{ background:#e11d48; }
+
+  /* 拖曳時外觀 */
+  .dragging{ opacity:.7; }
+</style>
+</head>
+<body>
+  <header>
+    <h1>拼貼我的畢卡索自畫像</h1>
+    <div class="actions">
+      <button class="secondary" id="btnReset">全部清空</button>
+      <button id="btnDownload">下載作品 PNG</button>
+    </div>
+  </header>
+
+  <main>
+    <!-- 左：素材 -->
+    <aside class="palette">
+      <h2>素材工具箱（拖曳到相框）</h2>
+      <div class="bin" id="bin">
+        <!-- 把 src 換成你的素材檔路徑（透明 PNG 最好） -->
+        <div class="item" data-name="eye"><img src="assets/eye1.png" alt="eye"></div>
+        <div class="item" data-name="eye"><img src="assets/eye2.png" alt="eye"></div>
+        <div class="item" data-name="nose"><img src="assets/nose1.png" alt="nose"></div>
+        <div class="item" data-name="mouth"><img src="assets/mouth1.png" alt="mouth"></div>
+        <div class="item" data-name="ear"><img src="assets/ear1.png" alt="ear"></div>
+        <div class="item" data-name="brow"><img src="assets/brow1.png" alt="brow"></div>
+        <div class="item" data-name="face"><img src="assets/face1.png" alt="face"></div>
+        <div class="item" data-name="hat"><img src="assets/hat1.png" alt="hat"></div>
+        <div class="item" data-name="hair"><img src="assets/hair1.png" alt="hair"></div>
+      </div>
+      <p class="hint">小秘訣：<br>拖到相框→放進去<br>點一下選取→右下角把手可縮放<br>垃圾桶刪除；「下載作品」會輸出 PNG 圖片。</p>
+    </aside>
+
+    <!-- 右：相框畫布 -->
+    <section class="stage-wrap">
+      <div class="stage" id="stage">
+        <div class="drop-hint" id="dropHint">把素材拖進來吧！</div>
+      </div>
+    </section>
+  </main>
+
+  <!-- html2canvas 只用來下載 PNG（可拿掉這功能就不載） -->
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js" defer></script>
+
+  <script>
+    const stage = document.getElementById('stage');
+    const dropHint = document.getElementById('dropHint');
+    const resetBtn = document.getElementById('btnReset');
+    const downloadBtn = document.getElementById('btnDownload');
+
+    let selected = null;         // 目前選取的 piece
+    let pointerId = null;        // 追蹤指針（支援觸控）
+    let dragOffset = {x:0, y:0}; // 拖曳位移
+    let resizing = false;        // 是否在縮放
+    let startSize = 0;           // 縮放起始寬度
+    let startDist = 0;           // 觸控雙指距離（若要做雙指縮放可用）
+
+    // ---------- 工具：建立相框內的素材克隆 ----------
+    function createPiece(src){
+      const piece = document.createElement('div');
+      piece.className = 'piece';
+      piece.style.left = (stage.clientWidth * 0.35) + 'px';
+      piece.style.top  = (stage.clientHeight * 0.35) + 'px';
+      piece.style.zIndex = String(Date.now()); // 讓後放的在上面
+
+      const img = document.createElement('img');
+      img.src = src;
+      piece.appendChild(img);
+
+      // toolbar
+      const toolbar = document.createElement('div');
+      toolbar.className = 'toolbar';
+      const btnTop = document.createElement('button');
+      btnTop.className = 'tool-btn';
+      btnTop.textContent = '置頂';
+      btnTop.addEventListener('click', (e)=>{ e.stopPropagation(); piece.style.zIndex = String(Date.now()); });
+      const btnTrash = document.createElement('button');
+      btnTrash.className = 'tool-btn danger';
+      btnTrash.textContent = '刪除';
+      btnTrash.addEventListener('click', (e)=>{ e.stopPropagation(); piece.remove(); updateHint(); });
+      toolbar.appendChild(btnTop);
+      toolbar.appendChild(btnTrash);
+      piece.appendChild(toolbar);
+
+      // 縮放把手
+      const handle = document.createElement('div');
+      handle.className='handle';
+      piece.appendChild(handle);
+
+      // 事件：選取
+      piece.addEventListener('pointerdown', (e)=>{
+        selectPiece(piece);
+        // 開始拖曳
+        if(e.target === handle){
+          // 按在把手 → 縮放模式
+          startResize(e, piece);
+        }else{
+          startDrag(e, piece);
+        }
+      });
+
+      stage.appendChild(piece);
+      updateHint();
+      return piece;
+    }
+
+    function selectPiece(el){
+      if(selected && selected !== el) selected.classList.remove('selected');
+      selected = el;
+      if(el) {
+        el.classList.add('selected');
+        // 提到最上層
+        el.style.zIndex = String(Date.now());
+      }
+    }
+
+    function updateHint(){
+      const hasChild = stage.querySelector('.piece');
+      dropHint.style.display = hasChild ? 'none' : 'flex';
+    }
+
+    // ---------- Palette → 拖曳建立克隆（簡化：點一下也能放入） ----------
+    document.querySelectorAll('.item').forEach(item=>{
+      // 點一下也能放進相框（給幼兒＆行動裝置）
+      item.addEventListener('click', ()=>{
+        const img = item.querySelector('img');
+        const piece = createPiece(img.src);
+        selectPiece(piece);
+      });
+
+      // 按下開始拖動，跟著指針一個「漂浮影像」
+      item.addEventListener('pointerdown', (e)=>{
+        const img = item.querySelector('img');
+        const ghost = img.cloneNode(true);
+        ghost.style.position='fixed';
+        ghost.style.left = (e.clientX - img.width/4) + 'px';
+        ghost.style.top  = (e.clientY - img.height/4) + 'px';
+        ghost.style.width = (img.width/2) + 'px';
+        ghost.style.opacity='0.8';
+        ghost.style.pointerEvents='none';
+        ghost.style.zIndex='99999';
+        document.body.appendChild(ghost);
+
+        const move = (ev)=>{
+          ghost.style.left = (ev.clientX - ghost.width/2) + 'px';
+          ghost.style.top  = (ev.clientY - ghost.height/2) + 'px';
+        };
+        const up = (ev)=>{
+          document.removeEventListener('pointermove', move);
+          document.removeEventListener('pointerup', up);
+          ghost.remove();
+
+          // 放開時如果在相框範圍 → 產生一個 piece
+          const rect = stage.getBoundingClientRect();
+          if(ev.clientX>=rect.left && ev.clientX<=rect.right && ev.clientY>=rect.top && ev.clientY<=rect.bottom){
+            const piece = createPiece(img.src);
+            // 放置到指針位置（轉換成 stage 內座標）
+            piece.style.left = (ev.clientX - rect.left - piece.clientWidth/2) + 'px';
+            piece.style.top  = (ev.clientY - rect.top  - piece.clientHeight/2) + 'px';
+            selectPiece(piece);
+          }
+        };
+        document.addEventListener('pointermove', move);
+        document.addEventListener('pointerup', up, {once:true});
+      });
+    });
+
+    // ---------- 在相框內拖曳 ----------
+    function startDrag(e, piece){
+      pointerId = e.pointerId;
+      piece.setPointerCapture(pointerId);
+      piece.classList.add('dragging');
+      selectPiece(piece);
+
+      const rectStage = stage.getBoundingClientRect();
+      const rectPiece = piece.getBoundingClientRect();
+      dragOffset.x = e.clientX - rectPiece.left;
+      dragOffset.y = e.clientY - rectPiece.top;
+
+      const move = (ev)=>{
+        if(ev.pointerId !== pointerId || resizing) return;
+        const x = ev.clientX - rectStage.left - dragOffset.x;
+        const y = ev.clientY - rectStage.top  - dragOffset.y;
+
+        // 限制在相框內
+        const maxX = stage.clientWidth  - piece.clientWidth;
+        const maxY = stage.clientHeight - piece.clientHeight;
+        piece.style.left = Math.max(0, Math.min(maxX, x)) + 'px';
+        piece.style.top  = Math.max(0, Math.min(maxY, y)) + 'px';
+      };
+      const up = (ev)=>{
+        if(ev.pointerId !== pointerId) return;
+        piece.classList.remove('dragging');
+        piece.releasePointerCapture(pointerId);
+        document.removeEventListener('pointermove', move);
+        document.removeEventListener('pointerup', up);
+        pointerId = null;
+      };
+      document.addEventListener('pointermove', move);
+      document.addEventListener('pointerup', up);
+    }
+
+    // ---------- 縮放（用右下角把手） ----------
+    function startResize(e, piece){
+      resizing = true;
+      pointerId = e.pointerId;
+      piece.setPointerCapture(pointerId);
+      const img = piece.querySelector('img');
+      startSize = img.clientWidth;
+
+      const startX = e.clientX;
+      const startY = e.clientY;
+
+      const move = (ev)=>{
+        if(ev.pointerId !== pointerId) return;
+        const dx = ev.clientX - startX;
+        const dy = ev.clientY - startY;
+        const delta = Math.max(dx, dy); // 取較大位移
+        const newW = Math.max(40, startSize + delta); // 最小 40px
+        img.style.width = newW + 'px';
+
+        // 限制不要超出相框（如果超出就往回推）
+        const rect = piece.getBoundingClientRect();
+        const rectStage = stage.getBoundingClientRect();
+        const overflowX = rect.right - rectStage.right;
+        const overflowY = rect.bottom - rectStage.bottom;
+        if(overflowX > 0) piece.style.left = (parseFloat(piece.style.left) - overflowX) + 'px';
+        if(overflowY > 0) piece.style.top  = (parseFloat(piece.style.top)  - overflowY) + 'px';
+      };
+      const up = (ev)=>{
+        if(ev.pointerId !== pointerId) return;
+        piece.releasePointerCapture(pointerId);
+        document.removeEventListener('pointermove', move);
+        document.removeEventListener('pointerup', up);
+        pointerId = null; resizing = false;
+      };
+      document.addEventListener('pointermove', move);
+      document.addEventListener('pointerup', up);
+    }
+
+    // 點空白處取消選取
+    stage.addEventListener('pointerdown', (e)=>{
+      if(e.target === stage){
+        if(selected) selected.classList.remove('selected');
+        selected = null;
+      }
+    });
+
+    // ---------- 全部清空 ----------
+    resetBtn.addEventListener('click', ()=>{
+      stage.querySelectorAll('.piece').forEach(n=>n.remove());
+      selected = null;
+      updateHint();
+    });
+
+    // ---------- 下載 PNG（用 html2canvas） ----------
+    downloadBtn.addEventListener('click', async ()=>{
+      // 裁只抓相框內部（排除外框陰影）
+      const clone = stage.cloneNode(true);
+      // 移除 drop 提示
+      const dh = clone.querySelector('.drop-hint'); if(dh) dh.remove();
+      // 工具列隱藏
+      clone.querySelectorAll('.toolbar').forEach(t=>t.style.display='none');
+      clone.querySelectorAll('.piece').forEach(p=>p.style.border='2px solid transparent');
+
+      // 暫時放到畫面外做截圖
+      clone.style.position='fixed'; clone.style.left='-99999px'; clone.style.top='0';
+      document.body.appendChild(clone);
+
+      const canvas = await html2canvas(clone, {backgroundColor: null, scale: 2});
+      const url = canvas.toDataURL('image/png');
+
+      const a = document.createElement('a');
+      a.href = url; a.download = 'my-picasso.png';
+      a.click();
+
+      clone.remove();
+    });
+  </script>
+</body>
+</html>
