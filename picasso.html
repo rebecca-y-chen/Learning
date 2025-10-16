@@ -191,6 +191,7 @@
   </div>
 
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 <script>
 const frame = document.getElementById('frame');
 const palette = document.getElementById('palette');
@@ -277,11 +278,20 @@ function createPiece(src) {
   const btnTop = document.createElement('button');
   btnTop.className = 'tool-btn';
   btnTop.textContent = "置頂";
-  btnTop.onclick = ()=> piece.style.zIndex = Date.now();
+  btnTop.onclick = (e)=> {
+    e.stopPropagation();
+    piece.style.zIndex = Date.now();
+  };
   const btnTrash = document.createElement('button');
   btnTrash.className = 'tool-btn danger';
   btnTrash.textContent = "刪除";
-  btnTrash.onclick = ()=> piece.remove();
+  btnTrash.onclick = (e)=> {
+    e.stopPropagation();
+    piece.remove();
+    if (!frame.querySelector('.piece')) {
+      hint.style.display = "block";
+    }
+  };
   toolbar.appendChild(btnTop);
   toolbar.appendChild(btnTrash);
   piece.appendChild(toolbar);
@@ -371,9 +381,7 @@ function makeInteractive(piece, rotateHandle, resizeHandle) {
     });
     piece.classList.add('selected');
   });
-
 }
-
 
 // 清空
 btnClear.addEventListener('click', ()=>{
@@ -388,34 +396,38 @@ btnDownload.addEventListener('click', async ()=>{
   // 先抓原始 frame 的 rect
   const origRect = frame.getBoundingClientRect();
 
-  // 把每個 piece 的 transform 轉成 inline style
+  // 把每個 piece 的實際位置轉成 inline style
   frame.querySelectorAll('.piece').forEach((p, idx) => {
     const rect = p.getBoundingClientRect();
-
-    // 找到 clone 裡的對應 piece
     const cp = clone.querySelectorAll('.piece')[idx];
 
+    // 計算相對於 frame 的位置
     cp.style.left = (rect.left - origRect.left) + "px";
     cp.style.top  = (rect.top - origRect.top) + "px";
     cp.style.width = rect.width + "px";
     cp.style.height = rect.height + "px";
 
+    // 套用旋轉
     const angle = p.dataset.angle ? parseFloat(p.dataset.angle) : 0;
     cp.style.transform = `rotate(${angle}rad)`;
+    cp.style.transformOrigin = "center center";
   });
 
-  // 移掉工具列、提示
+  // 移掉工具列、把手、提示
   clone.querySelectorAll('.toolbar, .handle-rotate, .handle-resize, .hint').forEach(el => el.remove());
 
+  // 把 clone 放到螢幕外，交給 html2canvas 渲染
   clone.style.position='fixed';
   clone.style.left='-9999px';
   document.body.appendChild(clone);
 
+  // 匯出高解析 PNG
   const canvas = await html2canvas(clone, { backgroundColor: null, scale: 2 });
   const link = document.createElement('a');
   link.download = "my-picasso.png";
   link.href = canvas.toDataURL("image/png");
   link.click();
+
   clone.remove();
 });
 </script>
