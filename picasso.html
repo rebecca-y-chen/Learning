@@ -69,7 +69,7 @@
     cursor: pointer;
     font-size: 16px;
     font-weight: bold;
-    color: #fff8dc;
+    color: #5ca8ff;
   }
   .bin {
     display: flex;
@@ -277,25 +277,28 @@ function createPiece(src) {
   // 工具列
   const toolbar = document.createElement('div');
   toolbar.className = 'toolbar';
+
   const btnTop = document.createElement('button');
   btnTop.className = 'tool-btn';
   btnTop.textContent = "置頂";
-  btnTop.click = (e)=> {
-   e.preventDefault();
-   e.stopPropagation();
-   piece.style.zIndex = Date.now();
-  };
+  btnTop.addEventListener("pointerdown", e => {
+    e.preventDefault();
+    e.stopPropagation();
+    piece.style.zIndex = Date.now();
+  });
+
   const btnTrash = document.createElement('button');
   btnTrash.className = 'tool-btn danger';
   btnTrash.textContent = "刪除";
-  btnTrash.click = (e)=> {
-  e.preventDefault();   // 阻止瀏覽器預設行為
-  e.stopPropagation();  // 阻止事件冒泡到 piece
-  piece.remove();       // 移除該素材
-  if (!frame.querySelector('.piece')) {
-    hint.style.display = "block";
-   }
-  };
+  btnTrash.addEventListener("pointerdown", e => {
+    e.preventDefault();
+    e.stopPropagation();
+    piece.remove();
+    if (!frame.querySelector('.piece')) {
+      hint.style.display = "block";
+    }
+  });
+
   toolbar.appendChild(btnTop);
   toolbar.appendChild(btnTrash);
   piece.appendChild(toolbar);
@@ -321,6 +324,9 @@ function makeInteractive(piece, rotateHandle, resizeHandle) {
   let pointers=new Map(), startDist=null, baseW=null;
 
   piece.addEventListener('pointerdown', e=>{
+    // 👉 如果點到 toolbar 或裡面的按鈕，不進入拖曳/旋轉/縮放
+    if (e.target.closest('.toolbar')) return;
+
     piece.setPointerCapture(e.pointerId);
     pointers.set(e.pointerId, {x:e.clientX,y:e.clientY});
 
