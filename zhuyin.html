@@ -2,7 +2,7 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8">
-  <title>注音符號影片</title>
+  <title>注音符號</title>
   <style>
     body {
       margin: 0;
@@ -44,10 +44,9 @@
       box-shadow: 0 10px 20px rgba(0,0,0,0.3);
     }
 
-    .card iframe {
+    .card img {
       width: 100%;
-      height: 180px;
-      pointer-events: none; /* 先不要點擊 */
+      display: block;
     }
 
     .title {
@@ -87,41 +86,42 @@
 
   <!-- 影片展示格子 -->
   <div class="grid">
-    <div class="card" data-video="https://www.youtube.com/embed/LkUIXQ0SptM?autoplay=1">
-      <iframe src="https://www.youtube.com/embed/LkUIXQ0SptM" frameborder="0"></iframe>
+    <div class="card" data-video="LkUIXQ0SptM">
+      <img src="https://img.youtube.com/vi/LkUIXQ0SptM/hqdefault.jpg" alt="明星ㄦ和粉絲ㄜ">
       <div class="title">明星ㄦ和粉絲ㄜ</div>
     </div>
 
-    <div class="card" data-video="https://www.youtube.com/embed/3RsTpkShYLs?autoplay=1">
-      <iframe src="https://www.youtube.com/embed/3RsTpkShYLs" frameborder="0"></iframe>
+    <div class="card" data-video="3RsTpkShYLs">
+      <img src="https://img.youtube.com/vi/3RsTpkShYLs/hqdefault.jpg" alt="ㄛㄡ的故事">
       <div class="title">ㄛㄡ的故事</div>
     </div>
 
-    <div class="card" data-video="https://www.youtube.com/embed/gc88GOl0u_Q?autoplay=1">
-      <iframe src="https://www.youtube.com/embed/gc88GOl0u_Q" frameborder="0"></iframe>
+    <div class="card" data-video="gc88GOl0u_Q">
+      <img src="https://img.youtube.com/vi/gc88GOl0u_Q/hqdefault.jpg" alt="ㄨㄥ先生的故事">
       <div class="title">ㄨㄥ先生的故事</div>
     </div>
 
-    <div class="card" data-video="https://www.youtube.com/embed/YF4OLgHMKs4?autoplay=1">
-      <iframe src="https://www.youtube.com/embed/YF4OLgHMKs4" frameborder="0"></iframe>
+    <div class="card" data-video="YF4OLgHMKs4">
+      <img src="https://img.youtube.com/vi/YF4OLgHMKs4/hqdefault.jpg" alt="ㄢㄤ的故事">
       <div class="title">ㄢㄤ的故事</div>
     </div>
 
-    <div class="card" data-video="https://www.youtube.com/embed/eOknOuJzsxg?autoplay=1">
-      <iframe src="https://www.youtube.com/embed/eOknOuJzsxg" frameborder="0"></iframe>
+    <div class="card" data-video="eOknOuJzsxg">
+      <img src="https://img.youtube.com/vi/eOknOuJzsxg/hqdefault.jpg" alt="ㄗㄘㄙ的故事">
       <div class="title">ㄗㄘㄙ的故事</div>
     </div>
 
-    <div class="card" data-video="https://www.youtube.com/embed/bomuJ632aYg?autoplay=1">
-      <iframe src="https://www.youtube.com/embed/bomuJ632aYg" frameborder="0"></iframe>
+    <div class="card" data-video="bomuJ632aYg">
+      <img src="https://img.youtube.com/vi/bomuJ632aYg/hqdefault.jpg" alt="ㄣㄥ的故事">
       <div class="title">ㄣㄥ的故事</div>
     </div>
 
-    <div class="card" data-video="https://www.youtube.com/embed/HcmmgcRkPjc?autoplay=1">
-      <iframe src="https://www.youtube.com/embed/HcmmgcRkPjc" frameborder="0"></iframe>
+    <div class="card" data-video="HcmmgcRkPjc">
+      <img src="https://img.youtube.com/vi/HcmmgcRkPjc/hqdefault.jpg" alt="ㄝㄟ的故事">
       <div class="title">ㄝㄟ的故事</div>
     </div>
   </div>
+
 
   <!-- Modal -->
   <div class="modal" id="modal">
@@ -137,8 +137,8 @@
 
     cards.forEach(card => {
       card.addEventListener('click', () => {
-        const videoUrl = card.getAttribute('data-video');
-        modalVideo.src = videoUrl;
+        const videoId = card.getAttribute('data-video');
+        modalVideo.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
         modal.style.display = 'flex';
       });
     });
@@ -148,7 +148,6 @@
       modalVideo.src = ""; // 停止播放
     });
 
-    // 點擊背景也可以關閉
     modal.addEventListener('click', (e) => {
       if (e.target === modal) {
         modal.style.display = 'none';
