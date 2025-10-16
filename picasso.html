@@ -363,11 +363,30 @@ btnClear.addEventListener('click', ()=>{
 
 // 下載 PNG
 btnDownload.addEventListener('click', async ()=>{
-  const canvas=await html2canvas(frame,{backgroundColor:null,scale:2});
-  const link=document.createElement('a');
-  link.download="my-picasso.png";
-  link.href=canvas.toDataURL();
+  // 複製一份 frame（避免動到原本的）
+  const clone = frame.cloneNode(true);
+
+  // 移除提示字
+  const hintClone = clone.querySelector('.hint'); 
+  if (hintClone) hintClone.remove();
+
+  // 移除工具列和把手
+  clone.querySelectorAll('.toolbar, .handle-rotate, .handle-resize').forEach(el => el.remove());
+
+  // 暫時掛到畫面外
+  clone.style.position = 'fixed';
+  clone.style.left = '-9999px';
+  document.body.appendChild(clone);
+
+  // 截圖
+  const canvas = await html2canvas(clone, { backgroundColor: null, scale: 2 });
+  const link = document.createElement('a');
+  link.download = "my-picasso.png";
+  link.href = canvas.toDataURL("image/png");
   link.click();
+
+  // 清掉暫存的 clone
+  clone.remove();
 });
 </script>
 </body>
