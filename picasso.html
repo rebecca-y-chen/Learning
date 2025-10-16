@@ -280,7 +280,7 @@ function createPiece(src) {
   const btnTop = document.createElement('button');
   btnTop.className = 'tool-btn';
   btnTop.textContent = "置頂";
-  btnTop.onclick = (e)=> {
+  btnTop.click = (e)=> {
    e.preventDefault();
    e.stopPropagation();
    piece.style.zIndex = Date.now();
@@ -288,7 +288,7 @@ function createPiece(src) {
   const btnTrash = document.createElement('button');
   btnTrash.className = 'tool-btn danger';
   btnTrash.textContent = "刪除";
-  btnTrash.onclick = (e)=> {
+  btnTrash.click = (e)=> {
   e.preventDefault();   // 阻止瀏覽器預設行為
   e.stopPropagation();  // 阻止事件冒泡到 piece
   piece.remove();       // 移除該素材
@@ -397,6 +397,11 @@ btnClear.addEventListener('click', ()=>{
 btnDownload.addEventListener('click', async ()=>{
   const clone = frame.cloneNode(true);
   const origRect = frame.getBoundingClientRect();
+
+  // 設定 clone 和原始 frame 一樣大
+  clone.style.width  = origRect.width + "px";
+  clone.style.height = origRect.height + "px";
+  clone.style.overflow = "hidden";
 
   frame.querySelectorAll('.piece').forEach((p, idx) => {
     const rect = p.getBoundingClientRect();
