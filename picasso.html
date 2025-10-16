@@ -82,17 +82,20 @@
    }
   }
 
-  /* 手機版 palette bin 預設 2 欄 */
-  @media (max-width: 768px) {
-   .palette .bin {
-     display: grid;
-     grid-template-columns: repeat(2, 1fr); /* 預設 2 欄 */
-     gap: 6px;
-    }
-   .palette details[open] .bin {
-     grid-template-columns: 1fr; /* 展開時單欄 */
-    }
+  /* 手機版：palette 變 2 欄卡片網格；打開的卡片置頂且佔滿整列 */
+@media (max-width: 768px) {
+  .palette {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* 一列 2 欄 */
+    gap: 12px;
   }
+  .palette details {
+    margin: 0;               /* 用 grid 的 gap 就好 */
+  }
+  .palette details[open] {
+    grid-column: 1 / -1;     /* 展開時佔滿整列（單欄） */
+  }
+}
 
   details {
     margin-bottom: 12px;
