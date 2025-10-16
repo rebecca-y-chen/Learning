@@ -191,75 +191,7 @@
   </div>
 
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 <script>
-const frame = document.getElementById('frame');
-const palette = document.getElementById('palette');
-const hint = document.getElementById('hint');
-const btnClear = document.getElementById('btnClear');
-const btnDownload = document.getElementById('btnDownload');
-
-// 假設每種素材有多個版本
-const categories = {
-  "眼睛": { part:"eye", count:8 },
-  "眉毛": { part:"eyebrow", count:8 },
-  "臉型": { part:"face", count:5 },
-  "頭髮": { part:"hair", count:6 },
-  "鼻子": { part:"nose", count:5 },
-  "嘴巴": { part:"mouth", count:5 },
-  "耳朵": { part:"ear", count:5 }
-};
-
-// 生成左邊素材 (手風琴 + lazy loading)
-for (const [label, {part, count}] of Object.entries(categories)) {
-  const section = document.createElement('details');
-  const summary = document.createElement('summary');
-  summary.textContent = label;
-  section.appendChild(summary);
-
-  const bin = document.createElement('div');
-  bin.className = 'bin';
-
-  for (let i = 1; i <= count; i++) {
-    const div = document.createElement('div');
-    div.className = 'item';
-    div.draggable = true;
-    const img = document.createElement('img');
-    img.src = `images/picasso/${part}${i}.png`;
-    img.loading = "lazy";
-    div.dataset.src = img.src;
-    div.appendChild(img);
-    bin.appendChild(div);
-  }
-  section.appendChild(bin);
-  palette.appendChild(section);
-}
-
-// 拖曳開始
-document.querySelectorAll('.item').forEach(item => {
-  item.addEventListener('dragstart', e => {
-    e.dataTransfer.setData('src', item.dataset.src);
-  });
-});
-
-// 相框允許放置
-frame.addEventListener('dragover', e => e.preventDefault());
-
-// 放進相框
-frame.addEventListener('drop', e => {
-  e.preventDefault();
-  const src = e.dataTransfer.getData('src');
-  if (!src) return;
-  hint.style.display = "none";
-
-  const piece = createPiece(src);
-  frame.appendChild(piece);
-
-  const rect = frame.getBoundingClientRect();
-  piece.style.left = (e.clientX - rect.left - 60) + 'px';
-  piece.style.top  = (e.clientY - rect.top - 60) + 'px';
-});
-
 // 建立素材 piece
 function createPiece(src) {
   const piece = document.createElement('div');
@@ -306,122 +238,38 @@ function createPiece(src) {
   piece.appendChild(resize);
 
   makeInteractive(piece, rotate, resize);
-  return piece;
+  return piece; // ⚠️ 不要在 makeInteractive 再 appendChild
 }
-
-// 拖曳 + 旋轉 + 縮放
-function makeInteractive(piece, rotateHandle, resizeHandle) {
-  let isDragging=false, offsetX=0, offsetY=0;
-  let isRotating=false, startAngle=0, center={};
-  let isResizing=false, startW=0, startX=0, startY=0;
-  let pointers=new Map(), startDist=null, baseW=null;
-
-  piece.addEventListener('pointerdown', e=>{
-    piece.setPointerCapture(e.pointerId);
-    pointers.set(e.pointerId, {x:e.clientX,y:e.clientY});
-
-    if (e.target===rotateHandle) {
-      isRotating=true;
-      const rect=piece.getBoundingClientRect();
-      center={x:rect.left+rect.width/2,y:rect.top+rect.height/2};
-      startAngle=Math.atan2(e.clientY-center.y,e.clientX-center.x)-(parseFloat(piece.dataset.angle)||0);
-    } else if (e.target===resizeHandle) {
-      isResizing=true;
-      startW=piece.offsetWidth;
-      startX=e.clientX; startY=e.clientY;
-    } else if (pointers.size===1) {
-      isDragging=true;
-      offsetX=e.offsetX; offsetY=e.offsetY;
-    }
-
-    if (pointers.size===2) {
-      const arr=[...pointers.values()];
-      startDist=Math.hypot(arr[0].x-arr[1].x,arr[0].y-arr[1].y);
-      baseW=piece.offsetWidth;
-    }
-  });
-
-  piece.addEventListener('pointermove', e=>{
-    if (!pointers.has(e.pointerId)) return;
-    pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
-
-    if (isDragging && pointers.size===1) {
-      const rect=frame.getBoundingClientRect();
-      piece.style.left=(e.clientX-rect.left-offsetX)+'px';
-      piece.style.top =(e.clientY-rect.top -offsetY)+'px';
-    }
-    if (isRotating) {
-      const angle=Math.atan2(e.clientY-center.y,e.clientX-center.x)-startAngle;
-      piece.dataset.angle=angle;
-      piece.style.transform=`rotate(${angle}rad)`;
-    }
-    if (isResizing) {
-      const dx=e.clientX-startX;
-      const dy=e.clientY-startY;
-      const delta=Math.max(dx,dy);
-      piece.style.width=(startW+delta)+'px';
-    }
-    if (pointers.size===2 && startDist) {
-      const arr=[...pointers.values()];
-      const dist=Math.hypot(arr[0].x-arr[1].x,arr[0].y-arr[1].y);
-      const scale=dist/startDist;
-      piece.style.width=(baseW*scale)+'px';
-    }
-  });
-
-  piece.addEventListener('pointerup', e=>{
-    pointers.delete(e.pointerId);
-    piece.releasePointerCapture(e.pointerId);
-    isDragging=false; isRotating=false; isResizing=false;
-  });
-
-  piece.addEventListener('mousedown', e => {
-    document.querySelectorAll('.piece').forEach(p => {
-      p.classList.remove('selected');
-    });
-    piece.classList.add('selected');
-  });
-}
-
-// 清空
-btnClear.addEventListener('click', ()=>{
-  document.querySelectorAll('.piece').forEach(p=>p.remove());
-  hint.style.display="block";
-});
 
 // 下載 PNG
 btnDownload.addEventListener('click', async ()=>{
   const clone = frame.cloneNode(true);
 
-  // 先抓原始 frame 的 rect
   const origRect = frame.getBoundingClientRect();
 
-  // 把每個 piece 的實際位置轉成 inline style
+  // 將每個 piece 的位置 / 尺寸 / 旋轉套用到 clone
   frame.querySelectorAll('.piece').forEach((p, idx) => {
     const rect = p.getBoundingClientRect();
     const cp = clone.querySelectorAll('.piece')[idx];
 
-    // 計算相對於 frame 的位置
+    cp.style.position = "absolute";
     cp.style.left = (rect.left - origRect.left) + "px";
     cp.style.top  = (rect.top - origRect.top) + "px";
     cp.style.width = rect.width + "px";
     cp.style.height = rect.height + "px";
 
-    // 套用旋轉
     const angle = p.dataset.angle ? parseFloat(p.dataset.angle) : 0;
     cp.style.transform = `rotate(${angle}rad)`;
     cp.style.transformOrigin = "center center";
   });
 
-  // 移掉工具列、把手、提示
+  // 移除不必要的控制工具
   clone.querySelectorAll('.toolbar, .handle-rotate, .handle-resize, .hint').forEach(el => el.remove());
 
-  // 把 clone 放到螢幕外，交給 html2canvas 渲染
   clone.style.position='fixed';
   clone.style.left='-9999px';
   document.body.appendChild(clone);
 
-  // 匯出高解析 PNG
   const canvas = await html2canvas(clone, { backgroundColor: null, scale: 2 });
   const link = document.createElement('a');
   link.download = "my-picasso.png";
