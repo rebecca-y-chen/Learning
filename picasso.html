@@ -61,20 +61,27 @@
   }
 
   /* 響應式：手機版上下排列 */
-@media (max-width: 768px) {
-  .container {
+  @media (max-width: 768px) {
+   .container {
     flex-direction: column; /* 改成上下排列 */
-  }
-  .palette {
+   }
+   .palette {
     width: 100%;  /* 滿版 */
     border-right: none;
     border-bottom: 3px solid #374151;
+   }
+   .hint {
+    position: static;       /* 不要 absolute 定位 */
+    text-align: center;
+    margin: 10px 0;
+    color: #374151;
+   }
+   .frame {
+    flex-direction: column; /* 確保內容縱向排 */
+    padding-top: 10px;      /* 上方多一點空間 */
+   }
   }
-  .frame {
-    flex: 1;
-    min-height: 400px; /* 手機版確保有空間 */
-  }
-}
+
   details {
     margin-bottom: 12px;
     background: #1f2937;
