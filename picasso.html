@@ -317,6 +317,21 @@ frame.addEventListener('drop', e => {
   piece.style.top  = (e.clientY - rect.top - 60) + 'px';
 });
 
+// 根據裝置大小切換提示文字
+function updateHint() {
+  if (window.innerWidth <= 768) {
+    hint.textContent = "點一點五官，完成自畫像吧！";
+  } else {
+    hint.textContent = "把五官拖進來，完成自畫像吧！";
+  }
+}
+
+// 初始設定
+updateHint();
+
+// 視窗縮放時自動更新
+window.addEventListener("resize", updateHint);
+
 // 手機版：點擊素材直接加入相框
 palette.addEventListener("click", e => {
   const item = e.target.closest('.item');
