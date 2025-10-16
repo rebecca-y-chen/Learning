@@ -332,6 +332,11 @@ palette.addEventListener("click", e => {
     const rect = frame.getBoundingClientRect();
     piece.style.left = (rect.width / 2 - 60) + "px";
     piece.style.top  = (rect.height / 2 - 60) + "px";
+
+    // 👉 新增：自動置頂並選取
+    piece.style.zIndex = Date.now();
+    document.querySelectorAll('.piece').forEach(p => p.classList.remove('selected'));
+    piece.classList.add('selected');
   }
 });
 
