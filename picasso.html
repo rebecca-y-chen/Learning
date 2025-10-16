@@ -281,18 +281,20 @@ function createPiece(src) {
   btnTop.className = 'tool-btn';
   btnTop.textContent = "置頂";
   btnTop.onclick = (e)=> {
-    e.stopPropagation();
-    piece.style.zIndex = Date.now();
+   e.preventDefault();
+   e.stopPropagation();
+   piece.style.zIndex = Date.now();
   };
   const btnTrash = document.createElement('button');
   btnTrash.className = 'tool-btn danger';
   btnTrash.textContent = "刪除";
   btnTrash.onclick = (e)=> {
-    e.stopPropagation();
-    piece.remove();
-    if (!frame.querySelector('.piece')) {
-      hint.style.display = "block";
-    }
+  e.preventDefault();   // 阻止瀏覽器預設行為
+  e.stopPropagation();  // 阻止事件冒泡到 piece
+  piece.remove();       // 移除該素材
+  if (!frame.querySelector('.piece')) {
+    hint.style.display = "block";
+   }
   };
   toolbar.appendChild(btnTop);
   toolbar.appendChild(btnTrash);
