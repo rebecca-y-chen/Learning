@@ -209,7 +209,7 @@ const categories = {
   "耳朵": { part:"ear", count:5 }
 };
 
-// 生成左邊素材
+// 生成左邊素材 (手風琴 + lazy loading)
 for (const [label, {part, count}] of Object.entries(categories)) {
   const section = document.createElement('details');
   const summary = document.createElement('summary');
@@ -233,6 +233,9 @@ for (const [label, {part, count}] of Object.entries(categories)) {
   section.appendChild(bin);
   palette.appendChild(section);
 }
+
+// 👉 頁面載入後，自動展開第一個 details
+document.querySelector("details")?.setAttribute("open", "true");
 
 // 拖曳開始
 document.addEventListener('dragstart', e => {
