@@ -317,6 +317,24 @@ frame.addEventListener('drop', e => {
   piece.style.top  = (e.clientY - rect.top - 60) + 'px';
 });
 
+// 手機版：點擊素材直接加入相框
+palette.addEventListener("click", e => {
+  const item = e.target.closest('.item');
+  if (!item) return;
+
+  if (window.innerWidth <= 768) { // 手機才啟用
+    const src = item.dataset.src;
+    hint.style.display = "none";
+    const piece = createPiece(src);
+    frame.appendChild(piece);
+
+    // 放到相框中央
+    const rect = frame.getBoundingClientRect();
+    piece.style.left = (rect.width / 2 - 60) + "px";
+    piece.style.top  = (rect.height / 2 - 60) + "px";
+  }
+});
+
 // 建立素材 piece
 function createPiece(src) {
   const piece = document.createElement('div');
