@@ -109,8 +109,8 @@ for (const [part, count] of Object.entries(categories)) {
     const div = document.createElement('div');
     div.className = 'item';
     div.draggable = true;
-    div.dataset.src = `images/picasso/${part}${i}.png`;
-    div.innerHTML = `<img src="${div.dataset.src}" alt="${part}${i}">`;
+    div.dataset.src = 'images/picasso/${part}${i}.png';
+    div.innerHTML = '<img src="${div.dataset.src}" alt="${part}${i}">';
     palette.appendChild(div);
   }
 }
