@@ -117,6 +117,7 @@
     cursor: move;
     user-select: none;
     touch-action: none;
+    transform-origin: center center; /* 旋轉中心在圖片中央 */
   }
   .toolbar {
     position: absolute;
@@ -195,7 +196,7 @@ const frame = document.getElementById('frame');
 const palette = document.getElementById('palette');
 const hint = document.getElementById('hint');
 const btnClear = document.getElementById('btnClear');
-const nload = document.getElementById('btnDownload');
+const btnDownload = document.getElementById('btnDownload');
 
 // 假設每種素材有多個版本
 const categories = {
@@ -385,8 +386,6 @@ btnClear.addEventListener('click', ()=>{
 // 下載 PNG
 btnDownload.addEventListener('click', async ()=>{
   const clone = frame.cloneNode(true);
-  const angle = p.dataset.angle ? parseFloat(p.dataset.angle) : 0;
-  cp.style.transform = `rotate(${angle}rad)`;
 
   // 先抓原始 frame 的 rect
   const origRect = frame.getBoundingClientRect();
@@ -402,7 +401,9 @@ btnDownload.addEventListener('click', async ()=>{
     cp.style.top  = (rect.top - origRect.top) + "px";
     cp.style.width = rect.width + "px";
     cp.style.height = rect.height + "px";
-    cp.style.transform = "none"; // 清掉旋轉
+
+    const angle = p.dataset.angle ? parseFloat(p.dataset.angle) : 0;
+    cp.style.transform = `rotate(${angle}rad)`;
   });
 
   // 移掉工具列、提示
