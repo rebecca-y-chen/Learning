@@ -262,6 +262,8 @@
 
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 <script>
+let zCounter = 1; // 全域 zIndex 計數器
+
 const frame = document.getElementById('frame');
 const palette = document.getElementById('palette');
 const hint = document.getElementById('hint');
@@ -381,7 +383,7 @@ palette.addEventListener("click", e => {
     piece.style.top  = (rect.height / 2 - 60) + "px";
 
     // 👉 新增：自動置頂並選取
-    piece.style.zIndex = Date.now();
+     piece.style.zIndex = ++zCounter;
     document.querySelectorAll('.piece').forEach(p => p.classList.remove('selected'));
     piece.classList.add('selected');
   }
@@ -391,7 +393,7 @@ palette.addEventListener("click", e => {
 function createPiece(src) {
   const piece = document.createElement('div');
   piece.className = 'piece';
-  piece.style.zIndex = Date.now();
+  ppiece.style.zIndex = ++zCounter; // 初始化就置頂
 
   const img = document.createElement('img');
   img.src = src;
@@ -409,7 +411,7 @@ function createPiece(src) {
   btnTop.addEventListener("pointerdown", e => {
     e.preventDefault();
     e.stopPropagation();
-    piece.style.zIndex = Date.now();
+    piece.style.zIndex = ++zCounter; // 點下去確保永遠最上
   });
 
   const btnTrash = document.createElement('button');
@@ -513,7 +515,7 @@ function makeInteractive(piece, rotateHandle, resizeHandle) {
       piece.style.left = (piece.offsetLeft - dxCenter) + "px";
       piece.style.top  = (piece.offsetTop - dyCenter) + "px";
     }
-    
+
     if (pointers.size===2 && startDist) {
       const arr=[...pointers.values()];
       const dist=Math.hypot(arr[0].x-arr[1].x,arr[0].y-arr[1].y);
