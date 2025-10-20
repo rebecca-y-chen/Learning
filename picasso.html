@@ -490,12 +490,30 @@ function makeInteractive(piece, rotateHandle, resizeHandle) {
       piece.dataset.angle=angle;
       piece.style.transform=`rotate(${angle}rad)`;
     }
+    
     if (isResizing) {
-      const dx=e.clientX-startX;
-      const dy=e.clientY-startY;
-      const delta=Math.max(dx,dy);
-      piece.style.width=(startW+delta)+'px';
+      const angle = parseFloat(piece.dataset.angle) || 0;
+      const cos = Math.cos(-angle);
+      const sin = Math.sin(-angle);
+
+      // 滑鼠移動量
+      const dx = e.clientX - startX;
+      const dy = e.clientY - startY;
+
+      // 投影到 local-x 軸
+      const localX = dx * cos - dy * sin;
+
+      const newW = Math.max(startW + localX, 20); // 不小於20px
+      piece.style.width = newW + "px";
+
+      // 保持中心固定
+      const after = piece.getBoundingClientRect();
+      const dxCenter = (after.left + after.width/2) - startCenter.x;
+      const dyCenter = (after.top + after.height/2) - startCenter.y;
+      piece.style.left = (piece.offsetLeft - dxCenter) + "px";
+      piece.style.top  = (piece.offsetTop - dyCenter) + "px";
     }
+    
     if (pointers.size===2 && startDist) {
       const arr=[...pointers.values()];
       const dist=Math.hypot(arr[0].x-arr[1].x,arr[0].y-arr[1].y);
