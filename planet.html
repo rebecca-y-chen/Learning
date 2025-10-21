@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>八大行星自轉＆公轉</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Chiron+GoRound+TC:wght@200..900&family=Hina+Mincho&family=Lilita+One&family=Love+Ya+Like+A+Sister&family=Yomogi&display=swap');
+  @font-face {
+  font-family: 'zhuyinRound-R';
+  src: url('fonts/zhuyinRound-R.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  }
+
+  body{ 
+    margin:0; 
+    background:#000; 
+    color:#fff; 
+    font-family:"Chiron GoRound TC", sans-serif; 
+  }
+  h1{ text-align:center; margin:20px 0; }
+  section{ margin:20px auto; max-width:1200px; padding:10px; }
+  h2{ text-align:center; margin:10px 0 4px; }
+  .hint{ text-align:center; font-size:13px; color:#ccc; margin-bottom:10px; }
+
+  /* 第一段：一排行星 */
+   .row{ 
+    display:flex; 
+    flex-wrap:wrap; 
+    justify-content:center; 
+    gap:16px; 
+    padding:12px; 
+  }
+  .planet{ 
+    flex:1 1 120px;   /* 最小 120px，會隨容器寬度縮放 */
+    max-width:140px;  /* 不超過 140px */
+    text-align:center; 
+  }
+  .planet canvas{ 
+    display:block; 
+    margin:0 auto; 
+    background:#111; 
+    border-radius:12px; 
+  }
+  .planet .name{ margin-top:6px; font-weight:700; }
+  .planet .meta{ font-size:12px; color:#d0d0d0; line-height:1.3; margin-top:4px; }
+
+ /* 手機版：每行4顆 */
+@media(max-width:768px){
+  .planet{ flex:1 1 22%; max-width:22%; }
+  }
+
+  /* 第二段：兩欄 */
+  .two-col{ display:flex; gap:20px; }
+  .col{ flex:1; background:#111; padding:10px; border-radius:12px; }
+
+  canvas{ display:block; margin:0 auto; background:#000; }
+  .control-group{ margin-top:20px; width:100%; }
+  label{ display:block; margin-bottom:4px; }
+  input[type=range]{ width:100%; }
+  .scale{ display:flex; justify-content:space-between; font-size:12px; margin-top:4px; }
+  .scale span{ text-align:center; width:40px; }
+  .info{ margin-top:12px; font-size:14px; text-align:center; line-height:1.5; }
+
+  /* 手機版：變成直向三段 */
+  @media(max-width:768px){
+    .two-col{ flex-direction:column; }
+  }
+</style>
+</head>
+<body>
+
+<h1>八大行星自轉＆公轉</h1>
+
+<!-- 第一段：一排行星 -->
+<section>
+  <div class="row" id="row"></div>
+</section>
+
+<!-- 第二段：速度模擬器 + 八大行星 -->
+<section class="two-col">
+
+  <!-- 左欄：速度模擬器 -->
+  <div class="col">
+    <h2>《自轉／公轉》速度模擬器</h2>
+    <div class="hint">移動滑桿，試著找到『一年比一天還要快的行星是誰?』</div>
+    <canvas id="sky1" width="400" height="400"></canvas>
+    <div class="control-group">
+      <label>自轉速度（慢→快）</label>
+      <input type="range" id="spin" min="0" max="7" step="1" value="3">
+      <div class="scale" id="spinLabels"></div>
+    </div>
+    <div class="control-group">
+      <label>公轉速度（慢→快）</label>
+      <input type="range" id="orbit" min="0" max="7" step="1" value="5">
+      <div class="scale" id="orbitLabels"></div>
+    </div>
+    <div class="info" id="info1"></div>
+  </div>
+
+  <!-- 右欄：八大行星同場展示 -->
+  <div class="col">
+    <h2>八大行星</h2>
+    <div class="hint">把滑鼠移到行星上，看「一天」和「一年」的真實長度。</div>
+    <canvas id="sky2" width="500" height="500"></canvas>
+    <div id="info2" style="text-align:center;margin-top:10px;"></div>
+  </div>
+
+</section>
+
+<script>
+/* ========= 第一段：一排行星 ========= */
+const PLANETS = [
+  {n:"水星", c:"#b2b2b2", day:1407.6, year:88, size:26},
+  {n:"金星", c:"#d6c188", day:5832,   year:225, size:30},
+  {n:"地球", c:"#6ec8ff", day:24,     year:365, size:32},
+  {n:"火星", c:"#d97b63", day:24.6,   year:687, size:28},
+  {n:"木星", c:"#e3b07e", day:9.9,    year:4333, size:46},
+  {n:"土星", c:"#e8d6a8", day:10.7,   year:10759, size:42},
+  {n:"天王星", c:"#9de4ea", day:17.2, year:30687, size:38},
+  {n:"海王星", c:"#6a87ff", day:16.1, year:60190, size:38},
+];
+const EARTH_DAY_SEC = 2.4, EARTH_YEAR_SEC = 10;
+const row = document.getElementById('row');
+PLANETS.forEach(p=>{
+  const wrap=document.createElement('div'); wrap.className='planet';
+  const c1=document.createElement('canvas'); c1.width=110; c1.height=110; p.cSpin=c1;
+  const c2=document.createElement('canvas'); c2.width=110; c2.height=60;  p.cOrb=c2;
+  const name=document.createElement('div'); name.className='name'; name.textContent=p.n;
+  const meta=document.createElement('div'); meta.className='meta'; p.meta=meta;
+  wrap.appendChild(c1); wrap.appendChild(c2); wrap.appendChild(name); wrap.appendChild(meta);
+  row.appendChild(wrap);
+});
+function spinOmega(p){const sec=(p.day/24)*EARTH_DAY_SEC; return (2*Math.PI)/(sec*60);}
+function orbitOmega(p){const sec=(p.year/365)*EARTH_YEAR_SEC; return (2*Math.PI)/(sec*60);}
+function drawRow(){
+  PLANETS.forEach(p=>{
+    const ctx=p.cSpin.getContext('2d'); ctx.clearRect(0,0,110,110);
+    ctx.save(); ctx.translate(55,55);
+    p._spin=(p._spin||0)+spinOmega(p);
+    ctx.beginPath(); ctx.arc(0,0,p.size,0,Math.PI*2); ctx.fillStyle=p.c; ctx.fill();
+    ctx.rotate(p._spin);
+    ctx.beginPath(); ctx.arc(p.size*0.6,0,p.size*0.22,0,Math.PI*2); ctx.fillStyle="#fff"; ctx.fill();
+    ctx.restore();
+
+    const ctx2=p.cOrb.getContext('2d'); ctx2.clearRect(0,0,110,60);
+    ctx2.save(); ctx2.translate(55,30);
+    p._orb=(p._orb||0)+orbitOmega(p);
+    ctx2.beginPath(); ctx2.ellipse(0,0,42,18,0,0,Math.PI*2);
+    ctx2.strokeStyle="rgba(255,255,255,.35)"; ctx2.stroke();
+    ctx2.beginPath(); ctx2.arc(0,0,6,0,Math.PI*2); ctx2.fillStyle="yellow"; ctx2.fill();
+    const ox=42*Math.cos(p._orb), oy=18*Math.sin(p._orb);
+    ctx2.beginPath(); ctx2.arc(ox,oy,4,0,Math.PI*2); ctx2.fillStyle="#fff"; ctx2.fill();
+    ctx2.restore();
+
+    p.meta.innerHTML=`一天 ≈ ${p.day} 小時<br>一年 ≈ ${p.year} 地球日`;
+  });
+  requestAnimationFrame(drawRow);
+}
+drawRow();
+
+/* ========= 第二段左欄：速度模擬器 ========= */
+const canvas1=document.getElementById('sky1'), ctx1=canvas1.getContext('2d');
+const spinSlider=document.getElementById('spin'), orbitSlider=document.getElementById('orbit'), info1=document.getElementById('info1');
+const rotation=[
+  {name:"金星",hours:5832},{name:"水星",hours:1407.6},{name:"火星",hours:24.6},
+  {name:"地球",hours:24},{name:"天王星",hours:17.2},{name:"海王星",hours:16.1},
+  {name:"土星",hours:10.7},{name:"木星",hours:9.9}
+];
+const revolution=[
+  {name:"海王星",days:60190},{name:"天王星",days:30687},{name:"土星",days:10759},
+  {name:"木星",days:4333},{name:"火星",days:687},{name:"地球",days:365},
+  {name:"金星",days:225},{name:"水星",days:88}
+];
+document.getElementById('spinLabels').innerHTML=rotation.map(p=>`<span>${p.name}</span>`).join('');
+document.getElementById('orbitLabels').innerHTML=revolution.map(p=>`<span>${p.name}</span>`).join('');
+const FPS=60; let spinOmega1=0, orbitOmega1=0; let spinAng=0, orbitAng=0;
+function updateSpeeds(){
+  const sP=rotation[spinSlider.value], oP=revolution[orbitSlider.value];
+  spinOmega1=(2*Math.PI)/((EARTH_DAY_SEC*FPS)*(sP.hours/24));
+  orbitOmega1=(2*Math.PI)/((EARTH_YEAR_SEC*FPS)*(oP.days/365));
+  info1.innerHTML=`<b>自轉：</b>${sP.name} → ${sP.hours} 小時 ≈ ${(sP.hours/24).toFixed(1)} 地球日<br>
+                   <b>公轉：</b>${oP.name} → ${oP.days} 天 ≈ ${(oP.days/365).toFixed(1)} 地球年`;
+}
+spinSlider.addEventListener('input',updateSpeeds); orbitSlider.addEventListener('input',updateSpeeds); updateSpeeds();
+function drawSky1(){
+  ctx1.clearRect(0,0,canvas1.width,canvas1.height);
+  const cx=canvas1.width/2, cy=canvas1.height/2;
+  ctx1.beginPath(); ctx1.arc(cx,cy,30,0,Math.PI*2); ctx1.fillStyle="yellow"; ctx1.fill();
+  orbitAng+=orbitOmega1;
+  const px=cx+120*Math.cos(orbitAng), py=cy+120*Math.sin(orbitAng);
+  ctx1.save(); ctx1.translate(px,py);
+  spinAng+=spinOmega1; ctx1.rotate(spinAng);
+  ctx1.beginPath(); ctx1.arc(0,0,20,0,Math.PI*2); ctx1.fillStyle="dodgerblue"; ctx1.fill();
+  ctx1.beginPath(); ctx1.arc(12,0,5,0,Math.PI*2); ctx1.fillStyle="#fff"; ctx1.fill();
+  ctx1.restore();
+  requestAnimationFrame(drawSky1);
+}
+drawSky1();
+
+/* ========= 第二段右欄：八大行星同場展示 ========= */
+const canvas2=document.getElementById('sky2'), ctx2=canvas2.getContext('2d');
+const info2=document.getElementById('info2');
+
+// 原始半徑資料
+const DATA_RAW=[
+  {n:"水星",c:"#b2b2b2",day:1407.6,year:88,r:70,size:6},
+  {n:"金星",c:"#d6c188",day:5832,year:225,r:100,size:9},
+  {n:"地球",c:"#6ec8ff",day:24,year:365,r:130,size:10},
+  {n:"火星",c:"#d97b63",day:24.6,year:687,r:160,size:8},
+  {n:"木星",c:"#e3b07e",day:9.9,year:4333,r:200,size:16},
+  {n:"土星",c:"#e8d6a8",day:10.7,year:10759,r:250,size:14},
+  {n:"天王星",c:"#9de4ea",day:17.2,year:30687,r:300,size:12},
+  {n:"海王星",c:"#6a87ff",day:16.1,year:60190,r:340,size:12},
+];
+
+// 自動縮放比例
+const margin = 20; // 預留邊界
+const maxR = Math.max(...DATA_RAW.map(p=>p.r));
+const scale = (canvas2.width/2 - margin) / maxR;
+
+// 生成縮放後資料
+const DATA = DATA_RAW.map(p=>({
+  ...p,
+  r: p.r * scale
+}));
+
+DATA.forEach(p=>{
+  p.orbW=(2*Math.PI)/(((p.year/365)*EARTH_YEAR_SEC)*FPS);
+  p.spinW=(2*Math.PI)/(((p.day/24)*EARTH_DAY_SEC)*FPS);
+  p.ang=Math.random()*Math.PI*2; p.spin=0;
+});
+
+function drawSky2(){
+  ctx2.clearRect(0,0,canvas2.width,canvas2.height);
+  const cx=canvas2.width/2, cy=canvas2.height/2;
+  ctx2.beginPath(); ctx2.arc(cx,cy,30,0,Math.PI*2); ctx2.fillStyle="yellow"; ctx2.fill();
+  DATA.forEach(p=>{
+    ctx2.beginPath(); ctx2.arc(cx,cy,p.r,0,Math.PI*2); ctx2.strokeStyle="rgba(255,255,255,.15)"; ctx2.stroke();
+    p.ang+=p.orbW; p.spin+=p.spinW;
+    const x=cx+p.r*Math.cos(p.ang), y=cy+p.r*Math.sin(p.ang);
+    ctx2.save(); ctx2.translate(x,y);
+    ctx2.beginPath(); ctx2.arc(0,0,p.size,0,Math.PI*2); ctx2.fillStyle=p.c; ctx2.fill();
+    ctx2.rotate(p.spin);
+    ctx2.beginPath(); ctx2.arc(p.size*0.6,0,p.size*0.25,0,Math.PI*2); ctx2.fillStyle="#fff"; ctx2.fill();
+    ctx2.restore();
+    p.sx=x; p.sy=y;
+  });
+  requestAnimationFrame(drawSky2);
+}
+drawSky2();
+
+canvas2.addEventListener('mousemove',e=>{
+  const r=canvas2.getBoundingClientRect(),mx=e.clientX-r.left,my=e.clientY-r.top;
+  let hit=null;
+  for(const p of DATA){ if(Math.hypot(mx-p.sx,my-p.sy)<=p.size+3){ hit=p; break; } }
+  if(hit){ info2.innerHTML=`<b>${hit.n}</b>｜一天 ≈ ${hit.day} 小時｜一年 ≈ ${hit.year} 地球日`; }
+  else{ info2.textContent="把滑鼠移到行星上查看資料"; }
+});
+</script>
+
+</body>
+</html>
