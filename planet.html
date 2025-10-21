@@ -141,7 +141,7 @@
 </head>
 <body>
 
-<h1>《八大行星》自轉與公轉</h1>
+<h1>《八大行星》<br>自轉與公轉</h1>
 
 <!-- 第一段：一排行星 -->
 <section>
@@ -154,7 +154,7 @@
   <!-- 左欄：速度模擬器 -->
   <div class="col">
     <h2>自轉與公轉｜速度模擬器</h2>
-    <div class="hint">移動滑桿，試著找到『一年比一天還要快的行星是誰?』</div>
+    <div class="hint">移動滑桿<br>試著找到『一年比一天還要快的行星是誰?』</div>
     <canvas id="sky1" width="400" height="400"></canvas>
     <div class="control-group">
       <label>自轉速度（慢→快）</label>
@@ -364,9 +364,9 @@ canvas2.addEventListener('mousemove', e => {
     <b>${hit.n}</b><br>
     一天 ≈ ${hit.day} 小時<br>
     一年 ≈ ${hit.year} 地球日<br>
-    <span class="desc">${hit.desc}</span><br>
     <img src="${hit.img}" alt="${hit.n}" 
-         style="width:100%;margin-top:8px;border-radius:6px;">
+         style="width:100%;margin-top:8px;border-radius:6px;"><br>
+    <span class="desc">${hit.desc}</span>
   `;
   currentHit = hit;
 }
