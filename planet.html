@@ -261,7 +261,8 @@ function drawSky1(){
 drawSky1();
 
 /* ========= 第二段右欄：八大行星同場展示 ========= */
-const canvas2=document.getElementById('sky2'), ctx2=canvas2.getContext('2d');
+const canvas2=document.getElementById('sky2'), 
+ctx2=canvas2.getContext('2d');
 const info2=document.getElementById('info2');
 
 // 原始半徑資料
@@ -349,15 +350,18 @@ canvas2.addEventListener('mousemove', e => {
     }
   }
 
-  if(hit && hit !== currentHit){
-    // 只在換行星時更新卡片
-    tooltip.style.display = "block";
-    tooltip.innerHTML = `<b>${hit.n}</b><br>
-      一天 ≈ ${hit.day} 小時<br>
-      一年 ≈ ${hit.year} 地球日<br>
-      <i>${hit.desc}</i>`;
-    currentHit = hit;
-  }
+  if (hit && hit !== currentHit) {
+  tooltip.style.display = "block";
+  tooltip.innerHTML = `
+    <b>${hit.n}</b><br>
+    一天 ≈ ${hit.day} 小時<br>
+    一年 ≈ ${hit.year} 地球日<br>
+    <span class="desc">${hit.desc}</span><br>
+    <img src="${hit.img}" alt="${hit.n}" 
+         style="width:100%;margin-top:8px;border-radius:6px;">
+  `;
+  currentHit = hit;
+}
 
   // 即使行星跑掉了，也保持卡片，除非真的換行星
   if(currentHit){
