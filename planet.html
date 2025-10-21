@@ -108,38 +108,47 @@
     .two-col{ flex-direction:column; }
   }
 
-  #tooltip .desc {
-    display: inline-block;
-    background: rgba(0, 128, 255, 0.25); /* 淡藍半透明底色 */
-    color: #aeefff;                     /* 淺藍字，夜空感 */
-    font-size: 16px;
-    padding: 3px 6px;
-    border-radius: 4px;
-    margin-top: 6px;
-  }
-
   #tooltip {
-    position: absolute;
-    background: rgba(20,20,30,0.9);
-    color: #fff;
-    padding: 10px 12px;
-    border-radius: 8px;
-    font-size: 13px;
-    line-height: 1.4;
-    pointer-events: none;
-    max-width: 300px;
-    display: none;
-    box-shadow: 0 0 12px rgba(0,255,255,0.3);
-    z-index: 999; /* 保證在最上面 */
-  }
+  position: absolute;
+  background: rgba(20,20,30,0.95);
+  color: #fff;
+  padding: 14px 16px;
+  border-radius: 10px;
+  font-size: 14px;
+  line-height: 1.5;
+  pointer-events: none;
+  max-width: 300px;
+  display: none;
+  box-shadow: 0 0 12px rgba(0,255,255,0.3);
+  z-index: 999;
+}
 
-  #tooltip b {
-    display:block;
-    font-size:20px;
-    color:#fff;
-    letter-spacing:2px;
-    text-shadow:0 0 6px rgba(0,255,255,0.6);
-  }
+#tooltip b {
+  display:block;
+  font-size:22px;       /* 行星名稱更大 */
+  font-weight:700;
+  margin-bottom:8px;
+  color:#fff;
+  letter-spacing:2px;
+  text-shadow:0 0 6px rgba(0,255,255,0.6);
+}
+
+#tooltip img {
+  display:block;
+  width:100%;
+  border-radius:6px;
+  margin:8px 0;
+}
+
+#tooltip .desc {
+  display:block;
+  background: rgba(0, 128, 255, 0.25); /* 淡藍底 */
+  color: #aeefff;
+  font-size: 15px;
+  padding: 4px 6px;
+  border-radius: 4px;
+  margin-top:6px;
+}
 </style>
 </head>
 <body>
