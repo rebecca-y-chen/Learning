@@ -104,6 +104,21 @@
   @media(max-width:768px){
     .two-col{ flex-direction:column; }
   }
+
+  #tooltip {
+    position: absolute;
+    background: rgba(20,20,30,0.9);
+    color: #fff;
+    padding: 10px 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    line-height: 1.4;
+    pointer-events: none;
+    max-width: 200px;
+    display: none;
+    box-shadow: 0 0 12px rgba(0,255,255,0.3);
+    z-index: 999; /* 保證在最上面 */
+  }
 </style>
 </head>
 <body>
@@ -145,7 +160,7 @@
   </div>
 
 </section>
-
+<div id="tooltip"></div>
 <script>
 /* ========= 第一段：一排行星 ========= */
 const PLANETS = [
@@ -241,15 +256,15 @@ const canvas2=document.getElementById('sky2'), ctx2=canvas2.getContext('2d');
 const info2=document.getElementById('info2');
 
 // 原始半徑資料
-const DATA_RAW=[
-  {n:"水星",c:"#b2b2b2",day:1407.6,year:88,r:70,size:6},
-  {n:"金星",c:"#d6c188",day:5832,year:225,r:100,size:9},
-  {n:"地球",c:"#6ec8ff",day:24,year:365,r:130,size:10},
-  {n:"火星",c:"#d97b63",day:24.6,year:687,r:160,size:8},
-  {n:"木星",c:"#e3b07e",day:9.9,year:4333,r:200,size:16},
-  {n:"土星",c:"#e8d6a8",day:10.7,year:10759,r:250,size:14},
-  {n:"天王星",c:"#9de4ea",day:17.2,year:30687,r:300,size:12},
-  {n:"海王星",c:"#6a87ff",day:16.1,year:60190,r:340,size:12},
+const DATA_RAW = [
+  {n:"水星",c:"#b2b2b2",day:1407.6,year:88,r:70,size:6,desc:"離太陽最近，表面溫差極大。"},
+  {n:"金星",c:"#d6c188",day:5832,year:225,r:100,size:9,desc:"大氣厚重，溫室效應最強。"},
+  {n:"地球",c:"#6ec8ff",day:24,year:365,r:130,size:10,desc:"人類的家園，唯一已知有生命。"},
+  {n:"火星",c:"#d97b63",day:24.6,year:687,r:160,size:8,desc:"紅色星球，可能曾經有液態水。"},
+  {n:"木星",c:"#e3b07e",day:9.9,year:4333,r:200,size:16,desc:"太陽系最大行星，有大紅斑。"},
+  {n:"土星",c:"#e8d6a8",day:10.7,year:10759,r:250,size:14,desc:"以壯觀的行星環著名。"},
+  {n:"天王星",c:"#9de4ea",day:17.2,year:30687,r:300,size:12,desc:"自轉軸幾乎躺平，像滾動的球。"},
+  {n:"海王星",c:"#6a87ff",day:16.1,year:60190,r:340,size:12,desc:"最外圍行星，風速極高。"}
 ];
 
 // 自動縮放比例
@@ -288,12 +303,36 @@ function drawSky2(){
 }
 drawSky2();
 
-canvas2.addEventListener('mousemove',e=>{
-  const r=canvas2.getBoundingClientRect(),mx=e.clientX-r.left,my=e.clientY-r.top;
-  let hit=null;
-  for(const p of DATA){ if(Math.hypot(mx-p.sx,my-p.sy)<=p.size+3){ hit=p; break; } }
-  if(hit){ info2.innerHTML=`<b>${hit.n}</b>｜一天 ≈ ${hit.day} 小時｜一年 ≈ ${hit.year} 地球日`; }
-  else{ info2.textContent="把滑鼠移到行星上查看資料"; }
+const tooltip = document.getElementById('tooltip');
+let currentHit = null;
+
+canvas2.addEventListener('mousemove', e => {
+  const r = canvas2.getBoundingClientRect();
+  const mx = e.clientX - r.left, my = e.clientY - r.top;
+  let hit = null;
+
+  for(const p of DATA){
+    if(Math.hypot(mx - p.sx, my - p.sy) <= p.size+3){ 
+      hit = p; 
+      break; 
+    }
+  }
+
+  if(hit && hit !== currentHit){
+    // 只在換行星時更新卡片
+    tooltip.style.display = "block";
+    tooltip.innerHTML = `<b>${hit.n}</b><br>
+      一天 ≈ ${hit.day} 小時<br>
+      一年 ≈ ${hit.year} 地球日<br>
+      <i>${hit.desc}</i>`;
+    currentHit = hit;
+  }
+
+  // 即使行星跑掉了，也保持卡片，除非真的換行星
+  if(currentHit){
+    tooltip.style.left = (e.pageX + 15) + "px";
+    tooltip.style.top = (e.pageY + 15) + "px";
+  }
 });
 </script>
 
