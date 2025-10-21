@@ -105,6 +105,16 @@
     .two-col{ flex-direction:column; }
   }
 
+  #tooltip .desc {
+    display: inline-block;
+    background: rgba(0, 128, 255, 0.25); /* 淡藍半透明底色 */
+    color: #aeefff;                     /* 淺藍字，夜空感 */
+    font-size: 16px;
+    padding: 3px 6px;
+    border-radius: 4px;
+    margin-top: 6px;
+  }
+
   #tooltip {
     position: absolute;
     background: rgba(20,20,30,0.9);
@@ -156,7 +166,6 @@
     <h2>八大行星</h2>
     <div class="hint">把滑鼠移到行星上，看「一天」和「一年」的真實長度。</div>
     <canvas id="sky2" width="500" height="500"></canvas>
-    <div id="info2" style="text-align:center;margin-top:10px;"></div>
   </div>
 
 </section>
@@ -257,15 +266,37 @@ const info2=document.getElementById('info2');
 
 // 原始半徑資料
 const DATA_RAW = [
-  {n:"水星",c:"#b2b2b2",day:1407.6,year:88,r:70,size:6,desc:"離太陽最近，表面溫差極大。"},
-  {n:"金星",c:"#d6c188",day:5832,year:225,r:100,size:9,desc:"大氣厚重，溫室效應最強。"},
-  {n:"地球",c:"#6ec8ff",day:24,year:365,r:130,size:10,desc:"人類的家園，唯一已知有生命。"},
-  {n:"火星",c:"#d97b63",day:24.6,year:687,r:160,size:8,desc:"紅色星球，可能曾經有液態水。"},
-  {n:"木星",c:"#e3b07e",day:9.9,year:4333,r:200,size:16,desc:"太陽系最大行星，有大紅斑。"},
-  {n:"土星",c:"#e8d6a8",day:10.7,year:10759,r:250,size:14,desc:"以壯觀的行星環著名。"},
-  {n:"天王星",c:"#9de4ea",day:17.2,year:30687,r:300,size:12,desc:"自轉軸幾乎躺平，像滾動的球。"},
-  {n:"海王星",c:"#6a87ff",day:16.1,year:60190,r:340,size:12,desc:"最外圍行星，風速極高。"}
+  {n:"水星",c:"#b2b2b2",day:1407.6,year:88,r:70,size:6,
+   desc:"離太陽最近，表面溫差極大。",
+   img:"https://upload.wikimedia.org/wikipedia/commons/4/4a/Mercury_in_true_color.jpg"},
+  {n:"金星",c:"#d6c188",day:5832,year:225,r:100,size:9,
+   desc:"大氣厚重，溫室效應最強。",
+   img:"https://upload.wikimedia.org/wikipedia/commons/e/e5/Venus-real_color.jpg"},
+  {n:"地球",c:"#6ec8ff",day:24,year:365,r:130,size:10,
+   desc:"人類的家園，唯一已知有生命。",
+   img:"https://upload.wikimedia.org/wikipedia/commons/9/97/The_Earth_seen_from_Apollo_17.jpg"},
+  {n:"火星",c:"#d97b63",day:24.6,year:687,r:160,size:8,
+   desc:"紅色星球，可能曾經有液態水。",
+   img:"https://upload.wikimedia.org/wikipedia/commons/0/02/OSIRIS_Mars_true_color.jpg"},
+  {n:"木星",c:"#e3b07e",day:9.9,year:4333,r:200,size:16,
+   desc:"太陽系最大行星，有大紅斑。",
+   img:"https://upload.wikimedia.org/wikipedia/commons/e/e2/Jupiter.jpg"},
+  {n:"土星",c:"#e8d6a8",day:10.7,year:10759,r:250,size:14,
+   desc:"以壯觀的行星環著名。",
+   img:"https://upload.wikimedia.org/wikipedia/commons/c/c7/Saturn_during_Equinox.jpg"},
+  {n:"天王星",c:"#9de4ea",day:17.2,year:30687,r:300,size:12,
+   desc:"自轉軸幾乎躺平，像滾動的球。",
+   img:"https://upload.wikimedia.org/wikipedia/commons/3/3d/Uranus2.jpg"},
+  {n:"海王星",c:"#6a87ff",day:16.1,year:60190,r:340,size:12,
+   desc:"最外圍行星，風速極高。",
+   img:"https://upload.wikimedia.org/wikipedia/commons/5/56/Neptune_Full.jpg"}
 ];
+
+// ========= 預先載入所有行星圖片 =========
+DATA_RAW.forEach(p=>{
+  const img = new Image();
+  img.src = p.img;
+});
 
 // 自動縮放比例
 const margin = 20; // 預留邊界
