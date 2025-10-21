@@ -144,7 +144,7 @@
 </head>
 <body>
 
-<h1>《八大行星》<p></p><br>自轉與公轉</h1>
+<h1>《八大行星》<p></p><br>公轉與自轉</h1>
 
 <!-- 第一段：一排行星 -->
 <section>
@@ -160,14 +160,14 @@
     <div class="hint">移動滑桿<br>試著找到『一年比一天還要快的行星是誰?』</div>
     <canvas id="sky1" width="400" height="400"></canvas>
     <div class="control-group">
-      <label>自轉速度（慢→快）</label>
-      <input type="range" id="spin" min="0" max="7" step="1" value="3">
-      <div class="scale" id="spinLabels"></div>
-    </div>
-    <div class="control-group">
       <label>公轉速度（慢→快）</label>
       <input type="range" id="orbit" min="0" max="7" step="1" value="5">
       <div class="scale" id="orbitLabels"></div>
+    </div>
+    <div class="control-group">
+      <label>自轉速度（慢→快）</label>
+      <input type="range" id="spin" min="0" max="7" step="1" value="3">
+      <div class="scale" id="spinLabels"></div>
     </div>
     <div class="info" id="info1"></div>
   </div>
