@@ -15,20 +15,20 @@
 
   body{ 
     margin:0; 
-    background:#000; 
+    background:radial-gradient(ellipse at top, #0d1b2a, #000 80%); 
     color:#fff; 
     font-family:"Chiron GoRound TC", sans-serif; 
   }
 
   h1{ 
     text-align:center; 
-    margin:50px 0; /* 頁面大標題，與上下內容多留點空間 */
+    margin:60px 0; /* 頁面大標題，與上下內容多留點空間 */
     font-family:'zhuyinRound-R', 'Inter', sans-serif;
     letter-spacing:2px;   /* 增加字距 */
   }
 
   section{ 
-    margin:40px auto;  /* 每個段落之間上下間距 */
+    margin:0px auto;  /* 每個段落之間上下間距 */
     max-width:1200px; 
     padding:20px 10px; /* 區塊內留白 */
   }
@@ -54,18 +54,26 @@
     flex-wrap:wrap; 
     justify-content:center; 
     gap:20px;         /* 行星卡片之間距離 */
-    padding:20px; 
+    margin:20px 0;
+    background: rgba(255, 255, 255, 0.08);   /* 半透明 */
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    padding: 24px;
+   
   }
   .planet{ 
     flex:1 1 120px;   /* 最小 120px，會隨容器寬度縮放 */
     max-width:140px;  /* 不超過 140px */
     text-align:center; 
+    
   }
   .planet canvas{ 
     display:block; 
     margin:0 auto; 
-    background:#111; 
-    border-radius:12px; 
+    
   }
   .planet .name{ 
     display:block;
@@ -93,9 +101,18 @@
   }
 
   /* 第二段：兩欄 */
-  .two-col{ display:flex; gap:20px; }
-  .col{ flex:1; background:#111; padding:20px; border-radius:12px; margin-bottom:20px; }
-  canvas{ display:block; margin:0 auto; background:#000; }
+  .two-col{ margin:60px auto; display:flex; gap:20px; }
+  .col{ 
+  flex:1; 
+  background: rgba(255, 255, 255, 0.08);   /* 半透明 */
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  padding: 24px;
+  }
+  canvas{ display:block; margin:0 auto; }
   .control-group{ margin-top:20px; width:100%; }
   label{ display:block; margin-bottom:4px; }
   input[type=range]{ width:100%; }
@@ -153,10 +170,11 @@
 </head>
 <body>
 
-<h1>《八大行星》<p></p><br><u>公轉與自轉</u></h1>
+<h1>《八大行星》</h1>
 
 <!-- 第一段：一排行星 -->
 <section>
+  <h2>公轉與自轉</h2>
   <div class="row" id="row"></div>
 </section>
 
