@@ -252,8 +252,8 @@ function updateSpeeds(){
   const sP=rotation[spinSlider.value], oP=revolution[orbitSlider.value];
   spinOmega1=(2*Math.PI)/((EARTH_DAY_SEC*FPS)*(sP.hours/24));
   orbitOmega1=(2*Math.PI)/((EARTH_YEAR_SEC*FPS)*(oP.days/365));
-  info1.innerHTML=`<b>自轉：</b>${sP.name} → ${sP.hours} 小時 ≈ ${(sP.hours/24).toFixed(1)} 地球日<br>
-                   <b>公轉：</b>${oP.name} → ${oP.days} 天 ≈ ${(oP.days/365).toFixed(1)} 地球年`;
+  info1.innerHTML=`<b>公轉：</b>${oP.name} → ${oP.days} 天 ≈ ${(oP.days/365).toFixed(1)} 地球年<br>
+                   <b>自轉：</b>${sP.name} → ${sP.hours} 小時 ≈ ${(sP.hours/24).toFixed(1)} 地球日`;
 }
 spinSlider.addEventListener('input',updateSpeeds); orbitSlider.addEventListener('input',updateSpeeds); updateSpeeds();
 function drawSky1(){
