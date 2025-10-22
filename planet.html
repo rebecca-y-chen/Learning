@@ -487,7 +487,9 @@ if(!isMobile){
   });
 }else{
   // 手機：點擊顯示/關閉
-  canvas2.addEventListener('click', e=>{
+  canvas2.addEventListener('pointerdown', e=>{
+    if(!isMobile) return; // 保證只給手機走這裡
+
     const r = canvas2.getBoundingClientRect();
     const mx = e.clientX - r.left, my = e.clientY - r.top;
     let hit = null;
@@ -498,7 +500,7 @@ if(!isMobile){
       if(currentHit === hit){
         hideTooltip();
       }else{
-        showTooltip(hit, e.pageX, e.pageY);
+        showTooltip(hit, null, null);
         currentHit = hit;
       }
     }
