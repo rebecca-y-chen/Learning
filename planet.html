@@ -382,38 +382,73 @@ drawSky2();
 
 const tooltip = document.getElementById('tooltip');
 let currentHit = null;
+let isMobile = window.matchMedia("(max-width: 768px)").matches;
 
-canvas2.addEventListener('mousemove', e => {
-  const r = canvas2.getBoundingClientRect();
-  const mx = e.clientX - r.left, my = e.clientY - r.top;
-  let hit = null;
+if (!isMobile) {
+  // 桌機：滑鼠移動
+  canvas2.addEventListener('mousemove', e => {
+    const r = canvas2.getBoundingClientRect();
+    const mx = e.clientX - r.left, my = e.clientY - r.top;
+    let hit = null;
 
-  for(const p of DATA){
-    if(Math.hypot(mx - p.sx, my - p.sy) <= p.size+3){ 
-      hit = p; 
-      break; 
+    for (const p of DATA) {
+      if (Math.hypot(mx - p.sx, my - p.sy) <= p.size+3) {
+        hit = p; break;
+      }
     }
-  }
 
-  if (hit && hit !== currentHit) {
+    if (hit && hit !== currentHit) {
+      showTooltip(hit, e.pageX, e.pageY);
+      currentHit = hit;
+    }
+
+    if (currentHit) {
+      tooltip.style.left = (e.pageX + 15) + "px";
+      tooltip.style.top = (e.pageY + 15) + "px";
+    }
+  });
+} else {
+  // 手機：點擊
+  canvas2.addEventListener('click', e => {
+    const r = canvas2.getBoundingClientRect();
+    const mx = e.clientX - r.left, my = e.clientY - r.top;
+    let hit = null;
+
+    for (const p of DATA) {
+      if (Math.hypot(mx - p.sx, my - p.sy) <= p.size+3) {
+        hit = p; break;
+      }
+    }
+
+    if (hit) {
+      if (currentHit === hit) {
+        // 再點同一顆 → 關掉
+        tooltip.style.display = "none";
+        currentHit = null;
+      } else {
+        // 點新的行星 → 顯示
+        showTooltip(hit, e.pageX, e.pageY);
+        currentHit = hit;
+      }
+    }
+  });
+}
+
+// 抽出共用函式
+function showTooltip(hit, x, y) {
   tooltip.style.display = "block";
   tooltip.innerHTML = `
     <b>${hit.n}</b><br>
     一天 ≈ ${hit.day} 小時<br>
     一年 ≈ ${hit.year} 地球日<br>
-    <img src="${hit.img}" alt="${hit.n}" 
-         style="width:100%;margin-top:8px;border-radius:6px;"><br>
+    <img src="${hit.img}" alt="${hit.n}" style="width:100%;margin-top:8px;border-radius:6px;"><br>
     <span class="desc">${hit.desc}</span>
   `;
-  currentHit = hit;
-}
-
-  // 即使行星跑掉了，也保持卡片，除非真的換行星
-  if(currentHit){
-    tooltip.style.left = (e.pageX + 15) + "px";
-    tooltip.style.top = (e.pageY + 15) + "px";
+  tooltip.style.left = (x + 15) + "px";
+  tooltip.style.top = (y + 15) + "px";
   }
-});
+
+
 </script>
 
 </body>
