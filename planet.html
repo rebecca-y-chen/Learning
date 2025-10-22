@@ -408,7 +408,7 @@ if (!isMobile) {
     }
   });
 } else {
-  // 手機：點擊
+  // 手機：點擊行星
   canvas2.addEventListener('click', e => {
     const r = canvas2.getBoundingClientRect();
     const mx = e.clientX - r.left, my = e.clientY - r.top;
@@ -432,9 +432,18 @@ if (!isMobile) {
       }
     }
   });
+
+  // 手機：點擊空白處關閉
+  document.addEventListener('click', e => {
+    // 如果點擊的不是 canvas2 或 tooltip，就收掉
+    if (!canvas2.contains(e.target) && !tooltip.contains(e.target)) {
+      tooltip.style.display = "none";
+      currentHit = null;
+    }
+  });
 }
 
-// 抽出共用函式
+// 共用函式
 function showTooltip(hit, x, y) {
   tooltip.style.display = "block";
   tooltip.innerHTML = `
@@ -446,8 +455,7 @@ function showTooltip(hit, x, y) {
   `;
   tooltip.style.left = (x + 15) + "px";
   tooltip.style.top = (y + 15) + "px";
-  }
-
+}
 
 </script>
 
