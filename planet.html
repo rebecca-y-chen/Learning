@@ -465,7 +465,16 @@ function showTooltip(hit, x, y) {
     <img src="${hit.img}" alt="${hit.n}" 
          style="width:100%;margin-top:8px;border-radius:6px;"><br>
     <span class="desc">${hit.desc}</span>
+    <button id="closeTip" style="
+  margin-top:10px;
+  padding:6px 12px;
+  border:none;
+  border-radius:6px;
+  background:rgba(0,128,255,0.6);
+  color:#fff;
+  font-size:14px;">關閉</button>
   `;
+  
 
   if (!isMobile) {
     tooltip.style.left = (x + 15) + "px";
@@ -476,6 +485,13 @@ function showTooltip(hit, x, y) {
     tooltip.style.transform = "translate(-50%, -50%)";
   }
 }
+
+document.addEventListener('click', e => {
+  if (e.target.id === "closeTip") {
+    tooltip.style.display = "none";
+    currentHit = null;
+  }
+});
 
 </script>
 
