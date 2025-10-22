@@ -144,6 +144,18 @@
   box-shadow: 0 0 12px rgba(0,255,255,0.3);
   z-index: 999;
 }
+@media (max-width: 768px) {
+  #tooltip {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 90%;
+    max-height: 70%;
+    overflow-y: auto;
+    pointer-events: auto;  /* 手機需要能點擊關閉 */
+  }
+}
 
 #tooltip b {
   display:block;
@@ -450,11 +462,19 @@ function showTooltip(hit, x, y) {
     <b>${hit.n}</b><br>
     一天 ≈ ${hit.day} 小時<br>
     一年 ≈ ${hit.year} 地球日<br>
-    <img src="${hit.img}" alt="${hit.n}" style="width:100%;margin-top:8px;border-radius:6px;"><br>
+    <img src="${hit.img}" alt="${hit.n}" 
+         style="width:100%;margin-top:8px;border-radius:6px;"><br>
     <span class="desc">${hit.desc}</span>
   `;
-  tooltip.style.left = (x + 15) + "px";
-  tooltip.style.top = (y + 15) + "px";
+
+  if (!isMobile) {
+    tooltip.style.left = (x + 15) + "px";
+    tooltip.style.top = (y + 15) + "px";
+  } else {
+    tooltip.style.left = "50%";
+    tooltip.style.top = "50%";
+    tooltip.style.transform = "translate(-50%, -50%)";
+  }
 }
 
 </script>
