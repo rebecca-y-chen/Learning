@@ -145,33 +145,46 @@
   z-index: 999;
 }
 @media (max-width: 768px) {
-   section {
-    max-width: 100% !important; /* 滿版 */
-    margin: 0 !important;       /* 取消 auto 對齊 */
-    padding: 0 10px;            /* 留一點邊界 */
-    box-sizing: border-box;     /* 確保 padding 不超過寬度 */
+  body {
+    margin: 0;
+    padding: 0;
+  }
+
+  section {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 12px; /* 給一點左右邊界 */
+    box-sizing: border-box;
   }
 
   .two-col {
     flex-direction: column;
     gap: 20px;
-    width: 100%;
+    width: 100% !important;
+    margin: 0 !important;
   }
 
   .col {
-    width: 100% !important;     /* 撐滿螢幕 */
+    width: 100% !important;
     max-width: 100% !important;
-    margin: 0 auto;             /* 強制置中 */
+    margin: 0 auto !important;
+    box-sizing: border-box;
   }
 
   .row {
     width: 100% !important;
-    justify-content: space-between; /* 讓行星卡片平均鋪開 */
+    justify-content: space-between; /* 平均鋪滿 */
   }
 
   .planet {
-    flex: 1 1 25%;   /* 每行 4 個 */
+    flex: 1 1 25%;   /* 每行四顆 */
     max-width: 25%;
+  }
+
+  canvas {
+    max-width: 100% !important; /* 防止超出螢幕 */
+    height: auto !important;
   }
 
   #tooltip {
