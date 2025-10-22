@@ -145,6 +145,19 @@
   z-index: 999;
 }
 @media (max-width: 768px) {
+   section {
+    max-width: 100%;   /* 取消限制 */
+    padding: 10px;     /* 留一點內距避免貼邊 */
+  }
+  .col {
+    width: 100%;       /* 撐滿螢幕 */
+    max-width: 100%;
+  }
+  .row {
+    width: 100%;
+    justify-content: space-around; /* 讓行星平均分布 */
+  }
+  
   #tooltip {
     position: fixed;
     left: 50%;
