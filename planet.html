@@ -457,41 +457,51 @@ if (!isMobile) {
 
 // 共用函式
 function showTooltip(hit, x, y) {
-  tooltip.style.display = "block";
-  tooltip.innerHTML = `
-    <b>${hit.n}</b><br>
-    一天 ≈ ${hit.day} 小時<br>
-    一年 ≈ ${hit.year} 地球日<br>
-    <img src="${hit.img}" alt="${hit.n}" 
-         style="width:100%;margin-top:8px;border-radius:6px;"><br>
-    <span class="desc">${hit.desc}</span>
-    <button id="closeTip" style="
-  margin-top:10px;
-  padding:6px 12px;
-  border:none;
-  border-radius:6px;
-  background:rgba(0,128,255,0.6);
-  color:#fff;
-  font-size:14px;">關閉</button>
-  `;
-  
-
+  // 桌機版
   if (!isMobile) {
+    tooltip.style.display = "block";
+    tooltip.innerHTML = `
+      <b>${hit.n}</b><br>
+      一天 ≈ ${hit.day} 小時<br>
+      一年 ≈ ${hit.year} 地球日<br>
+      <img src="${hit.img}" alt="${hit.n}" 
+           style="width:100%;margin-top:8px;border-radius:6px;"><br>
+      <span class="desc">${hit.desc}</span>
+    `;
     tooltip.style.left = (x + 15) + "px";
     tooltip.style.top = (y + 15) + "px";
-  } else {
+    tooltip.style.transform = "";
+  } 
+  // 手機版
+  else {
+    tooltip.style.display = "block";
+    tooltip.innerHTML = `
+      <b>${hit.n}</b><br>
+      一天 ≈ ${hit.day} 小時<br>
+      一年 ≈ ${hit.year} 地球日<br>
+      <img src="${hit.img}" alt="${hit.n}" 
+           style="width:100%;margin-top:8px;border-radius:6px;"><br>
+      <span class="desc">${hit.desc}</span>
+      <button id="closeTip" style="
+        margin-top:10px;
+        padding:6px 12px;
+        border:none;
+        border-radius:6px;
+        background:rgba(0,128,255,0.6);
+        color:#fff;
+        font-size:14px;">關閉</button>
+    `;
     tooltip.style.left = "50%";
     tooltip.style.top = "50%";
     tooltip.style.transform = "translate(-50%, -50%)";
+
+    // 綁定關閉按鈕
+    document.getElementById("closeTip").addEventListener("click", () => {
+      tooltip.style.display = "none";
+      currentHit = null;
+    });
   }
 }
-
-document.addEventListener('click', e => {
-  if (e.target.id === "closeTip") {
-    tooltip.style.display = "none";
-    currentHit = null;
-  }
-});
 
 </script>
 
