@@ -489,9 +489,9 @@ if(!isMobile){
   // 手機：用 touchstart，比 pointerdown 更穩
   canvas2.addEventListener('touchstart', e=>{
     const touch = e.touches[0];
-    console.log("touchstart", mx, my);
     const r = canvas2.getBoundingClientRect();
     const mx = touch.clientX - r.left, my = touch.clientY - r.top;
+    console.log("touchstart", mx, my);
     let hit = null;
     for(const p of DATA){
       if(Math.hypot(mx - p.sx, my - p.sy) <= p.size+6){ hit = p; break; }
