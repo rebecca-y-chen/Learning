@@ -486,12 +486,11 @@ if(!isMobile){
     }
   });
 }else{
-  // 手機：點擊顯示/關閉
-  canvas2.addEventListener('pointerdown', e=>{
-    if(!isMobile) return; // 保證只給手機走這裡
-
+  // 手機：用 touchstart，比 pointerdown 更穩
+  canvas2.addEventListener('touchstart', e=>{
+    const touch = e.touches[0];
     const r = canvas2.getBoundingClientRect();
-    const mx = e.clientX - r.left, my = e.clientY - r.top;
+    const mx = touch.clientX - r.left, my = touch.clientY - r.top;
     let hit = null;
     for(const p of DATA){
       if(Math.hypot(mx - p.sx, my - p.sy) <= p.size+6){ hit = p; break; }
@@ -500,13 +499,12 @@ if(!isMobile){
       if(currentHit === hit){
         hideTooltip();
       }else{
-        showTooltip(hit, null, null);
+        showTooltip(hit, null, null); // 手機一律置中
         currentHit = hit;
       }
     }
   });
 
-  // 點擊空白處（遮罩）關閉
   backdrop.addEventListener('click', hideTooltip);
 }
 </script>
