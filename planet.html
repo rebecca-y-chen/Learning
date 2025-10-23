@@ -434,14 +434,42 @@ drawSky2();
 let currentHit = null;
 const isMobile = window.matchMedia("(max-width: 768px)").matches;
 const targetCol = canvas2.parentElement; 
-// ... (保留 getHitPlanet 和 getColCenterCoords 函式)
+// 新增：追蹤 Tooltip 顯示狀態，以應對手機模式
+let isTooltipActive = false; 
 
 /**
- * 顯示圖卡 (保持不變)
+ * 根據座標判斷是否點擊到行星
+ * [此函數保持不變]
+ */
+function getHitPlanet(mx, my) {
+  for (const p of DATA) {
+    // 判斷半徑增加到 15 像素，更容易點擊
+    if (Math.hypot(mx - p.sx, my - p.sy) <= p.size + 15) { 
+      return p;
+    }
+  }
+  return null;
+}
+
+/**
+ * 計算目標欄位的中心座標
+ * [此函數保持不變]
+ */
+function getColCenterCoords() {
+    const rect = targetCol.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    return { centerX, centerY };
+}
+
+
+/**
+ * 顯示圖卡
+ * [此函數保持不變]
  */
 function showTooltip(hit, isClick = false) { 
   tooltip.style.display = "block";
-  // ... (showTooltip 內部邏輯不變)
+
   tooltip.innerHTML = `
     <b>${hit.n}</b>
     一天 ≈ ${hit.day} 小時<br>
@@ -454,14 +482,18 @@ function showTooltip(hit, isClick = false) {
   if (!isMobile && !isClick) { // 桌機懸停邏輯
     tooltip.style.pointerEvents = "none";
     tooltip.style.position = "fixed"; 
+    
     const { centerX, centerY } = getColCenterCoords();
+    
     tooltip.style.left = centerX + "px";
     tooltip.style.top = centerY + "px";
     tooltip.style.transform = "translate(-50%, -50%)";
+
   } else { // 手機點擊邏輯
     backdrop.style.display = "block";
     tooltip.style.pointerEvents = "auto";
     tooltip.style.position = "fixed"; 
+    
     tooltip.style.left = "50%";
     tooltip.style.top = "50%";
     tooltip.style.transform = "translate(-50%, -50%)";
@@ -472,59 +504,54 @@ function showTooltip(hit, isClick = false) {
 }
 
 /**
- * 隱藏圖卡 (保持不變)
+ * 隱藏圖卡
+ * [此函數保持不變]
  */
 function hideTooltip() {
   tooltip.style.display = "none";
   backdrop.style.display = "none";
   currentHit = null;
+  isTooltipActive = false; // 隱藏時，重設旗標
+  // 隱藏時，清除可能殘留的 inline 樣式
   tooltip.style.left = '';
   tooltip.style.top = '';
   tooltip.style.transform = '';
   tooltip.style.position = '';
 }
 
-
 // ------------------------------------------------------------------
-// 1. 手機/桌機點擊事件 (Mobile/Desktop Click/Tap Event)
+// 1. 手機/桌機 **點擊** 事件 (使用 'click' 確保移動端行為穩定)
 // ------------------------------------------------------------------
-canvas2.addEventListener("pointerdown", e => {
-  const r = canvas2.getBoundingClientRect();
-  const mx = e.clientX - r.left, my = e.clientY - r.top;
-  let hit = getHitPlanet(mx, my); 
+// 這裡同時監聽 pointerdown 和 click，但只有在手機模式下，我們才用 click 來處理邏輯
+canvas2.addEventListener("click", e => {
+    if (!isMobile) return; // 僅在手機模式下執行點擊邏輯
 
-  if (hit) { // A. 點到行星：處理顯示/切換/關閉
-    e.preventDefault(); 
-    
-    // 判斷是否要關閉：如果點擊的是同一個行星
-    const shouldClose = currentHit === hit;
+    const r = canvas2.getBoundingClientRect();
+    const mx = e.clientX - r.left, my = e.clientY - r.top;
+    let hit = getHitPlanet(mx, my); 
 
-    // 清理舊狀態
-    if (currentHit) {
-        // 先移除可能影響顯示的元素，確保狀態乾淨
-        tooltip.style.display = "none"; 
-        backdrop.style.display = "none";
+    if (hit) { // A. 點到行星
+      e.preventDefault(); 
+      
+      if (currentHit === hit) {
+          // 點擊同一顆行星：關閉
+          hideTooltip();
+      } else {
+          // 點擊新的行星 (或第一次點擊)：開啟
+          if (isTooltipActive) hideTooltip(); // 確保先關閉舊的
+          
+          showTooltip(hit, true);
+          currentHit = hit;
+          isTooltipActive = true;
+      }
+
+    } else { // B. 沒點到行星 (點擊空白處)
+      if (isTooltipActive) {
+        hideTooltip(); 
+      }
     }
-
-    if (shouldClose) {
-        // 點擊同一顆，關閉
-        currentHit = null;
-    } else {
-        // 點擊不同顆，或第一次點擊，延遲顯示
-        setTimeout(() => {
-            showTooltip(hit, true);
-            currentHit = hit;
-        }, 10);
-    }
-
-  } else { // B. 沒點到行星：處理關閉
-    // 只有在手機模式下，點擊 canvas 上的空白處才隱藏圖卡
-    if (isMobile && currentHit) {
-      hideTooltip(); 
-    }
-    // 【重要】在桌機模式下，點擊空白處不做任何事，避免誤觸懸停關閉邏輯
-  }
 });
+
 
 // ------------------------------------------------------------------
 // 2. 桌機滑鼠懸停事件 (Desktop Mouse Hover Event - 僅在非手機模式下啟用)
@@ -552,9 +579,23 @@ if (!isMobile) {
   canvas2.addEventListener("mouseleave", hideTooltip);
 }
 
-// 點擊背景遮罩關閉 (手機模式)
-// 由於 backdrop 只有在手機點擊模式下才會出現，點擊它就是為了關閉
-backdrop.addEventListener("pointerdown", hideTooltip);
+// ------------------------------------------------------------------
+// 3. 背景遮罩關閉 (手機模式)
+// ------------------------------------------------------------------
+// 改用 click 確保穩定性
+backdrop.addEventListener("click", hideTooltip); 
+
+// 我們需要一個空的 pointerdown 來阻止手機瀏覽器在觸摸時誤判為捲動或其它行為
+canvas2.addEventListener("pointerdown", e => {
+  if (isMobile) {
+      // 檢查是否點擊到可點擊區域，阻止預設行為
+      const r = canvas2.getBoundingClientRect();
+      const mx = e.clientX - r.left, my = e.clientY - r.top;
+      if (getHitPlanet(mx, my) || isTooltipActive) {
+          e.preventDefault(); 
+      }
+  }
+});
 </script>
 </body>
 </html>
