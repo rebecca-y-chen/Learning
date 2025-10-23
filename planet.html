@@ -566,8 +566,18 @@ if (!isMobile) {
   canvas2.addEventListener("mouseleave", hideTooltip);
 }
 
-// 點擊背景遮罩關閉 (手機模式)
-backdrop.addEventListener("pointerdown", hideTooltip);
+// 點擊背景關閉
+// 使用 setTimeout 延遲 10 毫秒，確保 Tooltip 先穩定顯示，不被同一次 tap 誤觸關閉
+backdrop.addEventListener("pointerdown", e => {
+  // 檢查是否是手機模式且目前有顯示圖卡
+  if (isMobile && currentHit) {
+    // 阻止事件立即冒泡，避免其他潛在衝突
+    e.stopPropagation();
+    
+    // 延遲關閉，確保不是因為剛點擊行星彈出圖卡後，立刻被 backdrop 關閉
+    setTimeout(hideTooltip, 10); 
+  }
+});
 </script>
 </body>
 </html>
