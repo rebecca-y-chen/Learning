@@ -1,9 +1,33 @@
 <style>
 .iframe-wrapper {
-  display: flex;
-  justify-content: center; /* 水平置中 */
-  align-items: center;     /* 垂直置中 (可選) */
-  margin: 20px 0;          /* 上下留點空間 */
+  position: relative;
+  width: 100%;
+  max-width: 500px;   /* 桌機最大寬度 */
+  margin: 0 auto;     /* 水平置中 */
+  overflow: hidden;
+}
+
+/* 桌機版 4:3 或 16:9 比例 */
+.iframe-wrapper::before {
+  content: "";
+  display: block;
+  padding-top: 76%;  /* 預設 500x380 ≈ 4:3 → 380/500=76% */
+}
+
+/* 手機版改成直式比例 9:16 */
+@media (max-width: 768px) {
+  .iframe-wrapper::before {
+    padding-top: 177%; /* 9:16 → 16/9≈177% */
+  }
+}
+
+.iframe-wrapper iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
 }
 </style>
 <div class="iframe-wrapper"></div>
