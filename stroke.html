@@ -7,17 +7,17 @@
   overflow: hidden;
 }
 
-/* 桌機版 4:3 或 16:9 比例 */
+/* 桌機版 16:9 */
 .iframe-wrapper::before {
   content: "";
   display: block;
-  padding-top: 76%;  /* 預設 500x380 ≈ 4:3 → 380/500=76% */
+  padding-top: 56.25%; /* 9/16 = 56.25% */
 }
 
-/* 手機版改成直式比例 9:16 */
+/* 手機版直式 9:16 */
 @media (max-width: 768px) {
   .iframe-wrapper::before {
-    padding-top: 177%; /* 9:16 → 16/9≈177% */
+    padding-top: 177.77%; /* 16/9 ≈ 177.7% */
   }
 }
 
@@ -31,5 +31,6 @@
 }
 </style>
 <div class="iframe-wrapper"></div>
-<iframe style="max-width:100%" src="https://wordwall.net/tc/embed/93bbb47d139f4f02a441ebf03b9b2e82?themeId=46&templateId=30&fontStackId=0" width="500" height="380" frameborder="0" allowfullscreen></iframe>
+<iframe src="https://wordwall.net/tc/embed/93bbb47d139f4f02a441ebf03b9b2e82?themeId=46&templateId=30&fontStackId=0" 
+        frameborder="0" allowfullscreen></iframe>
 </div>
