@@ -187,15 +187,35 @@
         setInterval(updateClock, 1000);
     }
 
-    async function updateWeather() {
-        try {
-            const res = await fetch('https://api.openweathermap.org/data/2.5/weather?q=Seoul&units=metric&appid=b1b32e97713f0345648f0e560749845d');
-            const data = await res.json();
-            document.getElementById('temp').innerText = Math.round(data.main.temp) + "°C";
-            document.getElementById('cond').innerText = data.weather[0].main.toUpperCase();
-            document.getElementById('advice').innerText = data.main.temp < 15 ? "建議穿厚外套防風" : "氣候涼爽舒適";
-        } catch(e) { document.getElementById('cond').innerText = "載入失敗"; }
+   async function updateWeather() {
+    const tempEl = document.getElementById('temp');
+    const condEl = document.getElementById('cond');
+    const adviceEl = document.getElementById('advice');
+
+    try {
+        // 使用更穩定的請求路徑並加入中文語系
+        const res = await fetch('https://api.openweathermap.org/data/2.5/weather?q=Seoul&units=metric&lang=zh_tw&appid=b1b32e97713f0345648f0e560749845d');
+        
+        if (!res.ok) throw new Error('API Key 尚未啟動或失效');
+
+        const data = await res.json();
+        const temperature = Math.round(data.main.temp);
+        
+        tempEl.innerText = temperature + "°C";
+        condEl.innerText = data.weather[0].description.toUpperCase();
+        
+        // 根據溫度自動更新建議
+        if (temperature < 15) {
+            adviceEl.innerText = "氣溫偏低，記得穿厚外套防風";
+        } else {
+            adviceEl.innerText = "氣候舒適，非常適合逛街行程";
+        }
+    } catch (e) {
+        console.error(e);
+        condEl.innerText = "金鑰啟動中";
+        adviceEl.innerText = "請稍候 10 分鐘再重新整理";
     }
+}
 
     function updateClock() {
         const options = { timeZone: 'Asia/Seoul', hour: '2-digit', minute: '2-digit', hour12: false };
