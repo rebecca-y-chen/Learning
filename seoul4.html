@@ -137,18 +137,21 @@
 <body>
 
 <div class="header">
-    <h2>首爾親子之旅 🇰🇷</h2>
+    <h2>首爾四天三夜</h2>
     <div id="live-clock" class="live-info">首爾時間載入中...</div>
 </div>
 
-<a href="https://www.google.com/search?q=seoul+weather" target="_blank" class="weather-display-box">
-    <div class="weather-temp" id="disp-temp">11°C</div>
-    <div class="weather-text">
-        <span id="disp-cond">晴朗</span><br>
-        <small>降雨機率: 0%</small>
-    </div>
-    <div class="weather-hint">Google詳細預報 <i class="fas fa-external-link-alt"></i></div>
-</a>
+<div class="weather-banner-wrapper" style="margin: -15px 20px 20px 20px;">
+    <a class="weatherwidget-io" href="https://forecast7.com/zh-tw/37d57126d98/seoul/" 
+       data-label_1="SEOUL" data-label_2="即時天氣" data-font="Noto Sans TC" 
+       data-icons="Climacons Animated" data-theme="pure" data-basecolor="rgba(255,255,255,1)" 
+       data-accent="rgba(34, 46, 80, 1)" data-textcolor="#222e50" >
+       首爾 即時天氣載入中...
+    </a>
+    <script>
+    !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
+    </script>
+</div>
 
 <div class="container">
     <div id="day1" class="day-content active">
