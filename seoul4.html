@@ -37,7 +37,19 @@
         }
         .header h2 { margin: 0; font-size: 1.4rem; font-weight: 700; letter-spacing: 0.5px; }
         .live-info { font-size: 0.85rem; margin-top: 5px; opacity: 0.9; }
-
+.weather-banner-wrapper {
+    background: white;
+    border-radius: 20px;
+    padding: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    overflow: hidden; /* 確保圓角不會被切到 */
+    position: relative;
+    z-index: 10;
+}
+/* 隱藏小工具內建的背景，改用我們外層卡片的樣式 */
+.weatherwidget-io {
+    transition: all 0.3s ease;
+}
         /* 直接顯示氣候卡片 (修正為直接顯示) */
         .weather-display-box {
             background-color: var(--card-white);
