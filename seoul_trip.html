@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>首爾親子之旅 🇰🇷</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #FFB7B2; /* 柔和粉 */
+            --secondary-color: #B2E2F2; /* 柔和藍 */
+            --bg-color: #FFF9F4; /* 暖米色 */
+            --text-dark: #5D5D5D;
+            --accent-color: #FFDAC1; /* 嫩橘色 */
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            margin: 0;
+            padding-bottom: 80px;
+            overflow-x: hidden;
+        }
+
+        /* Header Style */
+        .header {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            padding: 25px 20px;
+            text-align: center;
+            border-bottom-left-radius: 30px;
+            border-bottom-right-radius: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .header h1 { margin: 0; font-size: 1.5rem; letter-spacing: 1px; }
+        .header p { margin: 5px 0 0; opacity: 0.9; font-size: 0.9rem; }
+
+        /* Container */
+        .container { padding: 15px; }
+
+        /* Day Content Control */
+        .day-content { display: none; animation: fadeIn 0.4s ease; }
+        .day-content.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Timeline Card Style */
+        .timeline-item {
+            background: white;
+            border-radius: 20px;
+            padding: 15px;
+            margin-bottom: 15px;
+            display: flex;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+            border-left: 6px solid var(--secondary-color);
+        }
+
+        .time {
+            min-width: 85px;
+            font-weight: bold;
+            color: #88BDBC;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .details { flex: 1; }
+        .details h3 { margin: 0; font-size: 1rem; color: #4A4A4A; }
+        .details p { margin: 5px 0 0; font-size: 0.85rem; color: #777; line-height: 1.4; }
+
+        .location-btn {
+            display: inline-block;
+            margin-top: 8px;
+            padding: 4px 12px;
+            background: #F0F0F0;
+            border-radius: 15px;
+            text-decoration: none;
+            color: #666;
+            font-size: 0.75rem;
+        }
+
+        /* Tips Section */
+        .tips-box {
+            background: #E2F0CB;
+            border-radius: 20px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        .tips-box h4 { margin: 0 0 10px 0; color: #6B8E23; font-size: 0.9rem; }
+        .tips-box ul { margin: 0; padding-left: 20px; font-size: 0.8rem; }
+
+        /* Bottom Nav */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background: white;
+            display: flex;
+            justify-content: space-around;
+            padding: 12px 0;
+            box-shadow: 0 -5px 15px rgba(0,0,0,0.05);
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            z-index: 100;
+        }
+
+        .nav-item {
+            text-align: center;
+            color: #CCC;
+            text-decoration: none;
+            flex: 1;
+            transition: 0.3s;
+        }
+
+        .nav-item.active { color: var(--primary-color); }
+        .nav-item i { font-size: 1.2rem; display: block; margin-bottom: 4px; }
+        .nav-item span { font-size: 0.7rem; font-weight: bold; }
+
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h1>首爾親子之旅 🇰🇷</h1>
+    <p>2026.06.26 - 06.29</p>
+</div>
+
+<div class="container">
+    <!-- Day 1 -->
+    <div id="day1" class="day-content active">
+        <div class="timeline-item">
+            <div class="time">17:10-20:40</div>
+            <div class="details">
+                <h3>✈️ 飛機抵達 (OZ714)</h3>
+                <p>抵達首爾，準備出關</p>
+            </div>
+        </div>
+        <div class="timeline-item">
+            <div class="time">22:30</div>
+            <div class="details">
+                <h3>🚄 機場快線 AREX</h3>
+                <p>搭乘往弘大方向，約50分鐘</p>
+            </div>
+        </div>
+        <div class="timeline-item">
+            <div class="time">00:00</div>
+            <div class="details">
+                <h3>🏨 抵達住宿</h3>
+                <p>弘大站3號出口，步行8-12分鐘完成 Check-in</p>
+                <a href="https://www.google.com/maps/search/Hongdae+Station+Exit+3" class="location-btn"><i class="fa-solid fa-location-dot"></i> 地圖查看</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Day 2 -->
+    <div id="day2" class="day-content">
+        <div class="timeline-item">
+            <div class="time">10:00-12:00</div>
+            <div class="details">
+                <h3>🐟 樂天水族館</h3>
+                <p>適合小孩的室內行程</p>
+            </div>
+        </div>
+        <div class="timeline-item" style="border-left-color: var(--primary-color);">
+            <div class="time">13:00-17:30</div>
+            <div class="details">
+                <h3>🎡 樂天世界</h3>
+                <p>建議：先玩室內、下午玩戶外。小孩推薦旋轉木馬、室內遊樂區。</p>
+                <a href="https://www.google.com/maps/search/Lotte+World" class="location-btn"><i class="fa-solid fa-location-dot"></i> 前往蠶室站</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Day 3 -->
+    <div id="day3" class="day-content">
+        <div class="timeline-item">
+            <div class="time">09:00-12:00</div>
+            <div class="details">
+                <h3>🛍️ 弘大逛街區</h3>
+                <p>LINE FRIENDS、Kakao Friends 旗艦店</p>
+            </div>
+        </div>
+        <div class="timeline-item" style="border-left-color: #FFD700;">
+            <div class="time">14:00-15:30</div>
+            <div class="details">
+                <h3>🎭 亂打秀 (NANTA)</h3>
+                <p>VIP區座位。建議提早20-30分鐘到場換票。</p>
+                <a href="https://www.google.com/maps/search/Hongdae+Nanta+Theatre" class="location-btn"><i class="fa-solid fa-location-dot"></i> 劇場位置</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Day 4 -->
+    <div id="day4" class="day-content">
+        <div class="timeline-item">
+            <div class="time">08:00-09:30</div>
+            <div class="details">
+                <h3>☕ 早餐時間</h3>
+                <p>推薦：Café Onion, Isaac Toast</p>
+            </div>
+        </div>
+        <div class="timeline-item">
+            <div class="time">14:05</div>
+            <div class="details">
+                <h3>✈️ 回程航班 (OZ713)</h3>
+                <p>10:30 搭乘 AREX 前往機場 T2</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tips -->
+    <div class="tips-box">
+        <h4>💡 小貼士</h4>
+        <ul>
+            <li>T-money 儲值：Topup T-money card[cite: 1]</li>
+            <li>早餐外帶：Togo / Take out[cite: 1]</li>
+            <li>住宿位於弘大 3 號出口，熱鬧區在 9 號出口[cite: 1]</li>
+            <li>全天步行+地鐵，不使用計程車[cite: 1]</li>
+        </ul>
+    </div>
+</div>
+
+<nav class="bottom-nav">
+    <a href="javascript:void(0)" class="nav-item active" onclick="showDay(1, this)">
+        <i class="fa-solid fa-calendar-day"></i><span>D1</span>
+    </a>
+    <a href="javascript:void(0)" class="nav-item" onclick="showDay(2, this)">
+        <i class="fa-solid fa-calendar-day"></i><span>D2</span>
+    </a>
+    <a href="javascript:void(0)" class="nav-item" onclick="showDay(3, this)">
+        <i class="fa-solid fa-calendar-day"></i><span>D3</span>
+    </a>
+    <a href="javascript:void(0)" class="nav-item" onclick="showDay(4, this)">
+        <i class="fa-solid fa-plane-departure"></i><span>D4</span>
+    </a>
+</nav>
+
+<script>
+    function showDay(day, element) {
+        // 隱藏所有內容
+        document.querySelectorAll('.day-content').forEach(content => {
+            content.classList.remove('active');
+        });
+        // 顯示選擇的內容
+        document.getElementById('day' + day).classList.add('active');
+        
+        // 更新導覽列狀態
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.classList.remove('active');
+        });
+        element.classList.add('active');
+        
+        // 置頂
+        window.scrollTo(0, 0);
+    }
+</script>
+
+</body>
+</html>
