@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>首爾行程助手 - V7 Benl 風格</title>
+    <title>首爾行程助手</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         /* 復刻 https://benl.onrender.com/ 的配色與風格 */
         :root { 
-            --dark-blue: #222e50; /* 深藍導覽與標題 */
-            --bg-gray: #f4f7f6; /* 灰白背景 */
+            --dark-blue: #1a2e43; /* 深藍導覽與標題 */
+            --bg-gray: #c6cdca; /* 灰白背景 */
             --card-white: #ffffff; /* 卡片白 */
             --text-dark: #333333;
             --text-gray: #777777;
@@ -21,7 +21,7 @@
             background-color: var(--bg-gray);
             color: var(--text-dark);
             margin: 0;
-            padding-bottom: 90px;
+            padding-bottom: 120px;
             -webkit-tap-highlight-color: transparent;
         }
 
@@ -53,7 +53,7 @@
             position: relative;
             z-index: 10;
         }
-        .weather-temp { font-size: 2.5rem; font-weight: bold; color: var(--dark-blue); }
+        .weather-temp { font-size: 2.5rem; font-weight: bold; color: rgb(255, 221, 0); }
         .weather-text { text-align: right; font-size: 0.85rem; color: var(--text-gray); }
         .weather-hint { position: absolute; bottom: 5px; right: 10px; font-size: 0.65rem; color: #aaa; }
 
@@ -75,11 +75,18 @@
             position: relative;
         }
         .event-time { 
-            min-width: 80px; font-size: 0.85rem; font-weight: bold; 
-            color: var(--dark-blue); display: flex; align-items: center; 
+            background: var(--dark-blue); 
+            color: var(--card-white); 
+            padding: 4px 8px; 
+            border-radius: 6px; 
+            font-family: monospace; 
+            font-weight: 700; 
+            font-size: 0.95em; 
+            min-width: 60px; 
+            text-align: center; 
         }
         .event-details { flex: 1; padding-left: 10px; }
-        .remind-tag { color: #FF8B94; font-size: 0.7rem; font-weight: bold; }
+        .remind-tag { color: #ff6874; font-size: 0.7rem; font-weight: bold; }
         .event-title { font-weight: bold; font-size: 1rem; margin: 3px 0; color: #222; }
         .event-desc { font-size: 0.8rem; color: var(--text-gray); line-height: 1.4; }
         .map-link { font-size: 0.75rem; color: #5DA7DB; text-decoration: none; display: inline-flex; align-items: center; gap: 3px; font-weight: bold; margin-top: 5px; }
