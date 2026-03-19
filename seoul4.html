@@ -53,7 +53,7 @@
             position: relative;
             z-index: 10;
         }
-        .weather-temp { font-size: 2.5rem; font-weight: bold; color: rgb(255, 221, 0); }
+        .weather-temp { font-size: 2.5rem; font-weight: bold; color: rgb(255, 200, 0); }
         .weather-text { text-align: right; font-size: 0.85rem; color: var(--text-gray); }
         .weather-hint { position: absolute; bottom: 5px; right: 10px; font-size: 0.65rem; color: #aaa; }
 
@@ -75,16 +75,20 @@
             position: relative;
         }
         .event-time { 
-            background: var(--dark-blue); 
-            color: var(--card-white); 
-            padding: 4px 8px; 
-            border-radius: 6px; 
-            font-family: monospace; 
-            font-weight: 700; 
-            font-size: 0.95em; 
-            min-width: 60px; 
+            min-width: 80px; 
+            font-size: 0.85rem; 
+            font-weight: bold; 
+            color: var(--dark-blue); 
             display: flex; 
-            align-items: center
+            align-items: center;
+            justify-content: center; /* 讓文字在框內置中 */
+    
+            /* 新增外框相關屬性 */
+            border: 1.5px solid var(--dark-blue); /* 邊框粗細與顏色 */
+            padding: 4px 8px;                     /* 增加內距，讓文字不貼邊 */
+            border-radius: 8px;                   /* 圓角（數字越大越圓） */
+            background-color: rgba(255,255,255,0.8); /* 微微的透明背景，增加層次感 */
+            margin-right: 10px;                   /* 與右側內容保持距離 */
         }
         .event-details { flex: 1; padding-left: 10px; }
         .remind-tag { color: #ff6874; font-size: 0.7rem; font-weight: bold; }
