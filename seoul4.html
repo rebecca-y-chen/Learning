@@ -107,15 +107,16 @@
         .event-title { font-weight: bold; font-size: 1rem; margin: 3px 0; color: #222; }
         .event-desc { font-size: 0.8rem; color: var(--text-gray); line-height: 1.4; }
         .map-link {
-            color: #5DA7DB; 
-            text-decoration: none; 
+           color: #5DA7DB; 
+             text-decoration: none; 
             font-size: 0.85em; 
-            align-items: center; 
-            border: 1px solid #5da7db62; 
-            padding: 6px 12px; 
-            border-radius: 20px; 
-            background: rgba(45, 148, 212, 0.05);
-            min-height: auto; 
+    display: inline-flex; /* 確保它是 flex 項目 */
+    align-items: center; 
+    border: 1px solid #5da7db62; 
+    padding: 4px 10px;    /* 稍微縮小一點，看起來更精緻 */
+    border-radius: 20px; 
+    background: rgba(45, 148, 212, 0.05);
+    margin-left: auto;
             }
 
         /* 住宿與精選餐廳 10 間 */
