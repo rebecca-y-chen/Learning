@@ -3,124 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>首爾親子之旅 🇰🇷</title>
+    <title>首爾親子 App V2</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #FFB7B2; /* 柔和粉 */
-            --secondary-color: #B2E2F2; /* 柔和藍 */
-            --bg-color: #FFF9F4; /* 暖米色 */
-            --text-dark: #5D5D5D;
-            --accent-color: #FFDAC1; /* 嫩橘色 */
+            --primary: #FFB7B2; --secondary: #B2E2F2; --bg: #FFFBF7;
+            --text: #555; --accent: #FFDAC1; --white: #FFFFFF;
         }
-
-        body {
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-dark);
-            margin: 0;
-            padding-bottom: 80px;
-            overflow-x: hidden;
-        }
-
-        /* Header Style */
-        .header {
-            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
-            color: white;
-            padding: 25px 20px;
-            text-align: center;
-            border-bottom-left-radius: 30px;
-            border-bottom-right-radius: 30px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-        }
-
-        .header h1 { margin: 0; font-size: 1.5rem; letter-spacing: 1px; }
-        .header p { margin: 5px 0 0; opacity: 0.9; font-size: 0.9rem; }
-
-        /* Container */
+        body { font-family: sans-serif; background: var(--bg); color: var(--text); margin: 0; padding-bottom: 90px; }
+        .header { background: linear-gradient(135deg, var(--primary), var(--accent)); color: white; padding: 30px 20px; text-align: center; border-bottom-left-radius: 40px; border-bottom-right-radius: 40px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         .container { padding: 15px; }
+        
+        /* 氣候區塊 */
+        .weather-card { background: white; border-radius: 20px; padding: 15px; margin-bottom: 20px; border: 2px dashed var(--secondary); }
+        .weather-info { display: flex; justify-content: space-around; align-items: center; }
+        .weather-suggest { font-size: 0.8rem; color: #666; margin-top: 10px; line-height: 1.5; border-top: 1px solid #eee; padding-top: 8px; }
 
-        /* Day Content Control */
-        .day-content { display: none; animation: fadeIn 0.4s ease; }
+        /* 行程卡片 */
+        .day-content { display: none; animation: slideUp 0.3s ease-out; }
         .day-content.active { display: block; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        .event-card { background: var(--white); border-radius: 20px; padding: 18px; margin-bottom: 15px; position: relative; box-shadow: 0 3px 10px rgba(0,0,0,0.02); }
+        .event-card::before { content: ''; position: absolute; left: 0; top: 20%; height: 60%; width: 5px; background: var(--secondary); border-radius: 0 5px 5px 0; }
+        .start-remind { font-size: 0.75rem; color: #FF8B94; font-weight: bold; margin-bottom: 5px; display: block; }
+        .event-time { font-size: 0.85rem; color: #88BDBC; margin-bottom: 5px; }
+        .event-title { font-size: 1.05rem; margin: 0; color: #333; font-weight: 700; }
+        .event-desc { font-size: 0.85rem; color: #888; margin: 8px 0; line-height: 1.4; }
+        
+        .map-link { font-size: 0.8rem; color: #5DA7DB; text-decoration: none; display: inline-flex; align-items: center; gap: 4px; }
 
-        /* Timeline Card Style */
-        .timeline-item {
-            background: white;
-            border-radius: 20px;
-            padding: 15px;
-            margin-bottom: 15px;
-            display: flex;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
-            border-left: 6px solid var(--secondary-color);
-        }
+        /* 底部資訊區 */
+        .hotel-info { background: #F0F4F7; border-radius: 20px; padding: 20px; margin-top: 30px; }
+        .hotel-info h2 { font-size: 1rem; margin: 0 0 10px 0; color: #444; }
+        .rest-list { font-size: 0.85rem; list-style: none; padding: 0; margin: 0; }
+        .rest-item { background: white; padding: 10px; border-radius: 12px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
+        .rest-tag { font-size: 0.7rem; background: #FFD1DC; padding: 2px 6px; border-radius: 10px; color: white; }
 
-        .time {
-            min-width: 85px;
-            font-weight: bold;
-            color: #88BDBC;
-            font-size: 0.85rem;
-            display: flex;
-            align-items: center;
-        }
-
-        .details { flex: 1; }
-        .details h3 { margin: 0; font-size: 1rem; color: #4A4A4A; }
-        .details p { margin: 5px 0 0; font-size: 0.85rem; color: #777; line-height: 1.4; }
-
-        .location-btn {
-            display: inline-block;
-            margin-top: 8px;
-            padding: 4px 12px;
-            background: #F0F0F0;
-            border-radius: 15px;
-            text-decoration: none;
-            color: #666;
-            font-size: 0.75rem;
-        }
-
-        /* Tips Section */
-        .tips-box {
-            background: #E2F0CB;
-            border-radius: 20px;
-            padding: 15px;
-            margin-bottom: 20px;
-        }
-        .tips-box h4 { margin: 0 0 10px 0; color: #6B8E23; font-size: 0.9rem; }
-        .tips-box ul { margin: 0; padding-left: 20px; font-size: 0.8rem; }
-
-        /* Bottom Nav */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            background: white;
-            display: flex;
-            justify-content: space-around;
-            padding: 12px 0;
-            box-shadow: 0 -5px 15px rgba(0,0,0,0.05);
-            border-top-left-radius: 20px;
-            border-top-right-radius: 20px;
-            z-index: 100;
-        }
-
-        .nav-item {
-            text-align: center;
-            color: #CCC;
-            text-decoration: none;
-            flex: 1;
-            transition: 0.3s;
-        }
-
-        .nav-item.active { color: var(--primary-color); }
-        .nav-item i { font-size: 1.2rem; display: block; margin-bottom: 4px; }
-        .nav-item span { font-size: 0.7rem; font-weight: bold; }
-
+        /* 導覽列 */
+        .nav { position: fixed; bottom: 0; width: 100%; background: white; display: flex; justify-content: space-around; padding: 15px 0; box-shadow: 0 -5px 15px rgba(0,0,0,0.05); border-radius: 25px 25px 0 0; }
+        .nav-btn { text-align: center; color: #DDD; text-decoration: none; flex: 1; font-size: 0.7rem; font-weight: bold; }
+        .nav-btn.active { color: var(--primary); }
+        .nav-btn i { font-size: 1.3rem; display: block; margin-bottom: 5px; }
     </style>
 </head>
 <body>
@@ -131,134 +55,121 @@
 </div>
 
 <div class="container">
+    <!-- 氣候建議區塊 -->
+    <div class="weather-card">
+        <div class="weather-info">
+            <div style="text-align:center;"><i class="fa-solid fa-cloud-sun" style="font-size: 2rem; color: #FFD15C;"></i><br><b>21°C - 28°C</b></div>
+            <div style="text-align:center;"><i class="fa-solid fa-umbrella" style="font-size: 1.5rem; color: #B2E2F2;"></i><br><b>降雨機率 40%</b></div>
+        </div>
+        <div class="weather-suggest">
+            <b>💡 氣候建議：</b> 6 月底首爾濕熱，建議穿著排汗透氣的短袖，並隨身攜帶輕便摺疊傘以防午後雷陣雨。室內冷氣強，可幫小孩備一件薄長袖。
+        </div>
+    </div>
+
     <!-- Day 1 -->
     <div id="day1" class="day-content active">
-        <div class="timeline-item">
-            <div class="time">17:10-20:40</div>
-            <div class="details">
-                <h3>✈️ 飛機抵達 (OZ714)</h3>
-                <p>抵達首爾，準備出關</p>
-            </div>
+        <span class="start-remind">⏰ 17:00 準備抵達首爾</span>
+        <div class="event-card">
+            <div class="event-time">17:10 - 20:40</div>
+            <p class="event-title">✈️ 抵達首爾 (OZ714)</p>
+            <p class="event-desc">預計 22:30 搭乘 AREX 機場快線前往弘大。</p>
         </div>
-        <div class="timeline-item">
-            <div class="time">22:30</div>
-            <div class="details">
-                <h3>🚄 機場快線 AREX</h3>
-                <p>搭乘往弘大方向，約50分鐘</p>
-            </div>
-        </div>
-        <div class="timeline-item">
-            <div class="time">00:00</div>
-            <div class="details">
-                <h3>🏨 抵達住宿</h3>
-                <p>弘大站3號出口，步行8-12分鐘完成 Check-in</p>
-                <a href="https://www.google.com/maps/search/Hongdae+Station+Exit+3" class="location-btn"><i class="fa-solid fa-location-dot"></i> 地圖查看</a>
-            </div>
+        <div class="event-card">
+            <div class="event-time">23:20</div>
+            <p class="event-title">📍 抵達弘大站</p>
+            <p class="event-desc">從 3 號出口步行至住宿點。路上有超商可買簡餐。</p>
+            <a href="https://www.google.com/maps/search/Hongik+Univ.+Station+Exit+3" class="map-link"><i class="fa-solid fa-location-dot"></i> 查看導航</a>
         </div>
     </div>
 
     <!-- Day 2 -->
     <div id="day2" class="day-content">
-        <div class="timeline-item">
-            <div class="time">10:00-12:00</div>
-            <div class="details">
-                <h3>🐟 樂天水族館</h3>
-                <p>適合小孩的室內行程</p>
-            </div>
+        <span class="start-remind">⏰ 08:15 門口集合出發</span>
+        <div class="event-card">
+            <div class="event-time">10:00 - 12:00</div>
+            <p class="event-title">🐟 樂天水族館</p>
+            <p class="event-desc">從弘大搭乘 2 號線至蠶室站 (約 70 分鐘)。</p>
+            <a href="https://www.google.com/maps/search/Lotte+World+Aquarium" class="map-link"><i class="fa-solid fa-location-dot"></i> 導航至蠶室</a>
         </div>
-        <div class="timeline-item" style="border-left-color: var(--primary-color);">
-            <div class="time">13:00-17:30</div>
-            <div class="details">
-                <h3>🎡 樂天世界</h3>
-                <p>建議：先玩室內、下午玩戶外。小孩推薦旋轉木馬、室內遊樂區。</p>
-                <a href="https://www.google.com/maps/search/Lotte+World" class="location-btn"><i class="fa-solid fa-location-dot"></i> 前往蠶室站</a>
-            </div>
+        <div class="event-card" style="border-left-color: var(--primary);">
+            <div class="event-time">13:00 - 17:30</div>
+            <p class="event-title">🎡 樂天世界</p>
+            <p class="event-desc">注意：先玩室內、下午玩戶外以防午後陣雨。推薦旋轉木馬與兒童區。</p>
         </div>
     </div>
 
     <!-- Day 3 -->
     <div id="day3" class="day-content">
-        <div class="timeline-item">
-            <div class="time">09:00-12:00</div>
-            <div class="details">
-                <h3>🛍️ 弘大逛街區</h3>
-                <p>LINE FRIENDS、Kakao Friends 旗艦店</p>
-            </div>
+        <span class="start-remind">⏰ 08:50 出發逛街</span>
+        <div class="event-card">
+            <div class="event-time">09:00 - 12:00</div>
+            <p class="event-title">🛍️ 弘大 IP 店巡禮</p>
+            <p class="event-desc">包含 LINE FRIENDS、Kakao Friends。步行距離皆在 10 分鐘內。</p>
+            <a href="https://www.google.com/maps/search/LINE+FRIENDS+Hongdae" class="map-link"><i class="fa-solid fa-location-dot"></i> 導航至 LINE</a>
         </div>
-        <div class="timeline-item" style="border-left-color: #FFD700;">
-            <div class="time">14:00-15:30</div>
-            <div class="details">
-                <h3>🎭 亂打秀 (NANTA)</h3>
-                <p>VIP區座位。建議提早20-30分鐘到場換票。</p>
-                <a href="https://www.google.com/maps/search/Hongdae+Nanta+Theatre" class="location-btn"><i class="fa-solid fa-location-dot"></i> 劇場位置</a>
-            </div>
+        <div class="event-card" style="border-left-color: #FFD700;">
+            <div class="event-time">14:00 - 15:30</div>
+            <p class="event-title">🎭 亂打秀 (NANTA)</p>
+            <p class="event-desc"><b>重點：</b> 建議 13:30 到場換票。VIP 座位已預訂。</p>
+            <a href="https://www.google.com/maps/search/Hongdae+Nanta+Theatre" class="map-link"><i class="fa-solid fa-location-dot"></i> 劇場位置</a>
         </div>
     </div>
 
     <!-- Day 4 -->
     <div id="day4" class="day-content">
-        <div class="timeline-item">
-            <div class="time">08:00-09:30</div>
-            <div class="details">
-                <h3>☕ 早餐時間</h3>
-                <p>推薦：Café Onion, Isaac Toast</p>
-            </div>
+        <span class="start-remind">⏰ 08:00 早餐/退房</span>
+        <div class="event-card">
+            <div class="event-time">08:00 - 10:30</div>
+            <p class="event-title">🥪 早餐與退房</p>
+            <p class="event-desc">推薦：Isaac Toast 或 Café Onion。10:30 準時搭 AREX。</p>
         </div>
-        <div class="timeline-item">
-            <div class="time">14:05</div>
-            <div class="details">
-                <h3>✈️ 回程航班 (OZ713)</h3>
-                <p>10:30 搭乘 AREX 前往機場 T2</p>
-            </div>
+        <div class="event-card">
+            <div class="event-time">14:05</div>
+            <p class="event-title">✈️ 回程航班 (OZ713)</p>
+            <p class="event-desc">預計 11:30 抵達機場辦理報到。</p>
         </div>
     </div>
 
-    <!-- Tips -->
-    <div class="tips-box">
-        <h4>💡 小貼士</h4>
-        <ul>
-            <li>T-money 儲值：Topup T-money card[cite: 1]</li>
-            <li>早餐外帶：Togo / Take out[cite: 1]</li>
-            <li>住宿位於弘大 3 號出口，熱鬧區在 9 號出口[cite: 1]</li>
-            <li>全天步行+地鐵，不使用計程車[cite: 1]</li>
+    <!-- 住宿與深夜餐廳 -->
+    <div class="hotel-info">
+        <h2>🏠 住宿資訊</h2>
+        <p style="font-size:0.85rem; margin-bottom:15px; color:#666;">
+            Donggyo-ro 212-26, 弘大, 首爾<br>
+            (鄰近弘大 3 號出口，延南洞區)
+        </p>
+        <h2>🌙 鄰近深夜美食 (3號出口周邊)</h2>
+        <ul class="rest-list">
+            <li class="rest-item">
+                <div><b>豚壽百 (Donsoobaek)</b><br><small>招牌豬肉湯飯，暖胃首選</small></div>
+                <span class="rest-tag">24H 營業</span>
+            </li>
+            <li class="rest-item">
+                <div><b>青年雞爪 1987</b><br><small>韓式炸雞與下酒菜</small></div>
+                <span class="rest-tag">開至 03:00</span>
+            </li>
+            <li class="rest-item">
+                <div><b>Myth 豬腳</b><br><small>超人氣蒜味豬腳 (9號出口附近)</small></div>
+                <span class="rest-tag">開至 00:00</span>
+            </li>
         </ul>
     </div>
 </div>
 
-<nav class="bottom-nav">
-    <a href="javascript:void(0)" class="nav-item active" onclick="showDay(1, this)">
-        <i class="fa-solid fa-calendar-day"></i><span>D1</span>
-    </a>
-    <a href="javascript:void(0)" class="nav-item" onclick="showDay(2, this)">
-        <i class="fa-solid fa-calendar-day"></i><span>D2</span>
-    </a>
-    <a href="javascript:void(0)" class="nav-item" onclick="showDay(3, this)">
-        <i class="fa-solid fa-calendar-day"></i><span>D3</span>
-    </a>
-    <a href="javascript:void(0)" class="nav-item" onclick="showDay(4, this)">
-        <i class="fa-solid fa-plane-departure"></i><span>D4</span>
-    </a>
+<nav class="nav">
+    <a href="#" class="nav-btn active" onclick="tab(1, this)"><i class="fa-solid fa-1"></i><span>DAY 1</span></a>
+    <a href="#" class="nav-btn" onclick="tab(2, this)"><i class="fa-solid fa-2"></i><span>DAY 2</span></a>
+    <a href="#" class="nav-btn" onclick="tab(3, this)"><i class="fa-solid fa-3"></i><span>DAY 3</span></a>
+    <a href="#" class="nav-btn" onclick="tab(4, this)"><i class="fa-solid fa-plane"></i><span>DAY 4</span></a>
 </nav>
 
 <script>
-    function showDay(day, element) {
-        // 隱藏所有內容
-        document.querySelectorAll('.day-content').forEach(content => {
-            content.classList.remove('active');
-        });
-        // 顯示選擇的內容
-        document.getElementById('day' + day).classList.add('active');
-        
-        // 更新導覽列狀態
-        document.querySelectorAll('.nav-item').forEach(item => {
-            item.classList.remove('active');
-        });
-        element.classList.add('active');
-        
-        // 置頂
+    function tab(d, el) {
+        document.querySelectorAll('.day-content').forEach(c => c.classList.remove('active'));
+        document.getElementById('day' + d).classList.add('active');
+        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+        el.classList.add('active');
         window.scrollTo(0, 0);
     }
 </script>
-
 </body>
 </html>
