@@ -37,37 +37,20 @@
         }
         .header h2 { margin: 0; font-size: 1.4rem; font-weight: 700; letter-spacing: 0.5px; }
         .live-info { font-size: 0.85rem; margin-top: 5px; opacity: 0.9; }
-.weather-banner-wrapper {
-    background: white;
-    border-radius: 20px;
-    padding: 10px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    overflow: hidden; /* 確保圓角不會被切到 */
-    position: relative;
-    z-index: 10;
-}
-/* 隱藏小工具內建的背景，改用我們外層卡片的樣式 */
-.weatherwidget-io {
-    transition: all 0.3s ease;
-}
-        /* 直接顯示氣候卡片 (修正為直接顯示) */
-        .weather-display-box {
-            background-color: var(--card-white);
-            margin: -20px 20px 20px 20px;
-            padding: 15px 20px;
+        .weather-banner-wrapper {
+            background: white;
             border-radius: 20px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            text-decoration: none;
-            color: inherit;
+            padding: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            overflow: hidden; /* 確保圓角不會被切到 */
             position: relative;
             z-index: 10;
         }
-        .weather-temp { font-size: 2.5rem; font-weight: bold; color: rgb(255, 200, 0); }
-        .weather-text { text-align: right; font-size: 0.85rem; color: var(--text-gray); }
-        .weather-hint { position: absolute; bottom: 5px; right: 10px; font-size: 0.65rem; color: #aaa; }
+        /* 隱藏小工具內建的背景，改用我們外層卡片的樣式 */
+        .weatherwidget-io {
+            transition: all 0.3s ease;
+        }
+
 
         .container { padding: 0 15px; }
 
@@ -112,22 +95,21 @@
             line-height: 1.2;
         }
 
-        .event-details { flex: 1; padding-left: 10px; }
+        .event-details { flex: 1; padding-left: 10px; display: flex; flex-direction: column;}
         .remind-tag { color: #ff6874; font-size: 0.7rem; font-weight: bold; }
         .event-title { font-weight: bold; font-size: 1rem; margin: 3px 0; color: #222; }
         .event-desc { font-size: 0.8rem; color: var(--text-gray); line-height: 1.4; }
         .map-link {
-           color: #5DA7DB; 
-             text-decoration: none; 
-            font-size: 0.85em; 
-    display: inline-flex; /* 確保它是 flex 項目 */
-    align-items: center; 
-    border: 1px solid #5da7db62; 
-    padding: 4px 10px;    /* 稍微縮小一點，看起來更精緻 */
-    border-radius: 20px; 
-    background: rgba(45, 148, 212, 0.05);
-    margin-left: auto;
-            }
+            align-self: flex-end; /* 強制自己靠右 */
+            margin-top: 5px;
+            color: #5DA7DB; 
+            text-decoration: none; 
+            font-size: 0.75rem; 
+            border: 1px solid #5da7db62; 
+            padding: 3px 10px;
+            border-radius: 15px; 
+            background: rgba(45, 148, 212, 0.05);
+        }
 
         /* 住宿與精選餐廳 10 間 */
         .info-section { background-color: var(--card-white); border-radius: 25px; padding: 20px; margin-top: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
@@ -310,16 +292,6 @@
                 statusTag.className = "open-tag tag-off";
             }
         });
-    }
-
-    // 氣候直接顯示邏輯
-    async function getSeoulWeather() {
-        try {
-            const res = await fetch('https://api.openweathermap.org/data/2.5/weather?q=Seoul&units=metric&appid=b1b32e97713f0345648f0e560749845d');
-            const data = await res.json();
-            document.getElementById('disp-temp').innerText = Math.round(data.main.temp) + "°C";
-            document.getElementById('disp-cond').innerText = data.weather[0].description.toUpperCase();
-        } catch(e) { document.getElementById('disp-cond').innerText = "點擊看天氣預報"; }
     }
 
     function tab(d, el) {
