@@ -131,7 +131,7 @@
             position: relative;
         }
         
-        /* 這是左側的固定區域，負責撐開空間排版 */
+        /* 左側的時間區域 */
         .event-time { 
             min-width: 80px;
             display: flex;
@@ -140,26 +140,27 @@
             margin-right: 10px;      /* 與右側行程的間距 */  
         } 
          
-        /* 文字外框，只會隨文字長度縮放 */
+        /* 時間小外框，只會隨文字長度縮放 */
         .event-time span {    
             font-size: 0.85rem; 
             font-weight: bold; 
             color: var(--dark-blue); 
     
-            /* 這裡才是畫框的地方 */
+            /* 文字框 */
             border: 1.5px solid var(--dark-blue); 
             padding: 2px 8px;        /* 文字與框的呼吸空間 */
             border-radius: 6px;      /* 圓角 */
     
-            /* 確保它是行內塊，寬度才會剛好包住文字 */
+            /* 確保它是行內塊，寬度剛好包住文字 */
             display: inline-block;
             line-height: 1.2;
         }
 
+        /* 右側內容區域 */
         .event-details { flex: 1; padding-left: 10px; display: flex; flex-direction: column;}
         .remind-tag { color: #ff6874; font-size: 0.7rem; font-weight: bold; }
-        .event-title { font-weight: bold; font-size: 1rem; margin: 3px 0; color: #222; }
-        .event-desc { font-size: 0.8rem; color: var(--text-gray); line-height: 1.4; }
+        .event-title { font-weight: bold; font-size: 1rem; color: #222; }
+        .event-desc { font-size: 0.8rem; margin: 3px 0; color: var(--text-gray); line-height: 1.4; }
         .map-link {
             align-self: flex-end; /* 強制自己靠右 */
             margin-top: 10px;
