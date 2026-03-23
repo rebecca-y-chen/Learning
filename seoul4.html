@@ -86,22 +86,32 @@
             box-shadow: 0 2px 8px rgba(0,0,0,0.02);
             position: relative;
         }
+        
+        /* 這是左側的固定區域，負責撐開空間排版 */
         .event-time { 
-            min-width: 80px; 
+            min-width: 80px;
+            display: flex;
+            justify-content: center; /* 讓文字在框內置中 */
+            align-items: center;
+            margin-right: 10px;      /* 與右側行程的間距 */  
+        } 
+         
+        /* 文字外框，只會隨文字長度縮放 */
+        .event-time span {    
             font-size: 0.85rem; 
             font-weight: bold; 
             color: var(--dark-blue); 
-            display: flex; 
-            align-items: center;
-            justify-content: center; /* 讓文字在框內置中 */
     
-            /* 新增外框相關屬性 */
-            border: 1.5px solid var(--dark-blue); /* 邊框粗細與顏色 */
-            padding: 4px 8px;                     /* 增加內距，讓文字不貼邊 */
-            border-radius: 8px;                   /* 圓角（數字越大越圓） */
-            background-color: rgba(255,255,255,0.8); /* 微微的透明背景，增加層次感 */
-            margin-right: 10px;                   /* 與右側內容保持距離 */
+            /* 這裡才是畫框的地方 */
+            border: 1.5px solid var(--dark-blue); 
+            padding: 2px 8px;        /* 文字與框的呼吸空間 */
+            border-radius: 6px;      /* 圓角 */
+    
+            /* 確保它是行內塊，寬度才會剛好包住文字 */
+            display: inline-block;
+            line-height: 1.2;
         }
+
         .event-details { flex: 1; padding-left: 10px; }
         .remind-tag { color: #ff6874; font-size: 0.7rem; font-weight: bold; }
         .event-title { font-weight: bold; font-size: 1rem; margin: 3px 0; color: #222; }
@@ -169,7 +179,7 @@
 <div class="container">
     <div id="day1" class="day-content active">
          <div class="event-card">
-            <div class="event-time">17:10</div>
+            <div class="event-time"><span>17:10</span></div>
             <div class="event-details">
                 <span class="remind-tag">13:30搭乘機捷[直達車]</span>
                 <p class="event-title">桃園機場 T2 (OZ714)</p>
