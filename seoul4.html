@@ -18,13 +18,34 @@
 
         body { 
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            background-color: var(--bg-gray);
-            color: var(--text-dark);
+            background-color: #333; /* 電腦版背景改深色，突出手機框 */
             margin: 0;
-            padding-bottom: 120px;
-            -webkit-tap-highlight-color: transparent;
+            padding: 0;
+            display: flex;
+            justify-content: center; /* 讓內容在電腦螢幕水平置中 */
         }
 
+        /* 建立一個主要容器，限制寬度 */
+        .main-wrapper {
+            width: 100%;
+            max-width: 500px; /* 限制手機比例的最大寬度 */
+            min-height: 100vh;
+            background-color: var(--bg-gray); /* 恢復原本的灰底 */
+            position: relative;
+            padding-bottom: 120px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5); /* 增加陰影，讓它像一支手機浮在螢幕上 */
+        }        
+
+        /* 修正導覽列，讓它只在容器內固定 */
+        .bottom-nav { 
+            position: fixed; 
+            bottom: 0; 
+            width: 100%; 
+            max-width: 500px; /* 寬度必須跟 wrapper 一致 */
+            background-color: var(--dark-blue); 
+    
+        }
+        
         /* 頂部 Header & 直接顯示的天氣 */
         .header {
             background-color: var(--dark-blue);
@@ -140,7 +161,7 @@
     </style>
 </head>
 <body>
-
+<div class="main-wrapper">
 <div class="header">
     <h2>首爾四天三夜</h2>
     <div id="live-clock" class="live-info">首爾時間載入中...</div>
@@ -212,8 +233,8 @@
         </div>
     </div>   
     
-<div class="info-section">
-    <div class="section-title"><i class="fas fa-utensils"></i> 推薦餐廳</div>
+    <div class="info-section">
+        <div class="section-title"><i class="fas fa-utensils"></i> 推薦餐廳</div>
         <div id="rest-container" class="rest-grid">
             <a href="https://www.google.com/maps/search/Donsoobaek+Hongdae" class="rest-card" data-open="0" data-close="24">
                 <div><b>豚壽百 (豬肉湯飯)</b><br><small>24 小時營業</small></div>
@@ -257,6 +278,7 @@
             </a>
         </div>
     </div>
+</div>
 </div>
 
 <nav class="bottom-nav">
