@@ -166,15 +166,31 @@
             margin-right: 10px;      /* 與右側行程的間距 */  
         } 
         
-        /* 在時間區域下方增加一條垂直線 */
-        .event-card:not(:last-child) .event-time:after {
+       /* 每一張卡片左側都有一個小圓點 */
+        .event-time:before {
             content: "";
             position: absolute;
-            left: 40px;           /* 剛好在 80px 寬度的中間 (80/2) */
-            top: 55px;            /* 從時間文字下方開始 */
-            bottom: -15px;        /* 延伸到下一張卡片的邊界 */
-            border-left: 2px dashed var(--dark-blue); /* 深藍色虛線 */
-            opacity: 0.3;         /* 淡淡的就好，不要搶戲 */
+            left: 40px;            /* 80px 的中間 */
+            top: 50%;
+            transform: translateY(-50%);
+            width: 8px;
+            height: 8px;
+            background-color: var(--accent-blue);
+            border-radius: 50%;    /* 圓點 */
+            z-index: 3;
+            box-shadow: 0 0 0 4px rgba(92, 164, 169, 0.2); /* 外圍淡淡的光暈 */
+        }
+
+        /* 連接點與點之間的實線 */
+        .event-card:not(:last-child):after {
+            content: "";
+            position: absolute;
+            left: 43px;            /* 圓點中心 (40px + 圓點半徑) */
+            top: 60%;              /* 從第一張卡片中間開始 */
+            bottom: -30px;         /* 延伸到下一張卡片 */
+            width: 2px;
+            background-color: var(--accent-blue);
+            opacity: 0.3;          /* 輕微顯現即可 */
             z-index: 1;
         }
 
@@ -197,6 +213,7 @@
             background-color: var(--card-white); /* 增加背景色遮住後方的線 */
             position: relative;
             z-index: 2;
+            margin-left: -15px;    /* 稍微往左推，避開圓點 */
         }
 
         /* 右側內容區域 */
