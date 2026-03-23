@@ -139,7 +139,19 @@
             align-items: center;
             margin-right: 10px;      /* 與右側行程的間距 */  
         } 
-         
+        
+        /* 在時間區域下方增加一條垂直線 */
+        .event-card:not(:last-child) .event-time:after {
+            content: "";
+            position: absolute;
+            left: 40px;           /* 剛好在 80px 寬度的中間 (80/2) */
+            top: 55px;            /* 從時間文字下方開始 */
+            bottom: -15px;        /* 延伸到下一張卡片的邊界 */
+            border-left: 2px dashed var(--dark-blue); /* 深藍色虛線 */
+            opacity: 0.3;         /* 淡淡的就好，不要搶戲 */
+            z-index: 1;
+        }
+
         /* 時間小外框，只會隨文字長度縮放 */
         .event-time span {    
             font-size: 0.85rem; 
@@ -154,6 +166,11 @@
             /* 確保它是行內塊，寬度剛好包住文字 */
             display: inline-block;
             line-height: 1.2;
+
+            /* 確保時間框框在虛線上方，不會被穿透 */
+            background-color: var(--card-white); /* 增加背景色遮住後方的線 */
+            position: relative;
+            z-index: 2;
         }
 
         /* 右側內容區域 */
