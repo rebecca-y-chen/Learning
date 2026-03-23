@@ -199,7 +199,7 @@
             background: rgba(45, 148, 212, 0.05);
         }
 
-        /* 住宿與精選餐廳 10 間 */
+        /* 住宿、餐廳、精選地點 */
         .info-section { background-color: var(--card-white); border-radius: 25px; padding: 20px; margin-top: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
         .section-title { font-size: 1.1rem; font-weight: bold; color: var(--dark-blue); margin-bottom: 15px; display: flex; align-items: center; gap: 8px; }
         .hotel-addr { font-size: 0.8rem; color: var(--text-gray); background: #f9f9f9; padding: 12px; border-radius: 12px; margin-bottom: 15px; border: 1px solid #eee; }
@@ -384,23 +384,35 @@
         const currentHour = parseInt(seoulTimeStr.split(':')[0]);
         document.getElementById('live-clock').innerText = `首爾現在時間: ${seoulTimeStr}`;
 
-        document.querySelectorAll('.rest-card').forEach(card => {
+        const container = document.getElementById('rest-container');
+        const cards = Array.from(container.querySelectorAll('.rest-card'));
+
+        cards.forEach(card => {
             const open = parseInt(card.dataset.open);
             const close = parseInt(card.dataset.close);
             const statusTag = card.querySelector('.open-tag');
-            
+        
+            // 判斷是否營業 (考慮跨夜營業情況)
             let isOpen = (close > open) ? (currentHour >= open && currentHour < close) : (currentHour >= open || currentHour < close);
 
             if (isOpen) {
                 card.classList.remove('rest-closed');
                 statusTag.innerText = "● 營業中";
                 statusTag.className = "open-tag tag-on";
+                card.dataset.order = 1; // 營業中設為優先
             } else {
                 card.classList.add('rest-closed');
                 statusTag.innerText = "○ 休息中";
                 statusTag.className = "open-tag tag-off";
+                card.dataset.order = 2; // 休息中往後排
             }
         });
+
+        // --- 新增：自動排序邏輯 ---
+        cards.sort((a, b) => a.dataset.order - b.dataset.order);
+    
+        // 重新依序加入容器中
+        cards.forEach(card => container.appendChild(card));
     }
 
     function tab(d, el) {
