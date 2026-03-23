@@ -101,7 +101,7 @@
         .event-desc { font-size: 0.8rem; color: var(--text-gray); line-height: 1.4; }
         .map-link {
             align-self: flex-end; /* 強制自己靠右 */
-            margin-top: 5px;
+            margin-top: 10px;
             color: #5DA7DB; 
             text-decoration: none; 
             font-size: 0.75rem; 
@@ -169,7 +169,7 @@
             </div>
         </div>
         <div class="event-card">
-            <div class="event-time">20:40</div>
+            <div class="event-time"><span>20:40</span></div>
             <div class="event-details">
                 <span class="remind-tag">抵達韓國</span>
                 <p class="event-title">仁川機場 T2 (OZ714)</p>
@@ -177,7 +177,7 @@
             </div>
         </div>
         <div class="event-card">
-            <div class="event-time">22:30</div>
+            <div class="event-time"><span>22:30</span></div>
             <div class="event-details">
                 <span class="remind-tag">🟦All-stop Train</span>
                 <p class="event-title">B1搭乘AREX</p>
@@ -185,7 +185,7 @@
             </div>
         </div>
         <div class="event-card">
-            <div class="event-time">23:20</div>
+            <div class="event-time"><span>23:20</span></div>
             <div class="event-details">
                 <span class="remind-tag">弘大站3號出口</span>
                 <p class="event-title">步行前往Daol Guesthouse</p>
@@ -257,7 +257,6 @@
             </a>
         </div>
     </div>
-    </div>
 </div>
 
 <nav class="bottom-nav">
@@ -304,7 +303,6 @@
 
     setInterval(updateLiveStatus, 10000);
     updateLiveStatus();
-    getSeoulWeather();
 </script>
 
 </body>
