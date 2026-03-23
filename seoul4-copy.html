@@ -97,25 +97,27 @@
         /* 當日主題標題樣式 */
         .day-theme-header {
             display: flex;
-            align-items: center;
-            margin: 20px 5px 15px 5px; /* 上、右、下、左的間距 */
-            padding-left: 10px;
-            border-left: 4px solid var(--accent-blue); /* 左側的裝飾粗線 */
-            animation: livelyIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) backwards;
+            align-items: baseline; /* 讓大字跟小字的底部對齊，視覺更穩 */
+            margin: 20px 5px 18px 5px; /* 上、右、下、左的間距 */
+            padding-left: 15px;
+            border-left: 6px solid var(--accent-blue); /* 左側的裝飾粗線 */
+            animation: livelyIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) backwards;
         }
 
         .day-theme-header h3 {
             margin: 0;
-            font-size: 1.1rem;
+            font-size: 2rem;
             color: var(--dark-blue);
-            letter-spacing: 1px;
+            font-weight: 800; /* 加到最粗 */
+            letter-spacing: -0.5px; /* 大字稍微縮緊一點點會更有質感 */
         }
 
         .day-theme-header .theme-route {
-            margin-left: 8px;
-            font-size: 0.9rem;
+            margin-left: 10px;
+            font-size: 1.1rem;
             color: var(--text-gray);
             font-weight: normal;
+            opacity: 0.8;
         }       
 
         /* 行程分頁內容控制 */
@@ -275,7 +277,7 @@
         <!-- 當日主題 -->
         <div class="day-theme-header">
             <h3>Day 1</h3>
-            <span class="theme-route">｜ 抵達 → 弘大入住</span>
+            <span class="theme-route">抵達 → 弘大入住</span>
         </div>
 
         <div class="event-card">
