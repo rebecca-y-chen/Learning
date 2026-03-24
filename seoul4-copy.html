@@ -199,6 +199,38 @@
             background: rgba(45, 148, 212, 0.05);
         }
 
+        /* 行前準備 Checkbox 樣式 */
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            background: #f9f9f9;
+            border-radius: 12px;
+            margin-bottom: 8px;
+            border: 1px solid #eee;
+            transition: 0.3s;
+        }
+
+        /* 讓勾選後的文字變灰色並加刪除線 */
+        .checklist-item input[type="checkbox"]:checked + span {
+            color: #bbb;
+            text-decoration: line-through;
+        }
+
+        .checklist-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-right: 12px;
+            accent-color: var(--accent-blue); /* 勾選後的顏色 */
+            cursor: pointer;
+        }
+
+        .checklist-item span {
+            font-size: 0.9rem;
+            color: var(--text-dark);
+            font-weight: 500;
+        }
+
         /* 住宿、餐廳、精選地點 */
         .info-section { background-color: var(--card-white); border-radius: 25px; padding: 20px; margin-top: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
         .section-title { font-size: 1.1rem; font-weight: bold; color: var(--dark-blue); margin-bottom: 15px; display: flex; align-items: center; gap: 8px; }
@@ -262,7 +294,7 @@
         <!-- 當日主題 -->
         <div class="day-theme-header">
             <h3>Day 1</h3>
-            <span class="theme-route">出發 ⇢ 弘大站</span>
+            <span class="theme-route">出發 → 弘大站</span>
         </div>
 
         <!-- 行程卡片 -->
@@ -298,6 +330,17 @@
                 <a href="https://maps.app.goo.gl/AjxpuZ7QKcM1tovu9" class="map-link"><i class="fas fa-location-arrow"></i> 開啟地圖導航</a>
             </div>
         </div>
+
+        <!-- 行前準備 -->
+        <div class="info-section" style="margin-top: 10px;">
+            <div class="section-title"><i class="fas fa-clipboard-check"></i> 行前準備</div>
+            <div class="checklist-container">
+                <label class="checklist-item"><input type="checkbox"> <span>護照、Q-CODE 截圖</span></label>
+                <label class="checklist-item"><input type="checkbox"> <span>確認 Daughter 兒童交通卡優惠設定</span></label>
+                <label class="checklist-item"><input type="checkbox"> <span>WOWPASS 儲值金確認</span></label>
+            </div>
+            </div>
+        </div>
     </div>
 
     <!-- 第二天 -->
@@ -305,7 +348,7 @@
         <!-- 當日主題 -->
         <div class="day-theme-header">
             <h3>Day 2</h3>
-            <span class="theme-route">蠶室 ⇢ 樂天世界</span>
+            <span class="theme-route">蠶室(樂天區)</span>
         </div>
 
         <!-- 行程卡片 -->
@@ -313,11 +356,53 @@
             <div class="event-time"><span>08:30</span></div>
             <div class="event-details">
                 <span class="remind-tag">車程約50~60min</span>
-                <p class="event-title">樂天水族館</p>
+                <p class="event-title">前往蠶室站</p>
                 <p class="event-desc">弘大站 → 2號線 → 蠶室站</p>
             </div>
         </div>
-        
+        <div class="event-card">
+            <div class="event-time"><span>10:00</span></div>
+            <div class="event-details">
+                <span class="remind-tag"></span>
+                <p class="event-title">樂天水族館</p>
+                <p class="event-desc">大約停留2小時</p>
+            </div>
+        </div>
+        <div class="event-card">
+            <div class="event-time"><span>12:00</span></div>
+            <div class="event-details">
+                <span class="remind-tag"></span>
+                <p class="event-title">樂天mall吃午餐</p>
+                <p class="event-desc"></p>
+            </div>
+        </div>
+        <div class="event-card">
+            <div class="event-time"><span>13:00</span></div>
+            <div class="event-details">
+                <span class="remind-tag"></span>
+                <p class="event-title">樂天世界</p>
+                <p class="event-desc"></p>
+            </div>
+        </div>
+        <div class="event-card">
+            <div class="event-time"><span>18:00</span></div>
+            <div class="event-details">
+                <span class="remind-tag">車程約50~60min</span>
+                <p class="event-title">返回弘大站</p>
+                <p class="event-desc">蠶室站 → 2號線 → 弘大站</p>
+            </div>
+        </div>
+
+        <!-- 行前準備 -->
+        <div class="info-section" style="margin-top: 10px;">
+            <div class="section-title"><i class="fas fa-clipboard-check"></i> 行前準備</div>
+            <div class="checklist-container">
+                <label class="checklist-item"><input type="checkbox"> <span>護照、Q-CODE 截圖</span></label>
+                <label class="checklist-item"><input type="checkbox"> <span>確認 Daughter 兒童交通卡優惠設定</span></label>
+                <label class="checklist-item"><input type="checkbox"> <span>WOWPASS 儲值金確認</span></label>
+            </div>
+            </div>
+        </div>
     </div>
 
     <!-- 第三天 -->
@@ -335,6 +420,17 @@
                 <span class="remind-tag">車程約50~60min</span>
                 <p class="event-title">樂天水族館</p>
                 <p class="event-desc">弘大站 → 2號線 → 蠶室站</p>
+            </div>
+        </div>
+
+        <!-- 行前準備 -->
+        <div class="info-section" style="margin-top: 10px;">
+            <div class="section-title"><i class="fas fa-clipboard-check"></i> 行前準備</div>
+            <div class="checklist-container">
+                <label class="checklist-item"><input type="checkbox"> <span>護照、Q-CODE 截圖</span></label>
+                <label class="checklist-item"><input type="checkbox"> <span>確認 Daughter 兒童交通卡優惠設定</span></label>
+                <label class="checklist-item"><input type="checkbox"> <span>WOWPASS 儲值金確認</span></label>
+            </div>
             </div>
         </div>
         
@@ -358,6 +454,16 @@
             </div>
         </div>
         
+        <!-- 行前準備 -->
+        <div class="info-section" style="margin-top: 10px;">
+            <div class="section-title"><i class="fas fa-clipboard-check"></i> 行前準備</div>
+            <div class="checklist-container">
+                <label class="checklist-item"><input type="checkbox"> <span>護照、Q-CODE 截圖</span></label>
+                <label class="checklist-item"><input type="checkbox"> <span>確認 Daughter 兒童交通卡優惠設定</span></label>
+                <label class="checklist-item"><input type="checkbox"> <span>WOWPASS 儲值金確認</span></label>
+            </div>
+            </div>
+        </div>
     </div>
 
     <!-- 住宿地點 -->
@@ -510,6 +616,33 @@
             tipElement.innerText = "無法取得即時氣溫，建議攜帶輕便外套備用。";
         }
     }
+
+    // 儲存所有 checkbox 狀態
+    function saveChecklist() {
+        const checks = {};
+        document.querySelectorAll('.checklist-item input').forEach((cb, index) => {
+            checks[index] = cb.checked;
+        });
+        localStorage.setItem('seoul_checklist', JSON.stringify(checks));
+    }
+
+    // 載入儲存的狀態
+    function loadChecklist() {
+        const saved = JSON.parse(localStorage.getItem('seoul_checklist'));
+        if (saved) {
+            document.querySelectorAll('.checklist-item input').forEach((cb, index) => {
+                cb.checked = saved[index] || false;
+            });
+        }
+    }
+
+    // 監聽所有點擊事件
+    document.addEventListener('change', (e) => {
+        if (e.target.type === 'checkbox') saveChecklist();
+    });
+
+    // 頁面開啟時載入
+    window.addEventListener('load', loadChecklist);
 
     // 頁面載入後執行
     updateWeatherTip();
