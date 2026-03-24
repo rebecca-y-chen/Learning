@@ -208,13 +208,14 @@
             border-radius: 12px;
             margin-bottom: 8px;
             border: 1px solid #eee;
-            transition: 0.3s;
+            transition: transform 0.4s ease, opacity 0.3s;
         }
 
         /* 讓勾選後的文字變灰色並加刪除線 */
         .checklist-item input[type="checkbox"]:checked + span {
             color: #bbb;
             text-decoration: line-through;
+            opacity: 0.6; /* 讓字體更淡一點 */
         }
 
         .checklist-item input[type="checkbox"] {
@@ -396,9 +397,8 @@
         <div class="info-section" style="margin-top: 10px;">
             <div class="section-title"><i class="fas fa-clipboard-check"></i> 行前準備</div>
             <div class="checklist-container">
-                <label class="checklist-item"><input type="checkbox"> <span>護照、Q-CODE 截圖</span></label>
-                <label class="checklist-item"><input type="checkbox"> <span>確認 Daughter 兒童交通卡優惠設定</span></label>
-                <label class="checklist-item"><input type="checkbox"> <span>WOWPASS 儲值金確認</span></label>
+                <label class="checklist-item"><input type="checkbox"> <span>E-Arrival QrCode截圖</span></label>
+                <label class="checklist-item"><input type="checkbox"> <span>確認自助入住</span></label>
             </div>
         </div>
     </div>
@@ -639,6 +639,37 @@
 
     // 頁面開啟時載入
     window.addEventListener('load', loadChecklist);
+
+    // 讓 Checkbox 勾選後自動置底的排序功能
+    function reorderChecklist(container) {
+        const items = Array.from(container.querySelectorAll('.checklist-item'));
+        
+        // 排序邏輯：未勾選的在前面 (false < true)
+        items.sort((a, b) => {
+            const aChecked = a.querySelector('input').checked;
+            const bChecked = b.querySelector('input').checked;
+            return aChecked - bChecked;
+        });
+
+        // 重新依序加入容器
+        items.forEach(item => container.appendChild(item));
+    }
+
+    // 監聽所有的點擊事件
+    document.addEventListener('change', (e) => {
+        // 如果點擊的是行前準備的 checkbox
+        if (e.target.closest('.checklist-item')) {
+            const container = e.target.closest('.checklist-container');
+            
+            // 先執行原本的儲存功能 (如果你有加的話)
+            if (typeof saveChecklist === 'function') saveChecklist();
+            
+            // 執行排序動畫效果 (稍微延遲一下，讓使用者看清楚勾選動作)
+            setTimeout(() => {
+                reorderChecklist(container);
+            }, 300); 
+        }
+    });
 
     // 頁面載入後執行
     updateWeatherTip();
