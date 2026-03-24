@@ -631,7 +631,6 @@
         const options = { timeZone: 'Asia/Seoul', hour: '2-digit', minute: '2-digit', hour12: false };
         const seoulTimeStr = new Intl.DateTimeFormat('zh-TW', options).format(now);
         
-        // 解析目前時間為小數點格式 (例如 08:30 -> 8.5)
         const [h, m] = seoulTimeStr.split(':').map(Number);
         const currentTotalTime = h + (m / 60); 
 
@@ -640,6 +639,7 @@
         const containers = document.querySelectorAll('.rest-container');
 
         containers.forEach(container => {
+            // 1. 取得該容器內的所有卡片
             const cards = Array.from(container.querySelectorAll('.rest-card'));
 
             cards.forEach(card => {
@@ -648,21 +648,15 @@
                 const statusTag = card.querySelector('.open-tag');
                 const distTag = card.querySelector('.dist-tag');
 
+                // 營業狀態判斷
                 let isOpen = false;
                 for (let i = 0; i < opens.length; i++) {
                     const op = opens[i];
                     const cl = closes[i];
-
                     if (cl > op) {
-                        if (currentTotalTime >= op && currentTotalTime < cl) { 
-                            isOpen = true; 
-                            break; 
-                        }
+                        if (currentTotalTime >= op && currentTotalTime < cl) { isOpen = true; break; }
                     } else { 
-                        if (currentTotalTime >= op || currentTotalTime < cl) { 
-                            isOpen = true; 
-                            break; 
-                        }
+                        if (currentTotalTime >= op || currentTotalTime < cl) { isOpen = true; break; }
                     }
                 }
 
@@ -678,6 +672,7 @@
                     card.dataset.order = 2;
                 }
 
+                // 距離計算邏輯
                 if (userLocation && card.dataset.lat) {
                     const d = getDistance(
                         userLocation.lat,
@@ -696,24 +691,17 @@
                 }
             });
 
-    // 排序（每個區塊各自排序）
-    cards.sort((a, b) => {
-        if (a.dataset.order !== b.dataset.order) {
-            return a.dataset.order - b.dataset.order;
-        }
-        return parseFloat(a.dataset.distance) - parseFloat(b.dataset.distance);
-    });
+            // 2. 在容器內部進行排序 (營業優先 -> 距離優先)
+            cards.sort((a, b) => {
+                if (a.dataset.order !== b.dataset.order) {
+                    return a.dataset.order - b.dataset.order;
+                }
+                return parseFloat(a.dataset.distance) - parseFloat(b.dataset.distance);
+            });
 
-    cards.forEach(card => container.appendChild(card));
-});
-
-        // 排序：先看營業狀態(order)，再看距離(distance)
-        cards.sort((a, b) => {
-            if (a.dataset.order !== b.dataset.order) return a.dataset.order - b.dataset.order;
-            return parseFloat(a.dataset.distance) - parseFloat(b.dataset.distance);
+            // 3. 重新附加排序後的卡片
+            cards.forEach(card => container.appendChild(card));
         });
-
-        cards.forEach(card => container.appendChild(card));
     }
 
     // 初始化即時定位追蹤
