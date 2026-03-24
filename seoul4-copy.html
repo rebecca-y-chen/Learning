@@ -547,7 +547,7 @@
     <!-- 推薦餐廳 -->
     <div class="info-section">
         <div class="section-title"><i class="fas fa-utensils"></i> 推薦餐廳</div>
-        <div id="rest-container" class="rest-grid">
+        <div class="rest-container rest-grid">
             <a href="https://maps.app.goo.gl/nZkH2E1w561TyLC4A" class="rest-card" data-open="0" data-close="24" data-lat="37.5571" data-lng="126.9251">
                 <div><b>豚壽百</b><br><small>豬肉湯飯 ⭐️4.2 <span class="price-tag">₩10,000-20,000</span> <span class="dist-tag"></span></small></div>
                 <span class="open-tag status-on">● 營業中</span>
@@ -594,7 +594,7 @@
     <!-- 精選店家 -->
     <div class="info-section">
         <div class="section-title"><i class="fa-solid fa-store"></i> 精選店家</div>
-        <div id="rest-container" class="rest-grid">
+        <div id="featured-container" class="rest-grid">
             <a href="https://maps.app.goo.gl/o6Zz1ETkNJwfgB5A8" class="rest-card" data-open="11" data-close="23" data-lat="37.5596" data-lng="126.9245">
                 <div><b>Yeonnam Pharmacy</b><br><small>藥房 ⭐️4.3 <span class="dist-tag"></span></small></div>
                 <span class="open-tag">檢測中</span>
@@ -637,58 +637,75 @@
 
         document.getElementById('live-clock').innerText = `首爾現在時間: ${seoulTimeStr}`;
 
-        const container = document.getElementById('rest-container');
-        const cards = Array.from(container.querySelectorAll('.rest-card'));
+        const containers = document.querySelectorAll('.rest-container');
 
-        cards.forEach(card => {
-            // 1. 改成可以處理多個數字 (例如 "11, 17")
-            const opens = card.dataset.open.split(',').map(s => parseFloat(s.trim()));
-            const closes = card.dataset.close.split(',').map(s => parseFloat(s.trim()));
-            const statusTag = card.querySelector('.open-tag');
-            const distTag = card.querySelector('.dist-tag');
-        
-            // 2. 預設是關門，然後逐一檢查有沒有落在任何一個營業時段內
-            let isOpen = false;
-            for (let i = 0; i < opens.length; i++) {
-                const op = opens[i];
-                const cl = closes[i];
+        containers.forEach(container => {
+            const cards = Array.from(container.querySelectorAll('.rest-card'));
 
-                if (cl > op) {
-                    // 一般時段 (例如 11.5 到 15)
-                    if (currentTotalTime >= op && currentTotalTime < cl) { 
-                        isOpen = true; 
-                        break; 
-                    }
-                } else { 
-                    // 跨夜時段 (例如 22 到 2)
-                    if (currentTotalTime >= op || currentTotalTime < cl) { 
-                        isOpen = true; 
-                        break; 
+            cards.forEach(card => {
+                const opens = card.dataset.open.split(',').map(s => parseFloat(s.trim()));
+                const closes = card.dataset.close.split(',').map(s => parseFloat(s.trim()));
+                const statusTag = card.querySelector('.open-tag');
+                const distTag = card.querySelector('.dist-tag');
+
+                let isOpen = false;
+                for (let i = 0; i < opens.length; i++) {
+                    const op = opens[i];
+                    const cl = closes[i];
+
+                    if (cl > op) {
+                        if (currentTotalTime >= op && currentTotalTime < cl) { 
+                            isOpen = true; 
+                            break; 
+                        }
+                    } else { 
+                        if (currentTotalTime >= op || currentTotalTime < cl) { 
+                            isOpen = true; 
+                            break; 
+                        }
                     }
                 }
-            }
 
-            if (isOpen) {
-                card.classList.remove('rest-closed');
-                statusTag.innerText = "● 營業中";
-                statusTag.className = "open-tag tag-on";
-                card.dataset.order = 1;
-            } else {
-                card.classList.add('rest-closed');
-                statusTag.innerText = "○ 休息中";
-                statusTag.className = "open-tag tag-off";
-                card.dataset.order = 2;
-            }
+                if (isOpen) {
+                    card.classList.remove('rest-closed');
+                    statusTag.innerText = "● 營業中";
+                    statusTag.className = "open-tag tag-on";
+                    card.dataset.order = 1;
+                } else {
+                    card.classList.add('rest-closed');
+                    statusTag.innerText = "○ 休息中";
+                    statusTag.className = "open-tag tag-off";
+                    card.dataset.order = 2;
+                }
 
-            // 計算距離並顯示
-            if (userLocation && card.dataset.lat) {
-                const d = getDistance(userLocation.lat, userLocation.lng, parseFloat(card.dataset.lat), parseFloat(card.dataset.lng));
-                if (distTag) distTag.innerText = d < 1 ? `📍 ${(d * 1000).toFixed(0)}m` : `📍 ${d.toFixed(1)}km`;
-                card.dataset.distance = d;
-            } else {
-                card.dataset.distance = 9999;
-            }
-        });
+                if (userLocation && card.dataset.lat) {
+                    const d = getDistance(
+                        userLocation.lat,
+                        userLocation.lng,
+                        parseFloat(card.dataset.lat),
+                        parseFloat(card.dataset.lng)
+                    );
+                    if (distTag) {
+                        distTag.innerText = d < 1 
+                            ? `📍 ${(d * 1000).toFixed(0)}m` 
+                            : `📍 ${d.toFixed(1)}km`;
+                    }
+                    card.dataset.distance = d;
+                } else {
+                    card.dataset.distance = 9999;
+                }
+            });
+
+    // 排序（每個區塊各自排序）
+    cards.sort((a, b) => {
+        if (a.dataset.order !== b.dataset.order) {
+            return a.dataset.order - b.dataset.order;
+        }
+        return parseFloat(a.dataset.distance) - parseFloat(b.dataset.distance);
+    });
+
+    cards.forEach(card => container.appendChild(card));
+});
 
         // 排序：先看營業狀態(order)，再看距離(distance)
         cards.sort((a, b) => {
