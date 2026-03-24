@@ -794,7 +794,8 @@
     // 頁面開啟時載入
    window.addEventListener('load', () => {
         loadChecklist();
-        fetchWeather();
+        updateWeatherTip();
+        updateLiveStatus();
         initLocation(); // 這裡啟動後，watchPosition 就會一直掛著監聽位置了
     });
 
