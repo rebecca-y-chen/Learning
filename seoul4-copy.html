@@ -255,6 +255,15 @@
             border-radius: 4px;
         }
 
+        .dist-tag {
+            color: var(--accent-blue);
+            font-size: 0.7rem;
+            background: rgba(92, 164, 169, 0.1);
+            padding: 1px 5px;
+            border-radius: 4px;
+            margin-left: 5px;
+        }
+
         /* 復刻深藍導覽列 */
         .bottom-nav { 
             position: fixed; bottom: 0; width: 100%; background-color: var(--dark-blue); 
@@ -547,8 +556,8 @@
     <div class="info-section">
         <div class="section-title"><i class="fas fa-utensils"></i> 推薦餐廳</div>
         <div id="rest-container" class="rest-grid">
-            <a href="https://maps.app.goo.gl/nZkH2E1w561TyLC4A" class="rest-card" data-open="0" data-close="24">
-                <div><b>豚壽百</b><br><small>豬肉湯飯 ⭐️4.2 <span class="price-tag">₩10,000-20,000</span></small></div>
+            <a href="https://maps.app.goo.gl/nZkH2E1w561TyLC4A" class="rest-card" data-open="0" data-close="24" data-lat="37.5571" data-lng="126.9251">
+                <div><b>豚壽百</b><br><small>豬肉湯飯 ⭐️4.2 <span class="price-tag">₩10,000-20,000</span> <span class="dist-tag"></span></small></div>
                 <span class="open-tag status-on">● 營業中</span>
             </a>
             <a href="https://maps.app.goo.gl/YTHMQJJL7w4L2z7d8" class="rest-card" data-open="8.5" data-close="20">
@@ -604,42 +613,93 @@
 </nav>
 
 <script>
-    function updateLiveStatus() {
+    // 定義全域變數
+    let userLocation = null;
+
+    // 計算距離的公式
+    function getDistance(lat1, lon1, lat2, lon2) {
+        const R = 6371; 
+        const dLat = (lat2 - lat1) * Math.PI / 180;
+        const dLon = (lon2 - lon1) * Math.PI / 180;
+        const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                Math.sin(dLon / 2) * Math.sin(dLon / 2);
+        return R * (2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)));
+    }
+
+   function updateLiveStatus() {
         const now = new Date();
         const options = { timeZone: 'Asia/Seoul', hour: '2-digit', minute: '2-digit', hour12: false };
         const seoulTimeStr = new Intl.DateTimeFormat('zh-TW', options).format(now);
-        const currentHour = parseInt(seoulTimeStr.split(':')[0]);
+        
+        // 解析目前時間為小數點格式 (例如 08:30 -> 8.5)
+        const [h, m] = seoulTimeStr.split(':').map(Number);
+        const currentTotalTime = h + (m / 60); 
+
         document.getElementById('live-clock').innerText = `首爾現在時間: ${seoulTimeStr}`;
 
         const container = document.getElementById('rest-container');
         const cards = Array.from(container.querySelectorAll('.rest-card'));
 
         cards.forEach(card => {
+            // 使用 parseFloat 讀取 8.5 這種數值
             const open = parseFloat(card.dataset.open);
             const close = parseFloat(card.dataset.close);
             const statusTag = card.querySelector('.open-tag');
+            const distTag = card.querySelector('.dist-tag');
         
-            // 判斷是否營業 (考慮跨夜營業情況)
-            let isOpen = (close > open) ? (currentHour >= open && currentHour < close) : (currentHour >= open || currentHour < close);
+            // 營業判斷
+            let isOpen = (close > open) 
+                ? (currentTotalTime >= open && currentTotalTime < close) 
+                : (currentTotalTime >= open || currentTotalTime < close);
 
             if (isOpen) {
                 card.classList.remove('rest-closed');
                 statusTag.innerText = "● 營業中";
                 statusTag.className = "open-tag tag-on";
-                card.dataset.order = 1; // 營業中設為優先
+                card.dataset.order = 1;
             } else {
                 card.classList.add('rest-closed');
                 statusTag.innerText = "○ 休息中";
                 statusTag.className = "open-tag tag-off";
-                card.dataset.order = 2; // 休息中往後排
+                card.dataset.order = 2;
+            }
+
+            // 計算距離並顯示
+            if (userLocation && card.dataset.lat) {
+                const d = getDistance(userLocation.lat, userLocation.lng, parseFloat(card.dataset.lat), parseFloat(card.dataset.lng));
+                if (distTag) distTag.innerText = d < 1 ? `📍 ${(d * 1000).toFixed(0)}m` : `📍 ${d.toFixed(1)}km`;
+                card.dataset.distance = d;
+            } else {
+                card.dataset.distance = 9999;
             }
         });
 
-        // --- 新增：自動排序邏輯 ---
-        cards.sort((a, b) => a.dataset.order - b.dataset.order);
-    
-        // 重新依序加入容器中
+        // 排序：先看營業狀態(order)，再看距離(distance)
+        cards.sort((a, b) => {
+            if (a.dataset.order !== b.dataset.order) return a.dataset.order - b.dataset.order;
+            return parseFloat(a.dataset.distance) - parseFloat(b.dataset.distance);
+        });
+
         cards.forEach(card => container.appendChild(card));
+    }
+
+    // 初始化 GPS 定位的功能
+    function initLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(position => {
+                userLocation = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
+                updateLiveStatus();
+            }, () => {
+                console.log("定位失敗，將使用預設排序");
+                updateLiveStatus();
+            }, { enableHighAccuracy: true });
+        } else {
+            updateLiveStatus();
+        }
     }
 
     function tab(d, el) {
@@ -711,7 +771,10 @@
     });
 
     // 頁面開啟時載入
-    window.addEventListener('load', loadChecklist);
+    window.addEventListener('load', () => {
+        loadChecklist();
+        initLocation(); // 啟動定位
+    });
 
     // 讓 Checkbox 勾選後自動置底的排序功能
     function reorderChecklist(container) {
