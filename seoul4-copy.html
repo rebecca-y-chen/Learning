@@ -365,6 +365,8 @@
                 <span class="remind-tag"></span>
                 <p class="event-title">樂天水族館</p>
                 <p class="event-desc">大約停留2小時</p>
+                <a href="https://maps.app.goo.gl/AjxpuZ7QKcM1tovu9" class="map-link"><i class="fas fa-location-arrow"></i> 開啟地圖導航</a>
+                
             </div>
         </div>
         <div class="event-card">
@@ -538,8 +540,8 @@
     <div class="info-section">
         <div class="section-title"><i class="fas fa-utensils"></i> 推薦餐廳</div>
         <div id="rest-container" class="rest-grid">
-            <a href="https://www.google.com/maps/search/Donsoobaek+Hongdae" class="rest-card" data-open="0" data-close="24">
-                <div><b>豚壽百 (豬肉湯飯)</b><br><small>24 小時營業</small></div>
+            <a href="https://maps.app.goo.gl/YTHMQJJL7w4L2z7d8" class="rest-card" data-open="8.5" data-close="20">
+                <div><b>CAFE THEN AND THERE</b><br><small>早午餐 ⭐️4.8</small></div>
                 <span class="open-tag status-on">● 營業中</span>
             </a>
             <a href="https://maps.app.goo.gl/SnLv5puiNpSxChqK9" class="rest-card" data-open="11" data-close="24">
@@ -602,8 +604,8 @@
         const cards = Array.from(container.querySelectorAll('.rest-card'));
 
         cards.forEach(card => {
-            const open = parseInt(card.dataset.open);
-            const close = parseInt(card.dataset.close);
+            const open = parseFloat(card.dataset.open);
+            const close = parseFloat(card.dataset.close);
             const statusTag = card.querySelector('.open-tag');
         
             // 判斷是否營業 (考慮跨夜營業情況)
