@@ -184,19 +184,22 @@
         }
 
         /* 右側內容區域 */
-        .event-details { flex: 1; padding-left: 10px; display: grid; grid-template-rows: 0.9rem 1.3rem 0.9rem; align-items: center; min-height: 60px; }
+        .event-details { flex: 1; padding-left: 10px; display: grid; grid-template-rows: 0.9rem 1.3rem 0.9rem; align-items: center; min-height: 60px; position: relative;}
         .remind-tag { grid-row: 1; color: #ff6874; font-size: 0.7rem; font-weight: bold; margin: 0;  line-height: 1;}
         .event-title { grid-row: 2; font-weight: bold; font-size: 1rem; color: #222; margin: 0; line-height: 1.2; }
         .event-desc { grid-row: 3; font-size: 0.7rem; margin: 0; color: var(--text-gray); line-height: 1; }
         .map-link {
-            align-self: flex-end; /* 強制自己靠右 */
+            position: absolute;   /* 關鍵：絕對定位 */
+            right: 0;             /* 靠右 */
+            bottom: 0;            /* 靠下 */
             color: #5DA7DB; 
             text-decoration: none; 
-            font-size: 0.75rem; 
+            font-size: 0.7rem;    /* 稍微縮小一點點，避免擠到文字 */
             border: 1px solid #5da7db62; 
-            padding: 3px 10px;
+            padding: 2px 8px;     /* 稍微縮小內距 */
             border-radius: 15px; 
             background: rgba(45, 148, 212, 0.05);
+            white-space: nowrap;  /* 防止按鈕文字換行 */
         }
 
         /* 行前準備 Checkbox 樣式 */
