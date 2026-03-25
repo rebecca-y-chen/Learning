@@ -856,40 +856,34 @@
         }
     }
 
-    // 儲存所有 checkbox 狀態
+    // 1. 儲存所有 checkbox 狀態 (改用文字內容為 Key，避免排序後對錯項)
     function saveChecklist() {
         const checks = {};
-        document.querySelectorAll('.checklist-item input').forEach((cb, index) => {
-            checks[index] = cb.checked;
+        document.querySelectorAll('.checklist-item').forEach((item) => {
+            const text = item.querySelector('span').innerText.trim();
+            const isChecked = item.querySelector('input').checked;
+            checks[text] = isChecked;
         });
-        localStorage.setItem('seoul_checklist', JSON.stringify(checks));
+        localStorage.setItem('seoul_checklist_v2', JSON.stringify(checks));
     }
 
-    // 載入儲存的狀態
+    // 2. 載入儲存的狀態
     function loadChecklist() {
-        const saved = JSON.parse(localStorage.getItem('seoul_checklist'));
+        const saved = JSON.parse(localStorage.getItem('seoul_checklist_v2'));
         if (saved) {
-            document.querySelectorAll('.checklist-item input').forEach((cb, index) => {
-                cb.checked = saved[index] || false;
+            document.querySelectorAll('.checklist-item').forEach((item) => {
+                const text = item.querySelector('span').innerText.trim();
+                const checkbox = item.querySelector('input');
+                if (saved[text] !== undefined) {
+                    checkbox.checked = saved[text];
+                }
             });
         }
     }
 
-    // 監聽所有點擊事件
-    document.addEventListener('change', (e) => {
-        if (e.target.type === 'checkbox') saveChecklist();
-    });
-
-    // 頁面開啟時載入
-   window.addEventListener('load', () => {
-        loadChecklist();
-        updateWeatherTip();
-        updateLiveStatus();
-        initLocation(); // 這裡啟動後，watchPosition 就會一直掛著監聽位置了
-    });
-
-    // 讓 Checkbox 勾選後自動置底的排序功能
+    // 3. 讓 Checkbox 勾選後自動置底的排序功能
     function reorderChecklist(container) {
+        if (!container) return;
         const items = Array.from(container.querySelectorAll('.checklist-item'));
         
         // 排序邏輯：未勾選的在前面 (false < true)
@@ -903,28 +897,38 @@
         items.forEach(item => container.appendChild(item));
     }
 
-    // 監聽所有的點擊事件
+    // 4. 統一監聽事件：處理點擊後的「儲存」與「排序」
     document.addEventListener('change', (e) => {
-        // 如果點擊的是行前準備的 checkbox
-        if (e.target.closest('.checklist-item')) {
-            const container = e.target.closest('.checklist-container');
+        const checklistItem = e.target.closest('.checklist-item');
+        if (checklistItem) {
+            saveChecklist(); // 儲存勾選狀態
             
-            // 先執行原本的儲存功能 (如果你有加的話)
-            if (typeof saveChecklist === 'function') saveChecklist();
-            
-            // 執行排序動畫效果 (稍微延遲一下，讓使用者看清楚勾選動作)
-            setTimeout(() => {
-                reorderChecklist(container);
-            }, 300); 
+            const container = checklistItem.closest('.checklist-container');
+            if (container) {
+                setTimeout(() => {
+                    reorderChecklist(container); // 延遲排序，讓視覺更順暢
+                }, 300); 
+            }
         }
     });
 
-    // 頁面載入後執行
-    updateWeatherTip();
-    // 每 10 分鐘自動更新一次建議
-    setInterval(updateWeatherTip, 600000);
-    setInterval(updateLiveStatus, 60000);
-    updateLiveStatus();
+    // 5. 頁面載入後的初始化
+    window.addEventListener('load', () => {
+        loadChecklist(); // 先還原打勾狀態
+        
+        // 對所有清單執行一次初始排序
+        document.querySelectorAll('.checklist-container').forEach(container => {
+            reorderChecklist(container);
+        });
+
+        updateWeatherTip();
+        updateLiveStatus();
+        initLocation();
+    });
+
+    // 6. 設定定時器
+    setInterval(updateWeatherTip, 600000); // 10分鐘更新天氣
+    setInterval(updateLiveStatus, 60000);  // 1分鐘更新營業時間
 </script>
 
 </body>
