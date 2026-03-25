@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>旅遊行程助手 (動態版)</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+    <style>
+        /* 這裡保留你原本所有的 CSS 樣式 (root, body, header, event-card, rest-card 等) */
+        /* ... (請沿用原始檔案的 <style> 內容) ... */
+        :root { --dark-blue: #1a2e43; --bg-gray: #dcdcdc; --card-white: #ffffff; --text-dark: #333333; --text-gray: #777777; --accent-blue: #5ca4a9; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background-color: var(--dark-blue); margin: 0; display: flex; justify-content: center; min-height: 100vh; }
+        .main-wrapper { width: 100%; max-width: 500px; background-color: var(--bg-gray); position: relative; padding-bottom: 120px; box-shadow: 0 0 20px rgba(0,0,0,0.5); }        
+        .header { background-color: var(--dark-blue); color: white; padding: 25px 20px; text-align: center; border-bottom-left-radius: 30px; border-bottom-right-radius: 30px; }
+        .weather-banner-wrapper { background: white; border-radius: 20px; padding: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); margin: -15px 20px 20px 20px; }
+        .container { padding: 0 20px; }
+        .day-theme-header { display: flex; align-items: baseline; margin: 30px 5px 10px 5px; padding-left: 15px; border-left: 6px solid var(--accent-blue); }
+        .day-content { display: none; }
+        .day-content.active { display: block; animation: livelyIn 0.5s ease; }
+        .event-card { background-color: var(--card-white); border-radius: 18px; border-left: 5px solid var(--accent-blue); padding: 18px; margin-bottom: 12px; display: flex; position: relative; }
+        .event-time { min-width: 80px; display: flex; justify-content: center; align-items: center; }
+        .event-time span { font-size: 0.85rem; font-weight: 800; background: #5ca4a942; padding: 4px 10px; border-radius: 8px; }
+        .event-details { flex: 1; padding-left: 10px; display: grid; grid-template-rows: auto auto auto; min-height: 80px; }
+        .remind-tag { color: #ff6874; font-size: 0.7rem; font-weight: bold; }
+        .event-title { font-weight: bold; font-size: 1rem; margin: 4px 0; }
+        .event-desc { font-size: 0.8rem; color: var(--text-gray); margin: 0; }
+        .map-link { position: absolute; right: 12px; bottom: 12px; color: #5DA7DB; font-size: 0.7rem; border: 1px solid #5da7db62; padding: 2px 8px; border-radius: 15px; text-decoration: none; }
+        .info-section { background-color: var(--card-white); border-radius: 25px; padding: 20px; margin-top: 25px; }
+        .rest-card { background-color: var(--card-white); padding: 14px; border-radius: 15px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; text-decoration: none; color: inherit; border: 1px solid #eee; }
+        .bottom-nav { position: fixed; bottom: 0; width: 100%; max-width: 500px; background-color: var(--dark-blue); display: flex; justify-content: space-around; padding: 15px 0; border-top-left-radius: 25px; border-top-right-radius: 25px; z-index: 1000; }
+        .nav-item { text-align: center; color: rgba(255, 255, 255, 0.5); text-decoration: none; flex: 1; font-size: 0.7rem; }
+        .nav-item.active { color: #ffffff; }
+    </style>
+</head>
+
+<body>
+<div class="main-wrapper">
+    <div class="header">
+        <h2 id="trip-title">首爾行程助手</h2>
+        <div id="live-clock" class="live-info">載入中...</div>
+    </div>
+
+    <div class="weather-banner-wrapper">
+        <div id="weather-tip" class="weather-tip-box"><i class="fas fa-lightbulb"></i> <span id="tip-text">讀取氣溫中...</span></div>
+    </div>
+
+    <div class="container" id="main-container">
+        </div>
+
+    <div class="container">
+        <div class="info-section">
+            <div class="section-title"><i class="fas fa-utensils"></i> 推薦餐廳</div>
+            <div id="restaurant-list" class="rest-container"></div>
+        </div>
+        <div class="info-section">
+            <div class="section-title"><i class="fa-solid fa-store"></i> 精選店家</div>
+            <div id="store-list" class="rest-container"></div>
+        </div>
+    </div>
+</div>
+
+<nav class="bottom-nav">
+    <a href="javascript:void(0)" class="nav-item active" onclick="tab(1, this)"><i class="fas fa-calendar-day"></i><span>D1</span></a>
+    <a href="javascript:void(0)" class="nav-item" onclick="tab(2, this)"><i class="fas fa-calendar-day"></i><span>D2</span></a>
+    <a href="javascript:void(0)" class="nav-item" onclick="tab(3, this)"><i class="fas fa-calendar-day"></i><span>D3</span></a>
+    <a href="javascript:void(0)" class="nav-item" onclick="tab(4, this)"><i class="fas fa-plane"></i><span>D4</span></a>
+</nav>
+
+<script>
+    const CSV_URLS = {
+        schedule: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSXJpAwJ8fqIUaxsR9nu-yvbs2KdVtfxX5u9LzQIVbYDly8-stNoTfyLfhjQfE8SlHZfmOkHJ2G-aXU/pub?gid=0&single=true&output=csv',
+        checklist: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSXJpAwJ8fqIUaxsR9nu-yvbs2KdVtfxX5u9LzQIVbYDly8-stNoTfyLfhjQfE8SlHZfmOkHJ2G-aXU/pub?gid=1169298841&single=true&output=csv',
+        places: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSXJpAwJ8fqIUaxsR9nu-yvbs2KdVtfxX5u9LzQIVbYDly8-stNoTfyLfhjQfE8SlHZfmOkHJ2G-aXU/pub?gid=584607375&single=true&output=csv'
+    };
+
+    async function loadAllData() {
+        // 使用 PapaParse 讀取 CSV
+        const loadCSV = (url) => new Promise(res => Papa.parse(url, { download: true, header: true, complete: res }));
+
+        const [resSchedule, resChecklist, resPlaces] = await Promise.all([
+            loadCSV(CSV_URLS.schedule),
+            loadCSV(CSV_URLS.checklist),
+            loadCSV(CSV_URLS.places)
+        ]);
+
+        renderApp(resSchedule.data, resChecklist.data, resPlaces.data);
+    }
+
+    function renderApp(schedule, checklist, places) {
+        const mainContainer = document.getElementById('main-container');
+        
+        // 1. 渲染行程 (分天數)
+        for (let d = 1; d <= 4; d++) {
+            const dayEvents = schedule.filter(item => item.Day == d);
+            const dayChecks = checklist.filter(item => item.Day == d);
+            
+            const dayHtml = `
+                <div id="day${d}" class="day-content ${d === 1 ? 'active' : ''}">
+                    <div class="day-theme-header"><h3>Day ${d}</h3></div>
+                    ${dayEvents.map(ev => `
+                        <div class="event-card">
+                            <div class="event-time"><span>${ev.Time}</span></div>
+                            <div class="event-details">
+                                <span class="remind-tag">${ev.Tag}</span>
+                                <p class="event-title">${ev.Title}</p>
+                                <p class="event-desc">${ev.Desc}</p>
+                                ${ev.MapLink ? `<a href="${ev.MapLink}" class="map-link"><i class="fas fa-location-arrow"></i> MAP</a>` : ''}
+                            </div>
+                        </div>
+                    `).join('')}
+                    ${dayChecks.length > 0 ? `
+                        <div class="info-section" style="margin-top: 10px;">
+                            <div class="section-title"><i class="fas fa-clipboard-check"></i> 行前準備</div>
+                            <div class="checklist-container">
+                                ${dayChecks.map(c => `<label class="checklist-item"><input type="checkbox"> <span>${c.Item}</span></label>`).join('')}
+                            </div>
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+            mainContainer.innerHTML += dayHtml;
+        }
+
+        // 2. 渲染餐廳與店家
+        const restList = document.getElementById('restaurant-list');
+        const storeList = document.getElementById('store-list');
+
+        places.forEach(p => {
+            const cardHtml = `
+                <a href="${p.MapLink}" class="rest-card" data-open="${p.Open}" data-close="${p.Close}" data-lat="${p.Lat}" data-lng="${p.Lng}">
+                    <div><b>${p.Name}</b><br><small>${p.Category} ⭐️${p.Rating} <span class="dist-tag"></span><br><span class="price-tag">${p.Price}</span></small></div>
+                    <span class="open-tag">檢測中</span>
+                </a>
+            `;
+            if (p.Type === 'restaurant') restList.innerHTML += cardHtml;
+            else if (p.Type === 'store') storeList.innerHTML += cardHtml;
+        });
+
+        // 3. 觸發原本的狀態更新與定位功能
+        updateLiveStatus();
+        initLocation();
+        loadChecklist(); // 恢復 checkbox 記憶
+    }
+
+    // 這裡保留你原本的 tab(), updateLiveStatus(), initLocation(), updateWeatherTip() 等函數
+    // ... (請沿用原始檔案的 <script> 邏輯) ...
+
+    window.addEventListener('load', loadAllData);
+</script>
+</body>
+</html>
