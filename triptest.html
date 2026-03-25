@@ -252,23 +252,6 @@
             // 開始組合 HTML 字串
             let htmlContent = `<div class="day-theme-header"><h3>Day ${d}</h3></div>`;
 
-            // 如果這一天有設定飯店，就先插入飯店卡片
-            if (todayHotel) {
-                htmlContent += `
-                    <div class="info-section" style="margin-bottom: 15px; border: 1.5px solid var(--accent-blue);">
-                        <div class="section-title"><i class="fas fa-hotel"></i> 今日住宿</div>
-                        <div class="hotel-addr" style="position: relative; background: #fdfdfd;">
-                            <span style="font-size: 1rem; font-weight: 600; display: block; margin-bottom: 4px;">
-                                ${todayHotel.Name}
-                            </span>
-                            ${todayHotel.Category} <a href="${todayHotel.MapLink}" target="_blank" class="map-link">
-                                <i class="fas fa-location-arrow"></i> MAP
-                            </a>
-                        </div>
-                    </div>
-                `;
-            }
-
             // 接續原本的行程事件卡片
             htmlContent += dayEvents.map(ev => `
                 <div class="event-card">
@@ -289,6 +272,23 @@
                         <div class="section-title"><i class="fas fa-clipboard-check"></i> 行前準備</div>
                         <div class="checklist-container">
                             ${dayChecks.map(c => `<label class="checklist-item"><input type="checkbox" data-id="day${d}-${c.Item}"> <span>${c.Item}</span></label>`).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+
+             // 如果這一天有設定飯店，就插入飯店卡片
+            if (todayHotel) {
+                htmlContent += `
+                    <div class="info-section" style="margin-bottom: 15px; border: 1.5px solid var(--accent-blue);">
+                        <div class="section-title"><i class="fas fa-hotel"></i> 今日住宿</div>
+                        <div class="hotel-addr" style="position: relative; background: #fdfdfd;">
+                            <span style="font-size: 1rem; font-weight: 600; display: block; margin-bottom: 4px;">
+                                ${todayHotel.Name}
+                            </span>
+                            ${todayHotel.Category} <a href="${todayHotel.MapLink}" target="_blank" class="map-link">
+                                <i class="fas fa-location-arrow"></i> MAP
+                            </a>
                         </div>
                     </div>
                 `;
