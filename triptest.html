@@ -395,19 +395,35 @@
         const loadCSV = (url) => new Promise(res => Papa.parse(url, { download: true, header: true, skipEmptyLines: true, complete: res }));
         
         try {
-            const [resSched, resCheck, resPlace] = await Promise.all([
+            const [resSched, resCheck, resPlace, resSet] = await Promise.all([
                 loadCSV(CSV_URLS.schedule),
                 loadCSV(CSV_URLS.checklist),
-                loadCSV(CSV_URLS.places)
+                loadCSV(CSV_URLS.places),
+                loadCSV(CSV_URLS.settings)
             ]);
-            renderData(resSched.data, resCheck.data, resPlace.data);
+
+            // 將 Settings 轉為方便讀取的物件
+            const config = {};
+            resSet.data.forEach(item => { config[item.Key] = item.Value; });
+            
+            renderData(resSched.data, resCheck.data, resPlace.data, config);
         } catch (e) {
             console.error("資料加載失敗", e);
         }
     }
 
     
-    function renderData(schedule, checklist, places) {
+    function renderData(schedule, checklist, places, config) {
+        // 自動更換標題
+        document.getElementById('trip-title').innerText = `${config.CityName}行程助手`;
+        
+        // 自動更新天氣小工具網址
+        const widget = document.querySelector('.weatherwidget-io');
+        widget.href = config.WeatherURL;
+        widget.dataset.label_1 = config.CityName;
+        // 重新載入天氣小工具腳本使其生效
+        __weatherwidget_init();
+
         const root = document.getElementById('itinerary-root');
         root.innerHTML = ''; // 清空原本的靜態內容
 
@@ -529,19 +545,23 @@
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    function updateTime() {
+    function updateTime(config) {
         const now = new Date();
+        const localTime = now.toLocaleTimeString('zh-TW', { 
+        timeZone: config.Timezone, // 這裡會自動從 Excel 抓 'Asia/Tokyo' 或 'Europe/Paris'
+        hour12: false 
+    });
         const options = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
-        document.getElementById('live-clock').innerText = '首爾時間 ' + now.toLocaleTimeString('zh-TW', options);
+        document.getElementById('live-clock').innerText = `${config.CityName}時間 ` + localTime;
     }
 
-    async function updateWeatherTip() {
+    async function updateWeatherTip(config) {
         try {
-            const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=37.5665&longitude=126.9780&current_weather=true');
+            const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${config.Lat}&longitude=${config.Lng}&current_weather=true`);
             const data = await res.json();
             const temp = Math.round(data.current_weather.temperature);
             let advice = temp < 10 ? "天氣寒冷，記得穿厚羽絨衣報到！" : temp < 20 ? "涼爽舒適，適合薄長袖配外套。" : "天氣炎熱，注意防曬補水。";
-            document.getElementById('tip-text').innerText = `首爾現在 ${temp}°C。${advice}`;
+            document.getElementById('tip-text').innerText = `${config.CityName}現在 ${temp}°C。${advice}`;
         } catch (e) {
             document.getElementById('tip-text').innerText = "無法取得氣溫資料";
         }
