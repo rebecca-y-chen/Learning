@@ -236,72 +236,93 @@
         }
     }
 
+    
     function renderData(schedule, checklist, places) {
         const root = document.getElementById('itinerary-root');
-        
-        // 渲染行程 (抓取共有幾天)
-        const days = [...new Set(schedule.map(item => item.Day))].sort();
-        days.forEach(d => {
+        root.innerHTML = ''; // 清空原本的靜態內容
+
+        // 這裡跑 1 到 4 天的迴圈 (配合你的 D1-D4 導覽列)
+        [1, 2, 3, 4].forEach(d => {
+            // 1. 過濾出當天的行程
             const dayEvents = schedule.filter(item => item.Day == d);
+            // 2. 過濾出當天的行前清單
             const dayChecks = checklist.filter(item => item.Day == d);
-            
+            // 3. 重點：從 Places 找 Type 是 hotel 且 Day 欄位符合今天天數的資料
+            const todayHotel = places.find(p => p.Type.toLowerCase() === 'hotel' && p.Day == d);
+
             const dayDiv = document.createElement('div');
             dayDiv.id = `day${d}`;
             dayDiv.className = `day-content ${d == 1 ? 'active' : ''}`;
             
-            dayDiv.innerHTML = `
-                <div class="day-theme-header"><h3>Day ${d}</h3></div>
-                ${dayEvents.map(ev => `
-                    <div class="event-card">
-                        <div class="event-time"><span>${ev.Time}</span></div>
-                        <div class="event-details">
-                            <span class="remind-tag">${ev.Tag}</span>
-                            <p class="event-title">${ev.Title}</p>
-                            <p class="event-desc">${ev.Desc}</p>
-                            ${ev.MapLink ? `<a href="${ev.MapLink}" class="map-link"><i class="fas fa-location-arrow"></i> MAP</a>` : ''}
+            // 開始組合 HTML 字串
+            let htmlContent = `<div class="day-theme-header"><h3>Day ${d}</h3></div>`;
+
+            // 如果這一天有設定飯店，就先插入飯店卡片
+            if (todayHotel) {
+                htmlContent += `
+                    <div class="info-section" style="margin-bottom: 15px; border: 1.5px solid var(--accent-blue);">
+                        <div class="section-title"><i class="fas fa-hotel"></i> 今日住宿</div>
+                        <div class="hotel-addr" style="position: relative; background: #fdfdfd;">
+                            <span style="font-size: 1rem; font-weight: 600; display: block; margin-bottom: 4px;">
+                                ${todayHotel.Name}
+                            </span>
+                            ${todayHotel.Category} <a href="${todayHotel.MapLink}" target="_blank" class="map-link">
+                                <i class="fas fa-location-arrow"></i> MAP
+                            </a>
                         </div>
                     </div>
-                `).join('')}
-                ${dayChecks.length > 0 ? `
-                    <div class="info-section" style="margin-top:10px;">
+                `;
+            }
+
+            // 接續原本的行程事件卡片
+            htmlContent += dayEvents.map(ev => `
+                <div class="event-card">
+                    <div class="event-time"><span>${ev.Time}</span></div>
+                    <div class="event-details">
+                        <span class="remind-tag">${ev.Tag}</span>
+                        <p class="event-title">${ev.Title}</p>
+                        <p class="event-desc">${ev.Desc}</p>
+                        ${ev.MapLink ? `<a href="${ev.MapLink}" class="map-link"><i class="fas fa-location-arrow"></i> MAP</a>` : ''}
+                    </div>
+                </div>
+            `).join('');
+
+            // 如果當天有清單，也順便加入
+            if (dayChecks.length > 0) {
+                htmlContent += `
+                    <div class="info-section" style="margin-top: 10px;">
                         <div class="section-title"><i class="fas fa-clipboard-check"></i> 行前準備</div>
                         <div class="checklist-container">
-                            ${dayChecks.map(c => `
-                                <label class="checklist-item">
-                                    <input type="checkbox" data-id="day${d}-${c.Item}"> 
-                                    <span>${c.Item}</span>
-                                </label>`).join('')}
+                            ${dayChecks.map(c => `<label class="checklist-item"><input type="checkbox" data-id="day${d}-${c.Item}"> <span>${c.Item}</span></label>`).join('')}
                         </div>
                     </div>
-                ` : ''}
-            `;
+                `;
+            }
+
+            dayDiv.innerHTML = htmlContent;
             root.appendChild(dayDiv);
         });
 
-        // --- 新增：處理飯店資料 ---
-        const hotelList = document.getElementById('hotel-container');
-        const hotelData = places.find(p => p.Type.toLowerCase() === 'hotel'); // 找到第一筆 Type 為 hotel 的資料
+        // 4. 最後渲染底部的「推薦餐廳」與「精選店家」 (過濾掉所有 hotel，不讓飯店出現在這裡)
+        renderExtraPlaces(places.filter(p => p.Type.toLowerCase() !== 'hotel'));
 
-        if (hotelData) {
-            hotelList.innerHTML = `
-                <div class="hotel-addr" style="position: relative; background: white; padding: 20px; border-radius: 15px; border: 1px solid #eee;">
-                    <span style="font-size: 1.1rem; font-weight: bold; display: block; margin-bottom: 5px;">
-                        ${hotelData.Name}
-                    </span>
-                    ${hotelData.Category} 
-                    <a href="${hotelData.MapLink}" target="_blank" class="map-link">
-                        <i class="fas fa-location-arrow"></i> MAP
-                    </a>
-                </div>
-            `;
-        }
+        updateWeatherTip();
+        updateLiveStatus();
+        initLocation();
+        if (typeof loadChecklist === "function") loadChecklist(); // 恢復勾選狀態
+    }
 
-        // 渲染餐廳/店家
-        const restContainer = document.getElementById('restaurant-list');
-        const storeContainer = document.getElementById('store-list');
+
+    function renderExtraPlaces(filteredPlaces) {
+        const restList = document.getElementById('restaurant-list');
+        const storeList = document.getElementById('store-list');
         
-        places.forEach(p => {
-            const card = `
+        // 先清空原本的內容
+        restList.innerHTML = '';
+        storeList.innerHTML = '';
+
+        filteredPlaces.forEach(p => {
+            const html = `
                 <a href="${p.MapLink}" class="rest-card" data-open="${p.Open}" data-close="${p.Close}" data-lat="${p.Lat}" data-lng="${p.Lng}">
                     <div>
                         <b>${p.Name}</b><br>
@@ -309,24 +330,11 @@
                         <span class="price-tag">${p.Price}</span>
                     </div>
                     <span class="open-tag">檢測中</span>
-                </a>
-            `;
-            if (p.Type === 'restaurant') restContainer.innerHTML += card;
-            else if (p.Type === 'store') storeContainer.innerHTML += card;
+                </a>`;
+            
+            if (p.Type === 'restaurant') restList.innerHTML += html;
+            else if (p.Type === 'store') storeList.innerHTML += html;
         });
-
-        // 使用 filter 排除掉 hotel，這樣飯店就不會出現在餐廳清單裡
-        places.filter(p => p.Type.toLowerCase() !== 'hotel').forEach(p => {
-            const cardHtml = `... 原本的卡片 HTML ...`;
-            if (p.Type === 'restaurant') restList.innerHTML += cardHtml;
-            else storeList.innerHTML += cardHtml;
-        });
-
-        // 初始化其他功能
-        updateLiveStatus();
-        initLocation();
-        loadChecklistState();
-        updateWeatherTip();
     }
 
     // --- 原本的功能邏輯 ---
@@ -426,7 +434,11 @@
         });
     }
 
-    window.addEventListener('load', initApp);
+   window.addEventListener('load', () => {
+        initApp(); // 這會觸發 renderData，裡面會去抓 Excel
+    });
+
+    // 定時更新時間與狀態不受影響
     setInterval(updateTime, 1000);
     setInterval(updateLiveStatus, 60000);
 </script>
