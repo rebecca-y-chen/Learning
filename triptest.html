@@ -336,7 +336,7 @@
 <body>
 <div class="main-wrapper">
     <div class="header">
-        <h2>旅遊行程助手</h2>
+        <h2 id="trip-title">旅遊行程助手</h2>
         <div id="live-clock" class="live-info">載入中...</div>
     </div>
 
@@ -387,7 +387,7 @@
         schedule: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSXJpAwJ8fqIUaxsR9nu-yvbs2KdVtfxX5u9LzQIVbYDly8-stNoTfyLfhjQfE8SlHZfmOkHJ2G-aXU/pub?gid=0&single=true&output=csv',
         checklist: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSXJpAwJ8fqIUaxsR9nu-yvbs2KdVtfxX5u9LzQIVbYDly8-stNoTfyLfhjQfE8SlHZfmOkHJ2G-aXU/pub?gid=1169298841&single=true&output=csv',
         places: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSXJpAwJ8fqIUaxsR9nu-yvbs2KdVtfxX5u9LzQIVbYDly8-stNoTfyLfhjQfE8SlHZfmOkHJ2G-aXU/pub?gid=584607375&single=true&output=csv',
-        settings: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSXJpAwJ8fqIUaxsR9nu-yvbs2KdVtfxX5u9LzQIVbYDly8-stNoTfyLfhjQfE8SlHZfmOkHJ2G-aXU/pubhtml?gid=214310720&single=true&output=csv'
+        settings: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSXJpAwJ8fqIUaxsR9nu-yvbs2KdVtfxX5u9LzQIVbYDly8-stNoTfyLfhjQfE8SlHZfmOkHJ2G-aXU/pub?gid=214310720&single=true&output=csv'
     };
 
     // 初始化讀取
@@ -407,6 +407,8 @@
             resSet.data.forEach(item => { config[item.Key] = item.Value; });
             
             renderData(resSched.data, resCheck.data, resPlace.data, config);
+            setInterval(() => updateTime(config), 1000); // 傳入 config
+            setInterval(() => updateWeatherTip(config), 600000); // 天氣建議不需要每秒更新，建議 10 分鐘一次
         } catch (e) {
             console.error("資料加載失敗", e);
         }
@@ -581,7 +583,7 @@
             else { isOpen = currentTime >= open || currentTime < close; }
 
             tag.innerText = isOpen ? "● 營業中" : "○ 休息中";
-            tag.className = `open-tag ${isOpen ? 'open-now' : 'closed-now'}`;
+            tag.className = `open-tag ${isOpen ? 'tag-on' : 'tag-off'}`;
         });
     }
 
@@ -628,9 +630,6 @@
         initApp(); // 這會觸發 renderData，裡面會去抓 Excel
     });
 
-    // 定時更新時間與狀態不受影響
-    setInterval(updateTime, 1000);
-    setInterval(updateLiveStatus, 60000);
 </script>
 </body>
 </html>
