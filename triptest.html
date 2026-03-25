@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>旅遊行程助手 (Google Sheets 動態版)</title>
+    <title>旅遊行程助手</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
     
@@ -166,14 +166,32 @@
         <div id="live-clock" class="live-info">載入中...</div>
     </div>
 
-    <div class="weather-banner-wrapper">
+   <div class="weather-banner-wrapper" style="margin: -15px 20px 20px 20px;">
+        <!-- 天氣元件 -->
+        <a class="weatherwidget-io" href="https://forecast7.com/zh-tw/37d57126d98/seoul/" 
+        data-label_1="SEOUL" data-label_2="即時天氣" data-font="Noto Sans TC" 
+        data-icons="Climacons Animated" data-days="5" data-theme="pure" data-shadow="rgba(255, 255, 255, 0)" 
+        data-accent="rgba(1, 1, 1, 0.05)" data-textcolor="#1a2e43" data-highcolor="#d71f31" data-lowcolor="#108cc3" 
+        data-suncolor="#ffa500" data-mooncolor="#91908c" data-cloudcolor="rgba(214, 214, 214, 0.69)" 
+        data-cloudfill="#ffffff" data-raincolor="#69bcff" data-snowcolor="#8ce5e8"  >
+        首爾 即時天氣載入中...
+        </a>
+        <script>
+        !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
+        </script>
+
+        <!-- 貼心建議 -->
         <div id="weather-tip" class="weather-tip-box">
-            <i class="fas fa-lightbulb"></i>
-            <span id="tip-text">讀取首爾氣溫中...</span>
+            <i class="fas fa-lightbulb"></i> <span id="tip-text">正在思考穿衣建議...</span>
         </div>
     </div>
 
     <div class="container" id="itinerary-root"></div>
+
+    <div class="container day-content" id="day-hotel">
+        <div class="day-theme-header"><h3>住宿資訊</h3></div>
+        <div id="hotel-container"></div>
+    </div>
 
     <div class="container">
         <div class="info-section">
@@ -260,6 +278,24 @@
             root.appendChild(dayDiv);
         });
 
+        // --- 新增：處理飯店資料 ---
+        const hotelList = document.getElementById('hotel-container');
+        const hotelData = places.find(p => p.Type.toLowerCase() === 'hotel'); // 找到第一筆 Type 為 hotel 的資料
+
+        if (hotelData) {
+            hotelList.innerHTML = `
+                <div class="hotel-addr" style="position: relative; background: white; padding: 20px; border-radius: 15px; border: 1px solid #eee;">
+                    <span style="font-size: 1.1rem; font-weight: bold; display: block; margin-bottom: 5px;">
+                        ${hotelData.Name}
+                    </span>
+                    ${hotelData.Category} 
+                    <a href="${hotelData.MapLink}" target="_blank" class="map-link">
+                        <i class="fas fa-location-arrow"></i> MAP
+                    </a>
+                </div>
+            `;
+        }
+
         // 渲染餐廳/店家
         const restContainer = document.getElementById('restaurant-list');
         const storeContainer = document.getElementById('store-list');
@@ -279,6 +315,13 @@
             else if (p.Type === 'store') storeContainer.innerHTML += card;
         });
 
+        // 使用 filter 排除掉 hotel，這樣飯店就不會出現在餐廳清單裡
+        places.filter(p => p.Type.toLowerCase() !== 'hotel').forEach(p => {
+            const cardHtml = `... 原本的卡片 HTML ...`;
+            if (p.Type === 'restaurant') restList.innerHTML += cardHtml;
+            else storeList.innerHTML += cardHtml;
+        });
+
         // 初始化其他功能
         updateLiveStatus();
         initLocation();
@@ -288,13 +331,23 @@
 
     // --- 原本的功能邏輯 ---
 
-    function tab(index, element) {
+    function tab(id, element) {
+        // 1. 隱藏所有天數內容與飯店內容
         document.querySelectorAll('.day-content').forEach(el => el.classList.remove('active'));
-        const target = document.getElementById(`day${index}`);
+        
+        // 2. 判斷要顯示哪一個 (如果是飯店就顯示 day-hotel，否則顯示 dayX)
+        const targetId = (id === 'hotel') ? 'day-hotel' : `day${id}`;
+        const target = document.getElementById(targetId);
         if (target) target.classList.add('active');
         
+        // 3. 飯店頁面時，隱藏下方的「推薦餐廳」與「精選店家」區塊 (選配，看你需求)
+        const extraInfo = document.getElementById('extra-info-section'); // 假設你把餐廳區塊包在這個 ID 裡
+        if (extraInfo) extraInfo.style.display = (id === 'hotel') ? 'none' : 'block';
+
+        // 4. 更新導覽列樣式
         document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
         element.classList.add('active');
+        
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
