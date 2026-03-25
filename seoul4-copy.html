@@ -254,7 +254,36 @@
             position: absolute;
             right: 12px; 
             bottom: 12px; 
-        } 
+        }
+        
+        
+        /* 讓推薦餐廳與精選店家容器具備捲軸 */
+        .rest-container {
+            max-height: 400px; /* 設定最大高度，超過即顯示捲軸 */
+            overflow-y: auto;  /* 開啟垂直捲軸 */
+            padding-right: 8px; /* 為捲軸預留一點空間 */
+            margin-top: 10px;
+        }
+
+        /* 美化捲軸樣式 (適用於 Chrome, Safari, 以及新版 Edge) */
+        .rest-container::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .rest-container::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .rest-container::-webkit-scrollbar-thumb {
+            background: var(--accent-blue); /* 使用你定義的輔助藍 */
+            border-radius: 10px;
+            opacity: 0.5;
+        }
+
+        .rest-container::-webkit-scrollbar-thumb:hover {
+            background: var(--dark-blue);
+        }
         .rest-grid { margin-top: 10px; }
         .rest-card { 
             background-color: var(--card-white); padding: 14px; border-radius: 15px; margin-bottom: 8px; 
