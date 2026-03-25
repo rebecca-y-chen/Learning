@@ -382,6 +382,8 @@
 </nav>
 
 <script>
+    let travelConfig = {}; // 使用不同的名字，例如 travelConfig
+
     // 你的 CSV 網址
     const CSV_URLS = {
         schedule: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSXJpAwJ8fqIUaxsR9nu-yvbs2KdVtfxX5u9LzQIVbYDly8-stNoTfyLfhjQfE8SlHZfmOkHJ2G-aXU/pub?gid=0&single=true&output=csv',
@@ -395,6 +397,10 @@
         const loadCSV = (url) => new Promise(res => Papa.parse(url, { download: true, header: true, skipEmptyLines: true, complete: res }));
         
         try {
+            travelConfig = {};
+            resSet.data.forEach(item => { travelConfig[item.Key] = item.Value; });
+            globalConfig = config; // 存入全域變數
+
             const [resSched, resCheck, resPlace, resSet] = await Promise.all([
                 loadCSV(CSV_URLS.schedule),
                 loadCSV(CSV_URLS.checklist),
@@ -406,9 +412,9 @@
             const config = {};
             resSet.data.forEach(item => { config[item.Key] = item.Value; });
             
-            renderData(resSched.data, resCheck.data, resPlace.data, config);
-            setInterval(() => updateTime(config), 1000); // 傳入 config
-            setInterval(() => updateWeatherTip(config), 600000); // 天氣建議不需要每秒更新，建議 10 分鐘一次
+            renderData(resSched.data, resCheck.data, resPlace.data, travelConfig);
+            setInterval(() => updateTime(travelConfig), 1000); // 傳入 config
+            setInterval(() => updateWeatherTip(travelConfig), 600000); // 天氣建議不需要每秒更新，建議 10 分鐘一次
         } catch (e) {
             console.error("資料加載失敗", e);
         }
@@ -494,10 +500,10 @@
         // 4. 最後渲染底部的「推薦餐廳」與「精選店家」 (過濾掉所有 hotel，不讓飯店出現在這裡)
         renderExtraPlaces(places.filter(p => p.Type.toLowerCase() !== 'hotel'));
 
-        updateWeatherTip();
+       updateWeatherTip(config); 
         updateLiveStatus();
         initLocation();
-        if (typeof loadChecklistState === "function") loadChecklistState(); // 恢復勾選狀態
+        if (typeof loadChecklistState === "function") loadChecklistState();
     }
 
 
@@ -548,13 +554,16 @@
     }
 
     function updateTime(config) {
+        // 如果傳入的 config 是空的，就去抓全域的
+        const targetConfig = config || globalConfig;
+        if (!targetConfig.Timezone) return; // 防止資料還沒回來就執行
+
         const now = new Date();
-        const localTime = now.toLocaleTimeString('zh-TW', { 
-        timeZone: config.Timezone, // 這裡會自動從 Excel 抓 'Asia/Tokyo' 或 'Europe/Paris'
+    const localTime = now.toLocaleTimeString('zh-TW', { 
+        timeZone: targetConfig.Timezone, 
         hour12: false 
     });
-        const options = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
-        document.getElementById('live-clock').innerText = `${config.CityName}時間 ` + localTime;
+    document.getElementById('live-clock').innerText = `${targetConfig.CityName}時間 ${localTime}`;
     }
 
     async function updateWeatherTip(config) {
