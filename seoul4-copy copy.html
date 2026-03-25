@@ -875,21 +875,9 @@
         }
     }
 
-    // 監聽所有點擊事件
-    document.addEventListener('change', (e) => {
-        if (e.target.type === 'checkbox') saveChecklist();
-    });
-
-    // 頁面開啟時載入
-   window.addEventListener('load', () => {
-        loadChecklist();
-        updateWeatherTip();
-        updateLiveStatus();
-        initLocation(); // 這裡啟動後，watchPosition 就會一直掛著監聽位置了
-    });
-
     // 讓 Checkbox 勾選後自動置底的排序功能
     function reorderChecklist(container) {
+        if (!container) return;
         const items = Array.from(container.querySelectorAll('.checklist-item'));
         
         // 排序邏輯：未勾選的在前面 (false < true)
@@ -903,28 +891,39 @@
         items.forEach(item => container.appendChild(item));
     }
 
-    // 監聽所有的點擊事件
+    // 監聽所有點擊事件
     document.addEventListener('change', (e) => {
-        // 如果點擊的是行前準備的 checkbox
-        if (e.target.closest('.checklist-item')) {
+        if (e.target.type === 'checkbox') {
+            // 執行儲存
+            saveChecklist();
+            
+            // 如果是在行前準備容器內，執行延遲排序
             const container = e.target.closest('.checklist-container');
-            
-            // 先執行原本的儲存功能 (如果你有加的話)
-            if (typeof saveChecklist === 'function') saveChecklist();
-            
-            // 執行排序動畫效果 (稍微延遲一下，讓使用者看清楚勾選動作)
-            setTimeout(() => {
-                reorderChecklist(container);
-            }, 300); 
+            if (container) {
+                setTimeout(() => {
+                    reorderChecklist(container);
+                }, 300); // 給使用者 300ms 視覺確認勾選了什麼
+            }
         }
     });
 
-    // 頁面載入後執行
-    updateWeatherTip();
+    // 頁面開啟時載入
+   window.addEventListener('load', () => {
+        loadChecklist();     // 還原打勾狀態
+        
+        // 關鍵優化：載入後立刻對所有清單進行初始排序
+        document.querySelectorAll('.checklist-container').forEach(container => {
+            reorderChecklist(container);
+        });
+
+        updateWeatherTip();
+        updateLiveStatus();
+        initLocation();
+    });
+
     // 每 10 分鐘自動更新一次建議
     setInterval(updateWeatherTip, 600000);
     setInterval(updateLiveStatus, 60000);
-    updateLiveStatus();
 </script>
 
 </body>
