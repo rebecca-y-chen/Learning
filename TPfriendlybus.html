@@ -67,51 +67,42 @@
         letter-spacing: 2px;
     }
 
-@media (max-width: 850px) {
+    @media (max-width: 850px) {
 
-  .hero {
+        .hero {
+            flex-direction: column;
+            text-align: center;
+            gap: 30px;
+            padding: 30px 20px 60px;
+        }
 
-    flex-direction: column;
-
-    text-align: center;
-
-    gap: 30px;
-
-    padding: 30px 20px 60px;
-
-  }
-
-  .hero-content {
-
-    width: 100%;
-
-    max-width: 600px;
-
-  }
-
-}
+        .hero-content {
+            width: 100%;
+            max-width: 600px;
+        }
+    }
 
     .tag {
-      display: inline-block;
-      background: #ffffff;
-      border: 2px solid #333;
-      border-radius: 100px;
-      padding: 8px 20px;        
-      font-weight: 700;
-      margin-bottom: 25px;
-      transform: rotate(-2deg);
+        display: inline-block;
+        background: #ffffff;
+        border: 2px solid #333;
+        border-radius: 100px;
+        padding: 8px 20px;        
+        font-weight: 700;
+        margin-bottom: 25px;
+        transform: rotate(-2deg);
     }
 
     .hero-description {
-      font-size: 20px;
-      max-width: 650px;
-      margin: 0 auto 35px;
+        font-size: 20px;
+        max-width: 650px;
+        margin: 0 auto 35px;
     }
 
     .date {
-      font-size: 18px;
-      font-weight: 700;
-      margin-bottom: 36px;
+        font-size: 18px;
+        font-weight: 700;
+        margin-bottom: 36px;
     }
 
     /* --------------------
@@ -120,43 +111,43 @@
 
     .hero-buttons,
     .action-buttons {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 16px;
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 16px;
     }
 
     .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      min-width: 220px;
-      padding: 16px 26px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        min-width: 220px;
+        padding: 16px 26px;
 
-      border: 2px solid #333;
-      border-radius: 18px;
+        border: 2px solid #333;
+        border-radius: 18px;
 
-      color: #222;
-      text-decoration: none;
-      font-size: 17px;
-      font-weight: 800;
+        color: #222;
+        text-decoration: none;
+        font-size: 17px;
+        font-weight: 800;
 
-      box-shadow: 5px 5px 0 #333;
-      transition: 0.18s ease;
+        box-shadow: 5px 5px 0 #333;
+        transition: 0.18s ease;
     }
 
     .btn:hover {
-      transform: translate(3px, 3px);
-      box-shadow: 2px 2px 0 #333;
+        transform: translate(3px, 3px);
+        box-shadow: 2px 2px 0 #333;
     }
 
     .btn-download {
-      background: #ffd95c;
+        background: #ffd95c;
     }
 
     .btn-upload {
-      background: #77d2bd;
+        background: #77d2bd;
     }
 
     /* --------------------
@@ -168,25 +159,25 @@
     .action,
     .rules,
     .timeline {
-    padding: 90px 24px;
+        padding: 90px 24px;
     }
 
     .container {
-      max-width: 1050px;
-      margin: auto;
+        max-width: 1050px;
+        margin: auto;
     }
 
     .section-title {
-      font-size: clamp(32px, 5vw, 48px);
-      text-align: center;
-      margin-bottom: 15px;
+        font-size: clamp(32px, 5vw, 48px);
+        text-align: center;
+        margin-bottom: 15px;
     }
 
     .section-subtitle {
-      text-align: center;
-      color: #747474;
-      max-width: 650px;
-      margin: 0 auto 55px;
+        text-align: center;
+        color: #747474;
+        max-width: 650px;
+        margin: 0 auto 55px;
     }
 
     /* --------------------
@@ -194,14 +185,14 @@
     -------------------- */
 
     .intro {
-      background: white;
+        background: white;
     }
 
     .intro-card {
-      background: #fff8e8;
-      border-radius: 30px;
-      padding: 45px;
-      font-size: 18px;
+        background: #fff8e8;
+        border-radius: 30px;
+        padding: 45px;
+        font-size: 18px;
     }
 
     /* --------------------
@@ -209,39 +200,39 @@
     -------------------- */
 
     .steps {
-      background: #eaf6ff;
+        background: #eaf6ff;
     }
 
     .step-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 20px;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
     }
 
     .step-card {
-      background: white;
-      padding: 30px 24px;
-      border-radius: 25px;
-      border: 2px solid #333;
-      box-shadow: 5px 5px 0 #333;
+        background: white;
+        padding: 30px 24px;
+        border-radius: 25px;
+        border: 2px solid #333;
+        box-shadow: 5px 5px 0 #333;
     }
 
     .number {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #ffd95c;
-      font-size: 22px;
-      font-weight: 900;
-      margin-bottom: 20px;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #ffd95c;
+        font-size: 22px;
+        font-weight: 900;
+        margin-bottom: 20px;
     }
 
     .step-card h3 {
-      font-size: 20px;
-      margin-bottom: 8px;
+        font-size: 20px;
+        margin-bottom: 8px;
     }
 
     /* --------------------
@@ -249,25 +240,25 @@
     -------------------- */
 
     .action {
-      background: #ff827d;
-      text-align: center;
+        background: #ff827d;
+        text-align: center;
     }
 
     .action .section-title,
     .action .section-subtitle {
-      color: white;
+        color: white;
     }
 
     .action-buttons .btn {
-      background: white;
+        background: white;
     }
 
     .action-buttons .btn:first-child {
-      background: #ffd95c;
+        background: #ffd95c;
     }
 
     .action-buttons .btn:last-child {
-      background: #9be3d2;
+        background: #9be3d2;
     }
 
     /* --------------------
@@ -275,24 +266,24 @@
     -------------------- */
 
     .rules {
-      background: #fffaf1;
+        background: #fffaf1;
     }
 
     .rule-list {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 18px;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 18px;
     }
 
     .rule-item {
-      background: white;
-      padding: 28px;
-      border-radius: 20px;
+        background: white;
+        padding: 28px;
+        border-radius: 20px;
     }
 
     .rule-item h3 {
-      color: #ef5e55;
-      margin-bottom: 8px;
+        color: #ef5e55;
+        margin-bottom: 8px;
     }
 
     /* --------------------
@@ -300,26 +291,26 @@
     -------------------- */
 
     .timeline {
-      background: #f0f8ed;
+        background: #f0f8ed;
     }
 
     .timeline-list {
-      max-width: 700px;
-      margin: auto;
+        max-width: 700px;
+        margin: auto;
     }
 
     .timeline-item {
-      display: grid;
-      grid-template-columns: 140px 1fr;
-      gap: 25px;
-      padding: 25px 0;
-      border-bottom: 2px dashed #b6cab1;
+        display: grid;
+        grid-template-columns: 140px 1fr;
+        gap: 25px;
+        padding: 25px 0;
+        border-bottom: 2px dashed #b6cab1;
     }
 
     .timeline-date {
-      font-weight: 900;
-      font-size: 18px;
-      color: #ef5e55;
+        font-weight: 900;
+        font-size: 18px;
+        color: #ef5e55;
     }
 
     /* --------------------
@@ -327,15 +318,15 @@
     -------------------- */
 
     footer {
-      padding: 50px 24px;
-      text-align: center;
-      background: #343434;
-      color: white;
+        padding: 50px 24px;
+        text-align: center;
+        background: #343434;
+        color: white;
     }
 
     footer p {
-      opacity: 0.8;
-      margin-top: 8px;
+        opacity: 0.8;
+        margin-top: 8px;
     }
 
     /* --------------------
@@ -345,20 +336,18 @@
     @media (max-width: 850px) {
 
       .step-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
+            grid-template-columns: repeat(2, 1fr);
+        }
       .rule-list {
-        grid-template-columns: 1fr;
-      }
-
+            grid-template-columns: 1fr;
+        }
     }
 
     @media (max-width: 550px) {
 
-      .hero-description {
-        font-size: 17px;
-      }
+        .hero-description {
+            font-size: 17px;
+        }
 
         .intro,
         .steps,
@@ -368,23 +357,22 @@
             padding: 65px 20px;
         }
 
-      .step-grid {
-        grid-template-columns: 1fr;
-      }
+        .step-grid {
+            grid-template-columns: 1fr;
+        }
 
-      .btn {
-        width: 100%;
-      }
+        .btn {
+            width: 100%;
+        }
 
-      .intro-card {
-        padding: 30px 24px;
-      }
+        .intro-card {
+            padding: 30px 24px;
+        }
 
-      .timeline-item {
-        grid-template-columns: 1fr;
-        gap: 5px;
-      }
-
+        .timeline-item {
+            grid-template-columns: 1fr;
+            gap: 5px;
+        }
     }
   </style>
 </head>
@@ -394,148 +382,109 @@
 
   <!-- 主 Banner -->
   <section class="main-banner">
-     <img src="images/hero-main.png" alt="兒童繪畫比賽主視覺" >
+    <img src="images/hero-main.png" alt="兒童繪畫比賽主視覺" >
   </section>
 
   <!-- HERO -->
   <header class="hero">
+        <!-- 活動資訊 -->
+        <div class="hero-content">
+            <div class="tag">
+                2026 雙北公車友善月｜兒童繪畫比賽
+            </div>
 
-    <!-- 活動資訊 -->
+            <h1>童畫大冒險</h1>
 
-    <div class="hero-content">
+            <p class="hero-description">
+                拿起你的畫筆，把想像力畫進圖畫裡！
+                邀請小小藝術家一起用顏色創造屬於自己的故事。
+            </p>
 
-      <div class="tag">
-        2026 雙北公車友善月｜兒童繪畫比賽
-      </div>
+            <div class="date">
+                作品徵件期間｜2026.08.23 — 2026.09.11
+            </div>
 
-      <h1>
-        童畫大冒險
-      </h1>
+            <div class="hero-buttons">
+                <!-- 著色圖下載網址 -->
+                <a href="images/幼兒組著色圖.jpg" class="btn btn-download" download>
+                下載《幼兒組著色圖》
+                </a>
 
-      <p class="hero-description">
-        拿起你的畫筆，把想像力畫進圖畫裡！
-        邀請小小藝術家一起用顏色創造屬於自己的故事。
-      </p>
-
-      <div class="date">
-        作品徵件期間｜2026.08.23 — 2026.09.11
-      </div>
-
-      <div class="hero-buttons">
-
-        <!-- 著色圖下載網址 -->
-        <a
-          href="images/幼兒組著色圖.jpg"
-          class="btn btn-download"
-          download
-        >
-          下載《幼兒組著色圖》
-        </a>
-
-        <!-- 投稿網址 -->
-        <a
-          href="#"
-          class="btn btn-upload"
-          target="_blank"
-        >
-          上傳投稿作品
-        </a>
-
-      </div>
-
-    </div>
-
-  </header>
+                <!-- 投稿網址 -->
+                <a href="#" class="btn btn-upload" target="_blank">
+                上傳投稿作品
+                </a>
+            </div>
+        </div>
+    </header>
 
 
 
   <!-- 活動介紹 -->
   <section class="intro">
+        <div class="container">
+            <h2 class="section-title">畫出你的想像力</h2>
 
-    <div class="container">
+            <p class="section-subtitle">
+                每個孩子眼中的世界都不一樣，
+                我們想看看你會怎麼為它加上顏色。
+            </p>
 
-      <h2 class="section-title">
-         畫出你的想像力
-      </h2>
-
-      <p class="section-subtitle">
-        每個孩子眼中的世界都不一樣，
-        我們想看看你會怎麼為它加上顏色。
-      </p>
-
-      <div class="intro-card">
-
-        <p>
-          本次兒童繪畫比賽邀請孩子透過指定著色圖，
-          發揮自己的創意與想像力。不需要畫得像誰，
-          也沒有唯一正確的顏色，只要大膽創作，
-          每一幅作品都有屬於自己的故事。
-        </p>
-
-      </div>
-
-    </div>
-
-  </section>
+            <div class="intro-card">
+                <p>
+                    本次兒童繪畫比賽邀請孩子透過指定著色圖，
+                    發揮自己的創意與想像力。不需要畫得像誰，
+                    也沒有唯一正確的顏色，只要大膽創作，
+                    每一幅作品都有屬於自己的故事。
+                </p>
+            </div>
+        </div>
+    </section>
 
 
 
   <!-- 參加方式 -->
   <section class="steps">
+        <div class="container">
 
-    <div class="container">
+            <h2 class="section-title">怎麼參加？</h2>
 
-      <h2 class="section-title">
-        怎麼參加？
-      </h2>
+            <p class="section-subtitle">
+                四個步驟，就可以完成參賽。
+            </p>
 
-      <p class="section-subtitle">
-        四個步驟，就可以完成參賽。
-      </p>
+            <div class="step-grid">
+
+                <div class="step-card">
+                    <div class="number">1</div>
+                    <h3>下載圖稿</h3>
+                    <p>點擊下載按鈕，取得本次比賽指定著色圖。</p>
+                </div>
 
 
-      <div class="step-grid">
+                <div class="step-card">
+                    <div class="number">2</div>
+                    <h3>開始創作</h3>
+                    <p>列印圖稿，使用蠟筆、彩色筆或其他媒材完成作品。</p>
+                </div>
 
-        <div class="step-card">
-          <div class="number">1</div>
-          <h3>下載圖稿</h3>
-          <p>
-            點擊下載按鈕，取得本次比賽指定著色圖。
-          </p>
+
+                <div class="step-card">
+                    <div class="number">3</div>
+                    <h3>拍攝作品</h3>
+                    <p>將完成的畫作拍照或掃描成清楚的電子檔。</p>
+                </div>
+
+
+                <div class="step-card">
+                    <div class="number">4</div>
+                    <h3>線上投稿</h3>
+                    <p>填寫參賽資料並上傳作品電子檔，就完成投稿囉！</p>
+                </div>
+                
+            </div>
         </div>
-
-
-        <div class="step-card">
-          <div class="number">2</div>
-          <h3>開始創作</h3>
-          <p>
-            列印圖稿，使用蠟筆、彩色筆或其他媒材完成作品。
-          </p>
-        </div>
-
-
-        <div class="step-card">
-          <div class="number">3</div>
-          <h3>拍攝作品</h3>
-          <p>
-            將完成的畫作拍照或掃描成清楚的電子檔。
-          </p>
-        </div>
-
-
-        <div class="step-card">
-          <div class="number">4</div>
-          <h3>線上投稿</h3>
-          <p>
-            填寫參賽資料並上傳作品電子檔，就完成投稿囉！
-          </p>
-        </div>
-
-      </div>
-
-    </div>
-
-  </section>
+    </section>
 
 
 
@@ -724,7 +673,9 @@
 
     <p>
       指導單位｜臺北市政府交通局、新北市政府交通局、臺北市公共運輸處
-    <br>
+    </p>
+
+    <p>
       主辦單位｜臺北市公車聯營管理委員會、新北市公共汽車客運商業同業公會
     </p>
     
