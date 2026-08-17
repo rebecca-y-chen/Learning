@@ -8,28 +8,22 @@
 
   <style>
     * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
     }
 
     html {
-      scroll-behavior: smooth;
+        scroll-behavior: smooth;
     }
 
     body {
-      font-family:
-        "Noto Sans TC",
-        "PingFang TC",
-        "Microsoft JhengHei",
-        sans-serif;
-
-      background: #fffaf1;
-      color: #353535;
-      line-height: 1.8;
-
-      margin: 0;
-      padding: 0;
+        font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei",sans-serif;
+        background: #fffaf1;
+        color: #353535;
+        line-height: 1.8;
+        margin: 0;
+        padding: 0;
     }
 
     /* --------------------
@@ -37,24 +31,15 @@
     -------------------- */
     .main-banner {
         width: 100%;
-
         margin: 0;
-
         padding: 0;
-
         line-height: 0;
     }
 
     .main-banner img {
-       display: block;
-
+        display: block;
         width: 100%;
-
         height: auto;
-
-        margin: 0;
-
-        padding: 0;
     }
 
     /* --------------------
@@ -69,12 +54,6 @@
         background: #fff4dc;
     }
 
-    .hero-image {
-        width: min(52%, 650px);
-        height: auto;
-        object-fit: contain;
-    }
-
     .hero-content {
         max-width: 900px;
         margin: auto;
@@ -85,6 +64,7 @@
         line-height: 1.05;
         margin: 20px 0;
         color: #ef5e55;
+        letter-spacing: 2px;
     }
 
 @media (max-width: 850px) {
@@ -98,14 +78,6 @@
     gap: 30px;
 
     padding: 30px 20px 60px;
-
-  }
-
-  .hero-image {
-
-    width: 100%;
-
-    max-width: 600px;
 
   }
 
@@ -124,18 +96,10 @@
       background: #ffffff;
       border: 2px solid #333;
       border-radius: 100px;
-      padding: 8px 20px;
+      padding: 8px 20px;        
       font-weight: 700;
       margin-bottom: 25px;
       transform: rotate(-2deg);
-    }
-
-    .hero h1 {
-      font-size: clamp(48px, 8vw, 92px);
-      line-height: 1.08;
-      margin-bottom: 20px;
-      color: #ef5e55;
-      letter-spacing: 2px;
     }
 
     .hero-description {
@@ -199,8 +163,12 @@
        GENERAL
     -------------------- */
 
-    section {
-      padding: 90px 24px;
+    .intro,
+    .steps,
+    .action,
+    .rules,
+    .timeline {
+    padding: 90px 24px;
     }
 
     .container {
@@ -388,18 +356,18 @@
 
     @media (max-width: 550px) {
 
-      .hero {
-        min-height: 600px;
-      }
-
       .hero-description {
         font-size: 17px;
       }
 
-      section {
-        padding: 65px 20px;
-      }
-
+        .intro,
+        .steps,
+        .action,
+        .rules,
+        .timeline {
+            padding: 65px 20px;
+        }
+        
       .step-grid {
         grid-template-columns: 1fr;
       }
@@ -441,11 +409,11 @@
       </div>
 
       <h1>
-        童話大冒險
+        童畫大冒險
       </h1>
 
       <p class="hero-description">
-        拿起你的彩色筆，把想像力畫進這張圖裡！
+        拿起你的畫筆，把想像力畫進圖畫裡！
         邀請小小藝術家一起用顏色創造屬於自己的故事。
       </p>
 
@@ -461,16 +429,16 @@
           class="btn btn-download"
           download
         >
-          ↓ 下載幼兒組著色圖
+          下載《幼兒組著色圖》
         </a>
 
         <!-- 投稿網址 -->
         <a
-          href="投稿網址尚未確認"
+          href="#"
           class="btn btn-upload"
           target="_blank"
         >
-          ↑ 上傳投稿作品
+          上傳投稿作品
         </a>
 
       </div>
@@ -592,12 +560,12 @@
           class="btn"
           download
         >
-          ↓ 下載比賽著色圖
+             下載比賽著色圖
         </a>
 
 
         <a
-          href="https://forms.google.com/"
+          href="#"
           class="btn"
           target="_blank"
         >
@@ -702,7 +670,7 @@
         <div class="timeline-item">
 
           <div class="timeline-date">
-            09 / 01
+            08 / 23
           </div>
 
           <div>
@@ -716,7 +684,7 @@
         <div class="timeline-item">
 
           <div class="timeline-date">
-            10 / 15
+            09 / 11
           </div>
 
           <div>
