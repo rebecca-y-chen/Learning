@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>童畫大冒險｜兒童繪畫比賽</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family:
+        "Noto Sans TC",
+        "PingFang TC",
+        "Microsoft JhengHei",
+        sans-serif;
+
+      background: #fffaf1;
+      color: #353535;
+      line-height: 1.8;
+    }
+
+    /* --------------------
+       HERO
+    -------------------- */
+
+    .hero {
+      min-height: 650px;
+      padding: 70px 24px 90px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 10% 20%, #ffd95c 0 8%, transparent 8.5%),
+        radial-gradient(circle at 90% 15%, #7cc9f5 0 7%, transparent 7.5%),
+        radial-gradient(circle at 85% 85%, #ff8d87 0 8%, transparent 8.5%),
+        #fff4dc;
+    }
+
+    .hero-content {
+      max-width: 900px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .tag {
+      display: inline-block;
+      background: #ffffff;
+      border: 2px solid #333;
+      border-radius: 100px;
+      padding: 8px 20px;
+      font-weight: 700;
+      margin-bottom: 25px;
+      transform: rotate(-2deg);
+    }
+
+    .hero h1 {
+      font-size: clamp(48px, 8vw, 92px);
+      line-height: 1.08;
+      margin-bottom: 20px;
+      color: #ef5e55;
+      letter-spacing: 2px;
+    }
+
+    .hero-description {
+      font-size: 20px;
+      max-width: 650px;
+      margin: 0 auto 35px;
+    }
+
+    .date {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 36px;
+    }
+
+    /* --------------------
+       BUTTONS
+    -------------------- */
+
+    .hero-buttons,
+    .action-buttons {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-width: 220px;
+      padding: 16px 26px;
+
+      border: 2px solid #333;
+      border-radius: 18px;
+
+      color: #222;
+      text-decoration: none;
+      font-size: 17px;
+      font-weight: 800;
+
+      box-shadow: 5px 5px 0 #333;
+      transition: 0.18s ease;
+    }
+
+    .btn:hover {
+      transform: translate(3px, 3px);
+      box-shadow: 2px 2px 0 #333;
+    }
+
+    .btn-download {
+      background: #ffd95c;
+    }
+
+    .btn-upload {
+      background: #77d2bd;
+    }
+
+    /* --------------------
+       GENERAL
+    -------------------- */
+
+    section {
+      padding: 90px 24px;
+    }
+
+    .container {
+      max-width: 1050px;
+      margin: auto;
+    }
+
+    .section-title {
+      font-size: clamp(32px, 5vw, 48px);
+      text-align: center;
+      margin-bottom: 15px;
+    }
+
+    .section-subtitle {
+      text-align: center;
+      color: #747474;
+      max-width: 650px;
+      margin: 0 auto 55px;
+    }
+
+    /* --------------------
+       INTRO
+    -------------------- */
+
+    .intro {
+      background: white;
+    }
+
+    .intro-card {
+      background: #fff8e8;
+      border-radius: 30px;
+      padding: 45px;
+      font-size: 18px;
+    }
+
+    /* --------------------
+       STEPS
+    -------------------- */
+
+    .steps {
+      background: #eaf6ff;
+    }
+
+    .step-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+
+    .step-card {
+      background: white;
+      padding: 30px 24px;
+      border-radius: 25px;
+      border: 2px solid #333;
+      box-shadow: 5px 5px 0 #333;
+    }
+
+    .number {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #ffd95c;
+      font-size: 22px;
+      font-weight: 900;
+      margin-bottom: 20px;
+    }
+
+    .step-card h3 {
+      font-size: 20px;
+      margin-bottom: 8px;
+    }
+
+    /* --------------------
+       CTA
+    -------------------- */
+
+    .action {
+      background: #ff827d;
+      text-align: center;
+    }
+
+    .action .section-title,
+    .action .section-subtitle {
+      color: white;
+    }
+
+    .action-buttons .btn {
+      background: white;
+    }
+
+    .action-buttons .btn:first-child {
+      background: #ffd95c;
+    }
+
+    .action-buttons .btn:last-child {
+      background: #9be3d2;
+    }
+
+    /* --------------------
+       RULES
+    -------------------- */
+
+    .rules {
+      background: #fffaf1;
+    }
+
+    .rule-list {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+    }
+
+    .rule-item {
+      background: white;
+      padding: 28px;
+      border-radius: 20px;
+    }
+
+    .rule-item h3 {
+      color: #ef5e55;
+      margin-bottom: 8px;
+    }
+
+    /* --------------------
+       DATES
+    -------------------- */
+
+    .timeline {
+      background: #f0f8ed;
+    }
+
+    .timeline-list {
+      max-width: 700px;
+      margin: auto;
+    }
+
+    .timeline-item {
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: 25px;
+      padding: 25px 0;
+      border-bottom: 2px dashed #b6cab1;
+    }
+
+    .timeline-date {
+      font-weight: 900;
+      font-size: 18px;
+      color: #ef5e55;
+    }
+
+    /* --------------------
+       FOOTER
+    -------------------- */
+
+    footer {
+      padding: 50px 24px;
+      text-align: center;
+      background: #343434;
+      color: white;
+    }
+
+    footer p {
+      opacity: 0.8;
+      margin-top: 8px;
+    }
+
+    /* --------------------
+       MOBILE
+    -------------------- */
+
+    @media (max-width: 850px) {
+
+      .step-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .rule-list {
+        grid-template-columns: 1fr;
+      }
+
+    }
+
+    @media (max-width: 550px) {
+
+      .hero {
+        min-height: 600px;
+      }
+
+      .hero-description {
+        font-size: 17px;
+      }
+
+      section {
+        padding: 65px 20px;
+      }
+
+      .step-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .btn {
+        width: 100%;
+      }
+
+      .intro-card {
+        padding: 30px 24px;
+      }
+
+      .timeline-item {
+        grid-template-columns: 1fr;
+        gap: 5px;
+      }
+
+    }
+  </style>
+</head>
+
+
+<body>
+
+  <!-- HERO -->
+  <header class="hero">
+
+    <div class="hero-content">
+
+      <div class="tag">
+        2026 CHILDREN'S ART CONTEST
+      </div>
+
+      <h1>
+        童畫大冒險
+      </h1>
+
+      <p class="hero-description">
+        拿起你的彩色筆，把想像力畫進這張圖裡！
+        邀請小小藝術家一起用顏色創造屬於自己的故事。
+      </p>
+
+      <div class="date">
+        作品徵件期間｜2026.09.01 — 2026.10.15
+      </div>
+
+      <div class="hero-buttons">
+
+        <!-- 改成你的著色圖下載網址 -->
+        <a
+          href="images/幼兒組著色圖.jpg"
+          class="btn btn-download"
+          download
+        >
+          ↓ 下載著色圖
+        </a>
+
+        <!-- 改成你的 Google Form / 上傳頁網址 -->
+        <a
+          href="https://forms.google.com/"
+          class="btn btn-upload"
+          target="_blank"
+        >
+          ↑ 上傳作品
+        </a>
+
+      </div>
+
+    </div>
+
+  </header>
+
+
+
+  <!-- 活動介紹 -->
+  <section class="intro">
+
+    <div class="container">
+
+      <h2 class="section-title">
+        畫出你的想像力
+      </h2>
+
+      <p class="section-subtitle">
+        每個孩子眼中的世界都不一樣，
+        我們想看看你會怎麼為它加上顏色。
+      </p>
+
+      <div class="intro-card">
+
+        <p>
+          本次兒童繪畫比賽邀請孩子透過指定著色圖，
+          發揮自己的創意與想像力。不需要畫得像誰，
+          也沒有唯一正確的顏色，只要大膽創作，
+          每一幅作品都有屬於自己的故事。
+        </p>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- 參加方式 -->
+  <section class="steps">
+
+    <div class="container">
+
+      <h2 class="section-title">
+        怎麼參加？
+      </h2>
+
+      <p class="section-subtitle">
+        四個步驟，就可以完成參賽。
+      </p>
+
+
+      <div class="step-grid">
+
+        <div class="step-card">
+          <div class="number">1</div>
+          <h3>下載圖稿</h3>
+          <p>
+            點擊下載按鈕，取得本次比賽指定著色圖。
+          </p>
+        </div>
+
+
+        <div class="step-card">
+          <div class="number">2</div>
+          <h3>開始創作</h3>
+          <p>
+            列印圖稿，使用蠟筆、彩色筆或其他媒材完成作品。
+          </p>
+        </div>
+
+
+        <div class="step-card">
+          <div class="number">3</div>
+          <h3>拍攝作品</h3>
+          <p>
+            將完成的畫作拍照或掃描成清楚的電子檔。
+          </p>
+        </div>
+
+
+        <div class="step-card">
+          <div class="number">4</div>
+          <h3>線上投稿</h3>
+          <p>
+            填寫參賽資料並上傳作品電子檔，就完成投稿囉！
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- CTA -->
+  <section class="action">
+
+    <div class="container">
+
+      <h2 class="section-title">
+        準備好開始畫了嗎？
+      </h2>
+
+      <p class="section-subtitle">
+        先下載圖稿，完成作品之後再回到這裡投稿。
+      </p>
+
+
+      <div class="action-buttons">
+
+        <a
+          href="images/幼兒組著色圖.jpg"
+          class="btn"
+          download
+        >
+          ↓ 下載比賽著色圖
+        </a>
+
+
+        <a
+          href="https://forms.google.com/"
+          class="btn"
+          target="_blank"
+        >
+          ↑ 上傳我的作品
+        </a>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- 比賽辦法 -->
+  <section class="rules">
+
+    <div class="container">
+
+      <h2 class="section-title">
+        比賽辦法
+      </h2>
+
+      <p class="section-subtitle">
+        投稿以前，記得先看看下面的重要規則。
+      </p>
+
+
+      <div class="rule-list">
+
+        <div class="rule-item">
+          <h3>參加對象</h3>
+          <p>
+            幼兒園至國小六年級兒童皆可參加。
+          </p>
+        </div>
+
+
+        <div class="rule-item">
+          <h3>作品規格</h3>
+          <p>
+            須使用本活動提供之指定著色圖進行創作。
+          </p>
+        </div>
+
+
+        <div class="rule-item">
+          <h3>創作媒材</h3>
+          <p>
+            蠟筆、彩色筆、水彩、色鉛筆等平面媒材皆可使用。
+          </p>
+        </div>
+
+
+        <div class="rule-item">
+          <h3>電子檔格式</h3>
+          <p>
+            JPG、PNG 或 PDF，請確保作品完整且影像清晰。
+          </p>
+        </div>
+
+
+        <div class="rule-item">
+          <h3>投稿方式</h3>
+          <p>
+            透過本網站「上傳作品」按鈕進入線上表單投稿。
+          </p>
+        </div>
+
+
+        <div class="rule-item">
+          <h3>注意事項</h3>
+          <p>
+            每位參賽者限投稿一件作品，作品須由參賽兒童本人完成。
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- 重要日期 -->
+  <section class="timeline">
+
+    <div class="container">
+
+      <h2 class="section-title">
+        Important Dates
+      </h2>
+
+      <p class="section-subtitle">
+        小藝術家們，別錯過重要日期！
+      </p>
+
+
+      <div class="timeline-list">
+
+        <div class="timeline-item">
+
+          <div class="timeline-date">
+            09 / 01
+          </div>
+
+          <div>
+            <h3>開始徵件</h3>
+            <p>開放下載著色圖與線上投稿。</p>
+          </div>
+
+        </div>
+
+
+        <div class="timeline-item">
+
+          <div class="timeline-date">
+            10 / 15
+          </div>
+
+          <div>
+            <h3>投稿截止</h3>
+            <p>線上作品上傳至當日 23:59 截止。</p>
+          </div>
+
+        </div>
+
+
+        <div class="timeline-item">
+
+          <div class="timeline-date">
+            10 / 30
+          </div>
+
+          <div>
+            <h3>得獎公告</h3>
+            <p>於活動網站公布得獎名單。</p>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+
+  <footer>
+
+    <strong>
+      2026 童畫大冒險兒童繪畫比賽
+    </strong>
+
+    <p>
+      主辦單位｜OOO
+    </p>
+
+  </footer>
+
+
+</body>
+</html>
