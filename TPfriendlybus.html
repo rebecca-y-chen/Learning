@@ -28,79 +28,51 @@
       color: #353535;
       line-height: 1.8;
     }
+
     /* --------------------
     MAIN BANNER
     -------------------- */
+    .main-banner {
+        width: 100%;
+        overflow: hidden;
+        background: #fff;
+    }
 
-  .main-banner {
-
-  width: 100%;
-
-  overflow: hidden;
-
-  background: #fff;
-
-}
-
-.main-banner img {
-
-  display: block;
-
-  width: 100%;
-
-  height: auto;
-
-}
+    .main-banner img {
+        display: block;
+        width: 100%;
+        height: auto;
+    }
 
     /* --------------------
        HERO
     -------------------- */
+    .hero {
+        padding: 90px 24px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        background: #fff4dc;
+    }
 
-   .hero {
+    .hero-image {
+        width: min(52%, 650px);
+        height: auto;
+        object-fit: contain;
+    }
 
-  padding: 90px 24px;
+    .hero-content {
+        max-width: 900px;
+        margin: auto;
+    }
 
-  display: flex;
-
-  justify-content: center;
-
-  align-items: center;
-
-  text-align: center;
-
-  background: #fff4dc;
-
-}
-
-.hero-image {
-
-  width: min(52%, 650px);
-
-  height: auto;
-
-  object-fit: contain;
-
-}
-
-.hero-content {
-
-  max-width: 900px;
-
-  margin: auto;
-
-}
-
-.hero h1 {
-
-  font-size: clamp(48px, 6vw, 88px);
-
-  line-height: 1.05;
-
-  margin: 20px 0;
-
-  color: #ef5e55;
-
-}
+    .hero h1 {
+        font-size: clamp(36px, 5vw, 64px);
+        line-height: 1.05;
+        margin: 20px 0;
+        color: #ef5e55;
+    }
 
 @media (max-width: 850px) {
 
