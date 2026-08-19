@@ -91,12 +91,24 @@
         font-weight: 700;
         margin-bottom: 25px;
         transform: rotate(-2deg);
+        white-space: nowrap; /* 不換行 */
     }
 
     .hero-description {
         font-size: 20px;
         max-width: 650px;
         margin: 0 auto 35px;
+    }
+
+    .hero-highlight {
+        max-width: 700px;
+        margin: 0 auto 30px;
+        padding: 16px 24px;
+        background: #ffffff;
+        border: 2px solid #333;
+        border-radius: 18px;
+        font-size: 18px;
+        font-weight: 800;
     }
 
     .date {
@@ -155,10 +167,14 @@
     -------------------- */
 
     .intro,
+    .groups,
     .steps,
     .action,
+    .awards,
     .rules,
-    .timeline {
+    .judging,
+    .timeline,
+    .shipping {
         padding: 90px 24px;
     }
 
@@ -236,6 +252,48 @@
     }
 
     /* --------------------
+    GROUPS
+    -------------------- */
+
+    .groups {
+        padding: 90px 24px;
+        background: #fff4dc;
+    }
+
+    .group-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 22px;
+    }
+
+    .group-card {
+        background: white;
+        padding: 32px 26px;
+        border-radius: 25px;
+        border: 2px solid #333;
+        box-shadow: 5px 5px 0 #333;
+    }
+
+    .group-card h3 {
+        font-size: 24px;
+        color: #ef5e55;
+        margin: 12px 0;
+    }
+
+    .group-card p {
+        margin-bottom: 24px;
+    }
+
+    .group-label {
+        display: inline-block;
+        padding: 5px 14px;
+        background: #ffd95c;
+        border-radius: 100px;
+        font-weight: 800;
+        font-size: 14px;
+    }
+
+    /* --------------------
        CTA
     -------------------- */
 
@@ -262,6 +320,45 @@
     }
 
     /* --------------------
+    AWARDS
+    -------------------- */
+
+    .awards {
+        padding: 90px 24px;
+        background: #fff4dc;
+    }
+
+    .award-grid {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 24px;
+        max-width: 900px;
+        margin: auto;
+    }
+
+    .award-card {
+        background: white;
+        padding: 35px;
+        border-radius: 25px;
+        border: 2px solid #333;
+        box-shadow: 5px 5px 0 #333;
+    }
+
+    .award-card h3 {
+        font-size: 24px;
+        margin-bottom: 8px;
+    }
+
+    .award-card p {
+        margin-top: 18px;
+    }
+
+    .award-icon {
+        font-size: 42px;
+        margin-bottom: 10px;
+    }
+
+    /* --------------------
        RULES
     -------------------- */
 
@@ -285,6 +382,35 @@
         color: #ef5e55;
         margin-bottom: 8px;
     }
+
+    .judging {
+        padding: 90px 24px;
+        background: #eaf6ff;
+    }
+
+    .judge-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 22px;
+    }
+
+    .judge-card {
+        background: white;
+        padding: 30px;
+        border-radius: 25px;
+        text-align: center;
+    }
+
+    .judge-score {
+        font-size: 42px;
+        font-weight: 900;
+        color: #ef5e55;
+    }
+
+    .judge-card h3 {
+        margin: 10px 0;
+    }
+
 
     /* --------------------
        DATES
@@ -313,6 +439,29 @@
         color: #ef5e55;
     }
 
+    .shipping {
+        padding: 90px 24px;
+        background: #fffaf1;
+    }
+
+    .shipping-card {
+        max-width: 760px;
+        margin: auto;
+        background: white;
+        padding: 40px;
+        border-radius: 25px;
+    }
+
+    .shipping-card h3 {
+        color: #ef5e55;
+        margin-top: 24px;
+        margin-bottom: 5px;
+    }
+
+    .shipping-card h3:first-child {
+        margin-top: 0;
+    }
+
     /* --------------------
        FOOTER
     -------------------- */
@@ -338,6 +487,19 @@
       .step-grid {
             grid-template-columns: repeat(2, 1fr);
         }
+        
+      .group-grid {
+            grid-template-columns: 1fr;
+        }
+
+      .award-grid {
+            grid-template-columns: 1fr;
+        }
+
+      .judge-grid {
+            grid-template-columns: 1fr;
+        }
+
       .rule-list {
             grid-template-columns: 1fr;
         }
@@ -349,11 +511,20 @@
             font-size: 17px;
         }
 
+        .tag {
+            font-size: clamp(11px, 3.3vw, 14px);
+            padding: 7px 12px;
+        }
+
         .intro,
+        .groups,
         .steps,
         .action,
+        .awards,
         .rules,
-        .timeline {
+        .judging,
+        .timeline,
+        .shipping {
             padding: 65px 20px;
         }
 
@@ -393,15 +564,22 @@
                 2026 雙北公車友善月｜兒童繪畫比賽
             </div>
 
-            <h1>童畫大冒險</h1>
+            <h1>畫出我們的友善公車</h1>
 
             <p class="hero-description">
-                拿起你的畫筆，把想像力畫進圖畫裡！
-                邀請小小藝術家一起用顏色創造屬於自己的故事。
+                你心中的友善公車是什麼模樣？
+                是充滿魔法、奔向未來，
+                還是有著駕駛長與乘客暖心互動的公車？
+                拿起畫筆，畫出你眼中的友善公車！
+            </p>
+
+            <p class="hero-highlight">
+                12件優選作品將登上雙北12台主題公車
+                化身「雙北移動美術館」巡迴雙北
             </p>
 
             <div class="date">
-                作品徵件期間｜2026.08.23 — 2026.09.11
+                徵件期間｜即日起 ~ 2026.09.13(日)23:59
             </div>
 
             <div class="hero-buttons">
@@ -423,25 +601,88 @@
   <!-- 活動介紹 -->
   <section class="intro">
         <div class="container">
-            <h2 class="section-title">畫出你的想像力</h2>
+            <h2 class="section-title">畫出你心中的友善公車</h2>
 
             <p class="section-subtitle">
-                每個孩子眼中的世界都不一樣，
-                我們想看看你會怎麼為它加上顏色。
+                每個孩子心中的「友善」，
+                都可以有不一樣的模樣。
             </p>
 
             <div class="intro-card">
                 <p>
-                    本次兒童繪畫比賽邀請孩子透過指定著色圖，
-                    發揮自己的創意與想像力。不需要畫得像誰，
-                    也沒有唯一正確的顏色，只要大膽創作，
-                    每一幅作品都有屬於自己的故事。
+                    也許是一台充滿快樂與魔法的公車，
+                    也許是一台對環境與每個人更加友善的未來公車，
+                    也可能是每天搭車時，
+                    駕駛長與乘客之間暖暖的小故事。
+                    <br><br>
+                    從自己的生活與想像出發，
+                    畫出屬於你的友善公車！
                 </p>
             </div>
         </div>
     </section>
 
+  <!-- 參賽組別 -->
+  <section class="groups">
+        <div class="container">
+            <h2 class="section-title">選擇你的創作挑戰</h2>
 
+            <p class="section-subtitle">
+                不同年齡有不同主題，
+                找到你的組別就可以開始創作！
+
+            </p>
+
+            <div class="group-grid">
+
+                <!-- 幼兒組 -->
+                <div class="group-card">
+                    <div class="group-label">幼兒園中、大班</div>
+
+                    <h3>我的魔法公車</h3>
+
+                    <p>
+                        下載官方提供的《我的魔法公車》線稿，
+                        以 A4 尺寸 100% 比例列印，
+                        並在線稿上自由加入色彩與創意情境。
+                    </p>
+
+                    <a href="images/幼兒組著色圖.jpg"
+                    class="btn btn-download"
+                    download>
+                        下載幼兒組著色圖
+                    </a>
+                </div>
+
+                <!-- 國小一～三年級 -->
+                <div class="group-card">
+                    <div class="group-label">國小一～三年級</div>
+
+                    <h3>未來公車，我設計！</h3>
+
+                    <p>
+                        使用橫式 4 開圖畫紙（約 54 × 39 cm），
+                        發揮天馬行空的想像，
+                        設計一台對未來環境與移動生活更加友善的夢幻公車。
+                    </p>
+                </div>
+
+                <!-- 國小四～六年級 -->
+                <div class="group-card">
+                    <div class="group-label">國小四～六年級</div>
+
+                    <h3>搭公車，友你真好！</h3>
+
+                    <p>
+                        使用橫式 4 開圖畫紙（約 54 × 39 cm），
+                        畫出搭乘公車時的暖心互動，
+                        呈現駕駛長貼心服務與乘客彼此互助的美好日常。
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </section>
 
   <!-- 參加方式 -->
   <section class="steps">
@@ -457,29 +698,37 @@
 
                 <div class="step-card">
                     <div class="number">1</div>
-                    <h3>下載圖稿</h3>
-                    <p>點擊下載按鈕，取得本次比賽指定著色圖。</p>
+                    <h3>確認參賽組別</h3>
+                    <p>
+                        依 115 學年度新學期年級，
+                        確認自己的參賽組別與創作主題。
+                    </p>
                 </div>
-
 
                 <div class="step-card">
                     <div class="number">2</div>
                     <h3>開始創作</h3>
-                    <p>列印圖稿，使用蠟筆、彩色筆或其他媒材完成作品。</p>
+                    <p>
+                        依組別指定主題進行創作，
+                        可使用蠟筆、彩色筆、水彩、色鉛筆等平面媒材。
+                    </p>
                 </div>
 
 
                 <div class="step-card">
                     <div class="number">3</div>
-                    <h3>拍攝作品</h3>
-                    <p>將完成的畫作拍照或掃描成清楚的電子檔。</p>
+                    <h3>拍照或掃描</h3>
+                    <p>
+                        將作品平整拍照或掃描成清晰電子檔，
+                        格式為 JPG、PNG 或 PDF，建議 10MB 以下。
+                    </p>
                 </div>
 
 
                 <div class="step-card">
                     <div class="number">4</div>
                     <h3>線上投稿</h3>
-                    <p>填寫參賽資料並上傳作品電子檔，就完成投稿囉！</p>
+                    <p>填寫參賽資料並上傳作品電子檔，，並記得寄回實體原稿</p>
                 </div>
 
             </div>
@@ -492,9 +741,12 @@
   <section class="action">
         <div class="container">
 
-            <h2 class="section-title">準備好開始畫了嗎？</h2>
+            <h2 class="section-title">準備好開始創作了嗎？</h2>
 
-            <p class="section-subtitle">先下載圖稿，完成作品之後再回到這裡投稿。</p>
+            <p class="section-subtitle">
+                找到自己的參賽組別，
+                用畫筆畫出你心中的友善公車！
+            </p>
 
             <div class="action-buttons">
 
@@ -516,7 +768,53 @@
         </div>
     </section>
 
+    <!-- 獎項 -->
+    <section class="awards">
+        <div class="container">
 
+            <h2 class="section-title">讓你的畫，真的跑上街！</h2>
+
+            <p class="section-subtitle">
+                得獎作品將化身「雙北移動美術館」，
+                登上主題公車巡迴雙北。
+            </p>
+
+            <div class="award-grid">
+
+                <div class="award-card award-main">
+                    <div class="award-icon">🥇</div>
+
+                    <h3>移動美術館特優獎</h3>
+
+                    <strong>雙北每組各 2 名，共 12 名</strong>
+
+                    <p>
+                        得獎作品將與同組優勝畫作聯合策展，
+                        登上該主題專屬公車車身公開巡迴展出。
+                    </p>
+
+                    <p>
+                        7-ELEVEN 實體商品禮券 2,000 元<br>
+                        主辦單位榮譽獎狀乙紙
+                    </p>
+                </div>
+
+
+                <div class="award-card">
+                    <div class="award-icon">🎖️</div>
+
+                    <h3>友善小藝術家獎</h3>
+
+                    <strong>雙北每組各 5 名，共 30 名</strong>
+
+                    <p>
+                        主辦單位榮譽獎狀乙紙
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </section>
 
   <!-- 比賽辦法 -->
   <section class="rules">
@@ -529,40 +827,100 @@
             <div class="rule-list">
 
                 <div class="rule-item">
-                    <h3>參加對象</h3>
-                    <p>幼兒園至國小六年級兒童皆可參加。</p>
-                </div>
-
-                <div class="rule-item">
-                    <h3>作品規格</h3>
-                    <p>須使用本活動提供之指定著色圖進行創作。</p>
+                    <h3>參賽資格</h3>
+                    <p>
+                        限 115 學年度就讀臺北市、新北市
+                        公私立幼兒園中大班及國小之學童參加。
+                    </p>
                 </div>
 
                 <div class="rule-item">
                     <h3>創作媒材</h3>
-                    <p>蠟筆、彩色筆、水彩、色鉛筆等平面媒材皆可使用。</p>
+                    <p>
+                        可使用蠟筆、彩色筆、水彩、色鉛筆、
+                        粉蠟筆等平面手繪媒材。
+                    </p>
                 </div>
 
                 <div class="rule-item">
-                    <h3>電子檔格式</h3>
-                    <p> JPG、PNG 或 PDF，請確保作品完整且影像清晰。</p>
+                    <h3>禁止使用</h3>
+                    <p>
+                        不得使用剪貼、立體裝飾、亮粉、拼貼、
+                        電腦繪圖或 AI 生成圖像。
+                    </p>
                 </div>
 
                 <div class="rule-item">
-                    <h3>投稿方式</h3>
-                    <p>透過本網站「上傳作品」按鈕進入線上表單投稿。</p>
+                    <h3>投稿次數</h3>
+                    <p>
+                        每位參賽者限投稿乙次。
+                        作品照片須清晰、正面且無陰影遮擋。
+                    </p>
                 </div>
 
                 <div class="rule-item">
-                    <h3>注意事項</h3>
-                    <p>每位參賽者限投稿一件作品，作品須由參賽兒童本人完成。</p>
+                    <h3>檔案命名</h3>
+                    <p>
+                        上傳前請依指定格式命名：
+                        「組別_縣市_學校_姓名」。
+                    </p>
+                </div>
+
+                <div class="rule-item">
+                    <h3>實體原稿</h3>
+                    <p>
+                        線上投稿完成後請務必寄回實體原件，
+                        未繳交者視同放棄評選與展出資格。
+                    </p>
                 </div>
 
             </div>
         </div>
     </section>
 
+    <!-- 評審方式 -->
+    <section class="judging">
+        <div class="container">
 
+            <h2 class="section-title">評審怎麼看？</h2>
+
+            <p class="section-subtitle">
+                不只是畫得漂亮，
+                更重要的是你自己的想法與故事。
+            </p>
+
+            <div class="judge-grid">
+
+                <div class="judge-card">
+                    <div class="judge-score">50%</div>
+                    <h3>原創創意與靈魂</h3>
+                    <p>
+                        獨特視角、打破框架，
+                        展現孩子「眼睛裡的光」。
+                    </p>
+                </div>
+
+                <div class="judge-card">
+                    <div class="judge-score">30%</div>
+                    <h3>主題探索與故事性</h3>
+                    <p>
+                        切合組別主題，
+                        展現生活觀察或對未來的想像。
+                    </p>
+                </div>
+
+                <div class="judge-card">
+                    <div class="judge-score">20%</div>
+                    <h3>視覺張力與色彩氣氛</h3>
+                    <p>
+                        大膽運用色彩與構圖，
+                        呈現完整且有吸引力的畫面氛圍。
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </section>
 
   <!-- 重要日期 -->
   <section class="timeline">
@@ -577,12 +935,12 @@
                 <div class="timeline-item">
 
                     <div class="timeline-date">
-                        08 / 23 (日)
+                        即日起 ~ 09 / 13(日)
                     </div>
 
                     <div>
-                        <h3>開始徵件</h3>
-                        <p>開放下載著色圖與線上投稿。</p>
+                        <h3>線上徵件</h3>
+                        <p>投稿至 2026.09.13（日）23:59 截止。</p>
                     </div>
 
                 </div>
@@ -591,12 +949,15 @@
                 <div class="timeline-item">
 
                     <div class="timeline-date">
-                        09 / 11 (五)
+                        09 / 15（二）
                     </div>
 
                     <div>
-                        <h3>投稿截止</h3>
-                        <p>線上作品上傳至當日 23:59 截止。</p>
+                        <h3>實體原稿寄送截止</h3>
+                        <p>
+                            完成線上投稿後，
+                            請於期限前寄出實體原稿，以郵戳為憑。
+                        </p>
                     </div>
 
                 </div>
@@ -605,12 +966,25 @@
                 <div class="timeline-item">
 
                     <div class="timeline-date">
-                        10 / 30 (五)
+                        09 / 21（一）
                     </div>
 
                     <div>
-                        <h3>得獎公告</h3>
-                        <p>於活動網站公布得獎名單。</p>
+                        <h3>得獎名單公布</h3>
+                        <p>12:00 於官方 LINE 貼文同步揭曉。</p>
+                    </div>
+
+                </div>
+
+                <div class="timeline-item">
+
+                    <div class="timeline-date">
+                        10 / 01(四) — 10 / 31(六)
+                    </div>
+
+                    <div>
+                        <h3>雙北移動美術館上路</h3>
+                        <p>12 台主題公車於雙北巡迴展出。</p>
                     </div>
 
                 </div>
@@ -619,7 +993,53 @@
         </div>
     </section>
 
+    <!-- 實體原稿寄送 -->
+    <section class="shipping">
+        <div class="container">
 
+            <h2 class="section-title">最後一步，別忘了寄回作品！</h2>
+
+            <p class="section-subtitle">
+                線上投稿完成後，
+                還需要寄送實體原稿才能完成參賽程序。
+            </p>
+
+            <div class="shipping-card">
+
+                <h3>寄件期限</h3>
+                <p>
+                    2026.09.15（二）前寄出，
+                    以郵戳為憑。
+                </p>
+
+                <h3>4K 作品</h3>
+                <p>
+                    建議捲起後放入「郵局 4 號便利箱」寄出。
+                </p>
+
+                <h3>A4 作品</h3>
+                <p>
+                    建議上下使用兩張厚紙板夾好平放寄送，
+                    避免作品折損。
+                </p>
+
+                <h3>收件資訊</h3>
+                <p>
+                    24841 新北市五股區成泰路三段135巷3號1F
+                    <br>
+                    「2026 雙北公車友善月」活動小組 收
+                </p>
+
+                <p>
+                    <strong>
+                        外封請註明「參賽組別」與「學生姓名」
+                    </strong>
+                </p>
+
+            </div>
+
+        </div>
+    </section>
 
   <footer>
         <strong>
