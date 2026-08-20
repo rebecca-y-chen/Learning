@@ -162,6 +162,45 @@
     .btn-upload {
         background: #77d2bd;
     }
+    /* --------------------
+    QUICK NAV
+    -------------------- */
+
+    .quick-nav {
+        padding: 24px;
+        background: #ffffff;
+    }
+
+    .quick-nav-inner {
+        max-width: 1050px;
+        margin: auto;
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+        flex-wrap: wrap;
+    }
+
+    .quick-nav-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10px 22px;
+
+        background: #ffd95c;
+        border: 2px solid #333;
+        border-radius: 100px;
+
+        color: #333;
+        text-decoration: none;
+        font-size: 15px;
+        font-weight: 800;
+
+        transition: 0.18s ease;
+    }
+
+    .quick-nav-btn:hover {
+        transform: translateY(-2px);
+    }
 
     /* --------------------
        GENERAL
@@ -599,8 +638,11 @@
 
   <!-- 主 Banner -->
   <section class="main-banner">
-    <img src="images/hero-main.png" alt="兒童繪畫比賽主視覺" >
-  </section>
+        <picture>
+            <source media="(max-width: 550px)" srcset="images/hero-main-mobile.png">
+            <img src="images/hero-main.png" alt="兒童繪畫比賽主視覺">
+        </picture>
+    </section>
 
   <!-- HERO -->
   <header class="hero">
@@ -643,7 +685,32 @@
         </div>
     </header>
 
+    <!-- 快速索引 -->
+    <nav class="quick-nav" aria-label="頁面快速索引">
+        <div class="quick-nav-inner">
 
+            <a href="#groups" class="quick-nav-btn">
+                參賽組別
+            </a>
+
+            <a href="#steps" class="quick-nav-btn">
+                怎麼參加
+            </a>
+
+            <a href="#awards" class="quick-nav-btn">
+                獎項
+            </a>
+
+            <a href="#rules" class="quick-nav-btn">
+                比賽辦法
+            </a>
+
+            <a href="#timeline" class="quick-nav-btn">
+                重要日期
+            </a>
+
+        </div>
+    </nav>
 
   <!-- 活動介紹 -->
   <section class="intro">
@@ -670,7 +737,7 @@
     </section>
 
   <!-- 參賽組別 -->
-  <section class="groups">
+  <section class="groups" id="groups">
         <div class="container">
             <h2 class="section-title">選擇你的創作挑戰</h2>
 
@@ -732,7 +799,7 @@
     </section>
 
   <!-- 參加方式 -->
-  <section class="steps">
+  <section class="steps" id="steps">
         <div class="container">
 
             <h2 class="section-title">怎麼參加？</h2>
@@ -816,7 +883,7 @@
     </section>
 
     <!-- 獎項 -->
-    <section class="awards">
+    <section class="awards" id="awards">
         <div class="container">
 
             <h2 class="section-title">讓你的畫，真的跑上街！</h2>
@@ -864,7 +931,7 @@
     </section>
 
   <!-- 比賽辦法 -->
-  <section class="rules">
+  <section class="rules" id="rules">
         <div class="container">
 
             <h2 class="section-title">比賽辦法</h2>
@@ -970,7 +1037,7 @@
     </section>
 
   <!-- 重要日期 -->
-  <section class="timeline">
+  <section class="timeline" id="timeline">
         <div class="container">
 
             <h2 class="section-title">重要日期</h2>
