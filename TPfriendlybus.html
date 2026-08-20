@@ -430,6 +430,54 @@
         margin-bottom: 8px;
     }
 
+    /* --------------------
+    JUDGES
+    -------------------- */
+
+    .judges {
+        padding: 90px 24px;
+        background: #ffffff;
+    }
+
+    .judges-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 28px;
+    }
+
+    .judge-profile {
+        text-align: center;
+    }
+
+    .judge-photo {
+        display: block;
+        width: 180px;
+        height: 180px;
+        margin: 0 auto 22px;
+        object-fit: cover;
+        object-position: center;
+        border-radius: 50%;
+        border: 3px solid #333;
+    }
+
+    .judge-info h3 {
+        font-size: 24px;
+        color: #ef5e55;
+        margin-bottom: 2px;
+    }
+
+    .judge-title {
+        font-size: 15px;
+        font-weight: 700;
+        margin-bottom: 14px;
+    }
+
+    .judge-bio {
+        font-size: 15px;
+        color: #666;
+        line-height: 1.8;
+    }
+
     .judging {
         padding: 90px 24px;
         background: #eaf6ff;
@@ -559,6 +607,11 @@
             grid-template-columns: 1fr;
         }
 
+      .judges-grid {
+            grid-template-columns: 1fr;
+            gap: 50px;
+        }
+
       .judge-grid {
             grid-template-columns: 1fr;
         }
@@ -609,6 +662,7 @@
         .action,
         .awards,
         .rules,
+        .judges,
         .judging,
         .timeline,
         .shipping {
@@ -1013,6 +1067,76 @@
 
             </div>
         </div>
+    </section>
+
+    <!-- 評審介紹 -->
+    <section class="judges">
+            <div class="container">
+
+                <h2 class="section-title">評審介紹</h2>
+
+                <p class="section-subtitle">
+                    由專業評審共同選出充滿創意、故事與童心的優秀作品。
+                </p>
+
+                <div class="judges-grid">
+
+                    <!-- 評審 1 -->
+                    <div class="judge-profile">
+
+                        <img
+                            src="images/judge-01.jpg"
+                            alt="評審姓名"
+                            class="judge-photo">
+                    
+                        <div class="judge-info">
+                            <h3>評審姓名</h3>
+                            <p class="judge-title">評審職稱／專業領域</p>
+                            <p class="judge-bio">
+                                這裡放評審簡介，建議控制在二至四行，
+                                介紹評審的專業背景、經歷或與本次比賽相關的專長。
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- 評審 2 -->
+                    <div class="judge-profile">
+
+                        <img
+                            src="images/judge-02.jpg"
+                            alt="評審姓名"
+                            class="judge-photo">
+
+                        <div class="judge-info">
+                            <h3>評審姓名</h3>
+                            <p class="judge-title">評審職稱／專業領域</p>
+                            <p class="judge-bio">
+                                這裡放評審簡介，建議控制在二至四行，
+                                介紹評審的專業背景、經歷或與本次比賽相關的專長。
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- 評審 3 -->
+                    <div class="judge-profile">
+
+                        <img
+                            src="images/judge-03.jpg"
+                            alt="評審姓名"
+                            class="judge-photo">
+
+                        <div class="judge-info">
+                            <h3>評審姓名</h3>
+                            <p class="judge-title">評審職稱／專業領域</p>
+                            <p class="judge-bio">
+                                這裡放評審簡介，建議控制在二至四行，
+                                介紹評審的專業背景、經歷或與本次比賽相關的專長。
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
     </section>
 
     <!-- 評審方式 -->
