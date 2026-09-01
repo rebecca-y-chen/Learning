@@ -7,896 +7,805 @@
   <title>2026雙北公車友善月｜線上美術館</title>
 
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
 
-    html {
-      scroll-behavior: smooth;
-    }
+  html {
+    scroll-behavior: smooth;
+  }
 
-    :root {
-      --cream: #fffaf1;
-      --cream-2: #fff4dc;
-      --ink: #353535;
-      --pink: #ef6b63;
-      --yellow: #ffd95c;
-      --green: #77d2bd;
-      --blue: #a9d9f5;
-      --white: #ffffff;
-      --shadow: 5px 5px 0 #353535;
-      --radius-lg: 28px;
-      --radius-md: 20px;
-      --radius-sm: 14px;
-    }
+  :root {
+    --cream: #fffaf3;
+    --cream-2: #fff1d8;
+    --ink: #2f3345;
+    --pink: #f26f68;
+    --pink-soft: #ffe0dc;
+    --yellow: #ffd65a;
+    --yellow-soft: #fff1b7;
+    --green: #79d3b9;
+    --green-soft: #dff6ee;
+    --blue: #9ed8f5;
+    --blue-soft: #e2f4fd;
+    --purple-soft: #eee7ff;
+    --white: #ffffff;
 
-    body {
-      font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
-      background: var(--cream);
-      color: var(--ink);
-      line-height: 1.7;
-      overflow-x: hidden;
-    }
+    --shadow: 5px 5px 0 var(--ink);
 
-    button {
-      font: inherit;
-    }
+    --radius-lg: 30px;
+    --radius-md: 20px;
+    --radius-sm: 14px;
+  }
 
-    img {
-      max-width: 100%;
-      display: block;
-    }
+  body {
+    font-family:
+      "Noto Sans TC",
+      "PingFang TC",
+      "Microsoft JhengHei",
+      sans-serif;
 
-    .main-banner {
-      width: 100%;
-      margin: 0;
-      padding: 0;
-      line-height: 0;
-      overflow: hidden;
-    }
+    color: var(--ink);
+    line-height: 1.7;
+    overflow-x: hidden;
 
-    .main-banner img {
-      display: block;
-      width: 100%;
-      height: auto;
-    }
+    background:
+      radial-gradient(
+        circle at 12px 12px,
+        rgba(47, 51, 69, .055) 2px,
+        transparent 2.5px
+      ) 0 0 / 34px 34px,
+      var(--cream);
+  }
 
-    main {
-      width: min(1180px, calc(100% - 32px));
-      margin: 0 auto;
-      padding: 54px 0 90px;
-    }
+  button {
+    font: inherit;
+  }
 
-    .intro-box {
-      background: var(--white);
-      border: 2px solid var(--ink);
-      border-radius: var(--radius-lg);
-      box-shadow: var(--shadow);
-      padding: 30px;
-      margin-bottom: 38px;
-    }
+  img {
+    display: block;
+    max-width: 100%;
+  }
 
-    .intro-box h2 {
-      font-size: clamp(28px, 4vw, 42px);
-      color: var(--pink);
-      margin-bottom: 10px;
-    }
+  /* --------------------
+     MAIN BANNER
+  -------------------- */
 
-    .filters {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin: 30px 0 50px;
-      align-items: center;
-    }
+  .main-banner {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    line-height: 0;
+    overflow: hidden;
+  }
 
-    .filter-label {
-      width: 100%;
-      font-weight: 900;
-      font-size: 18px;
-      margin-top: 4px;
-    }
+  .main-banner img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
 
-    .filter-btn {
-      cursor: pointer;
-      border: 2px solid var(--ink);
-      background: var(--white);
-      color: var(--ink);
-      padding: 10px 16px;
-      border-radius: 999px;
-      font-weight: 800;
-      box-shadow: 3px 3px 0 var(--ink);
-      transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
-    }
+  /* --------------------
+     MAIN
+  -------------------- */
 
-    .filter-btn:hover {
-      transform: translate(2px, 2px);
-      box-shadow: 1px 1px 0 var(--ink);
-    }
+  main {
+    width: min(1240px, calc(100% - 34px));
+    margin: 0 auto;
+    padding: 62px 0 90px;
+  }
 
-    .filter-btn.active {
-      background: var(--yellow);
-    }
+  /* --------------------
+     INTRO
+  -------------------- */
 
-    .section {
-      margin-top: 62px;
-    }
+  .intro-box {
+    position: relative;
+    overflow: hidden;
 
-    .section-heading {
-      display: flex;
-      justify-content: space-between;
-      gap: 18px;
-      align-items: flex-end;
-      margin-bottom: 24px;
-      padding-bottom: 14px;
-      border-bottom: 3px solid var(--ink);
-    }
+    margin-bottom: 38px;
+    padding: 34px 38px;
 
-    .section-heading h2 {
-      font-size: clamp(28px, 4vw, 44px);
-      line-height: 1.2;
-    }
+    background: rgba(255, 255, 255, .9);
+    border: 2px solid var(--ink);
+    border-radius: 32px;
+    box-shadow: var(--shadow);
+  }
 
-    .section-heading .en {
-      display: block;
-      margin-top: 4px;
-      color: #777;
-      font-size: 13px;
-      letter-spacing: .13em;
-      font-weight: 800;
-      text-transform: uppercase;
-    }
+  .intro-box h2 {
+    margin-bottom: 10px;
 
-    .count-badge {
-      white-space: nowrap;
-      border: 2px solid var(--ink);
-      border-radius: 999px;
-      padding: 8px 14px;
-      font-weight: 900;
-      background: var(--green);
-      box-shadow: 3px 3px 0 var(--ink);
-    }
+    color: var(--pink);
+    font-size: clamp(28px, 4vw, 42px);
+  }
 
-    .gallery-grid {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 26px 20px;
-    }
+  .intro-box::after {
+    content: "●  ▲  ✦";
 
+    position: absolute;
+    right: 28px;
+    bottom: 17px;
+
+    color: var(--green);
+    font-size: 20px;
+    letter-spacing: 8px;
+
+    opacity: .42;
+    transform: rotate(-7deg);
+  }
+
+  /* --------------------
+     FILTERS
+  -------------------- */
+
+  .filters {
+    position: sticky;
+    top: 12px;
+    z-index: 30;
+
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+
+    margin: 34px 0 64px;
+    padding: 18px 20px 20px;
+
+    background: rgba(255, 250, 243, .94);
+    border: 2px solid var(--ink);
+    border-radius: 26px;
+    box-shadow: 4px 4px 0 rgba(47, 51, 69, .18);
+
+    backdrop-filter: blur(14px);
+  }
+
+  .filter-label {
+    width: 100%;
+    margin-top: 6px;
+
+    color: #62687c;
+    font-size: 14px;
+    font-weight: 900;
+    letter-spacing: .08em;
+  }
+
+  .filter-btn {
+    cursor: pointer;
+
+    padding: 9px 15px;
+
+    color: var(--ink);
+    font-weight: 800;
+
+    background: var(--white);
+    border: 2px solid var(--ink);
+    border-radius: 999px;
+    box-shadow: 2px 2px 0 var(--ink);
+
+    transition:
+      transform .15s ease,
+      box-shadow .15s ease,
+      background .15s ease;
+  }
+
+  .filter-btn:hover {
+    transform: translate(2px, 2px);
+    box-shadow: 1px 1px 0 var(--ink);
+  }
+
+  .filter-btn.active {
+    background: var(--yellow);
+    transform: translate(-1px, -1px);
+    box-shadow: 4px 4px 0 var(--ink);
+  }
+
+  /* --------------------
+     EXHIBITION SECTION
+  -------------------- */
+
+  .section {
+    position: relative;
+
+    margin-top: 78px;
+    padding: 32px 30px 38px;
+
+    border-radius: 36px;
+  }
+
+  #specialSection {
+    background:
+      linear-gradient(
+        180deg,
+        rgba(255, 241, 183, .72),
+        rgba(255, 255, 255, .46)
+      );
+  }
+
+  #artistSection {
+    background:
+      linear-gradient(
+        180deg,
+        rgba(226, 244, 253, .82),
+        rgba(255, 255, 255, .48)
+      );
+  }
+
+  .section::before {
+    content: "";
+
+    position: absolute;
+    inset: 12px;
+
+    border: 2px dashed rgba(47, 51, 69, .14);
+    border-radius: 27px;
+
+    pointer-events: none;
+  }
+
+  .section-heading {
+    position: relative;
+    z-index: 2;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 18px;
+
+    margin-bottom: 24px;
+    padding: 0 4px 16px;
+
+    border-bottom: 3px solid var(--ink);
+  }
+
+  .section-heading h2 {
+    font-size: clamp(28px, 4vw, 44px);
+    line-height: 1.2;
+    letter-spacing: -.02em;
+  }
+
+  .section-heading .en {
+    display: block;
+    margin-top: 4px;
+
+    color: #72788a;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: .13em;
+    text-transform: uppercase;
+  }
+
+  .count-badge {
+    white-space: nowrap;
+
+    padding: 8px 14px;
+
+    font-weight: 900;
+
+    background: var(--green);
+    border: 2px solid var(--ink);
+    border-radius: 999px;
+    box-shadow: 3px 3px 0 var(--ink);
+  }
+
+  /* --------------------
+     GALLERY
+  -------------------- */
+
+  .gallery-grid {
+    position: relative;
+    z-index: 2;
+
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 28px 22px;
+  }
+
+  .gallery-grid.featured {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .art-card {
+    position: relative;
+
+    cursor: pointer;
+
+    padding: 11px;
+
+    background: var(--white);
+    border: 2px solid var(--ink);
+    border-radius: 22px;
+    box-shadow: 5px 5px 0 rgba(47, 51, 69, .9);
+
+    transform-origin: center bottom;
+
+    transition:
+      transform .18s ease,
+      box-shadow .18s ease;
+  }
+
+  .art-card:nth-child(3n + 1) {
+    transform: rotate(-.35deg);
+  }
+
+  .art-card:nth-child(3n + 2) {
+    transform: rotate(.28deg);
+  }
+
+  .art-card:nth-child(3n) {
+    transform: rotate(-.12deg);
+  }
+
+  .art-card:hover {
+    transform: translateY(-7px) rotate(0deg);
+    box-shadow: 7px 10px 0 var(--ink);
+  }
+
+  .art-card:focus-visible {
+    outline: 4px solid var(--blue);
+    outline-offset: 4px;
+  }
+
+  .art-image {
+    position: relative;
+
+    display: grid;
+    place-items: center;
+
+    aspect-ratio: 4 / 3;
+
+    overflow: hidden;
+
+    background: #fffdf8;
+    border: 2px solid var(--ink);
+    border-radius: 14px;
+  }
+
+  .art-image img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+
+    background: #fff;
+  }
+
+  .placeholder {
+    padding: 20px;
+
+    color: #81796f;
+    font-weight: 900;
+    text-align: center;
+  }
+
+  .placeholder span {
+    display: block;
+
+    margin-bottom: 5px;
+
+    font-size: 34px;
+  }
+
+  .award-tag {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 2;
+
+    display: inline-block;
+
+    padding: 6px 10px;
+
+    font-size: 12px;
+    font-weight: 900;
+    line-height: 1;
+
+    background: var(--yellow);
+    border: 2px solid var(--ink);
+    border-radius: 999px;
+    box-shadow: 2px 2px 0 var(--ink);
+  }
+
+  #artistSection .award-tag {
+    background: var(--blue-soft);
+  }
+
+  .art-meta {
+    padding: 16px 7px 7px;
+  }
+
+  .art-meta .where {
+    margin-bottom: 5px;
+
+    color: #6d6d6d;
+    font-size: 13px;
+    font-weight: 800;
+  }
+
+  .art-meta h3 {
+    margin-bottom: 6px;
+
+    font-size: 19px;
+    line-height: 1.35;
+  }
+
+  .art-meta .name {
+    font-weight: 900;
+  }
+
+  .art-meta .school {
+    color: #696969;
+    font-size: 14px;
+  }
+
+  .empty-state {
+    padding: 50px 20px;
+
+    color: #777;
+    text-align: center;
+
+    background: rgba(255, 255, 255, .55);
+    border: 2px dashed #999;
+    border-radius: 20px;
+  }
+
+  /* --------------------
+     FOOTER
+  -------------------- */
+
+  footer {
+    margin-top: 0;
+    padding: 42px 20px;
+
+    color: var(--white);
+    text-align: center;
+    line-height: 1.9;
+
+    background:
+      radial-gradient(
+        circle at 10px 10px,
+        rgba(255, 255, 255, .08) 1.5px,
+        transparent 2px
+      ) 0 0 / 26px 26px,
+      var(--ink);
+  }
+
+  footer strong {
+    font-size: 18px;
+  }
+
+  /* =========================================================
+     LIGHTBOX
+     ========================================================= */
+
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 999;
+
+    display: none;
+    align-items: center;
+    justify-content: center;
+
+    padding: 14px;
+
+    background: rgba(20, 22, 30, .91);
+
+    backdrop-filter: blur(12px);
+  }
+
+  .lightbox.open {
+    display: flex;
+  }
+
+  .lightbox-panel {
+    position: relative;
+
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 310px;
+
+    width: min(1500px, calc(100vw - 28px));
+    height: min(94vh, 980px);
+
+    overflow: hidden;
+
+    background: #171922;
+    border-radius: 22px;
+    box-shadow: 0 28px 90px rgba(0, 0, 0, .45);
+  }
+
+  .lightbox-art {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 0;
+    height: 100%;
+
+    padding: 18px;
+
+    overflow: hidden;
+
+    background:
+      radial-gradient(
+        circle at 12px 12px,
+        rgba(255, 255, 255, .035) 1.5px,
+        transparent 2px
+      ) 0 0 / 28px 28px,
+      #171922;
+  }
+
+  .lightbox-art .art-image {
+    width: 100%;
+    height: 100%;
+    max-width: none;
+
+    aspect-ratio: auto;
+
+    overflow: hidden;
+
+    background: transparent;
+    border: 0;
+    border-radius: 8px;
+  }
+
+  .lightbox-art .art-image img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+
+    background: transparent;
+  }
+
+  .lightbox-art .placeholder {
+    display: grid;
+    place-content: center;
+
+    width: min(900px, 92%);
+    aspect-ratio: 4 / 3;
+
+    background: #fffaf3;
+    border: 3px dashed rgba(47, 51, 69, .3);
+    border-radius: 16px;
+  }
+
+  .lightbox-info {
+    overflow-y: auto;
+
+    padding: 74px 24px 26px;
+
+    color: var(--ink);
+
+    background: #fffaf3;
+    border-left: 1px solid rgba(255, 255, 255, .08);
+  }
+
+  .lightbox-info .award {
+    display: inline-block;
+
+    margin-bottom: 16px;
+    padding: 7px 11px;
+
+    font-size: 13px;
+    font-weight: 900;
+
+    background: var(--yellow);
+    border: 2px solid var(--ink);
+    border-radius: 999px;
+  }
+
+  .lightbox-info h3 {
+    margin-bottom: 16px;
+
+    font-size: clamp(24px, 2.4vw, 34px);
+    line-height: 1.25;
+  }
+
+  .lightbox-info dl {
+    display: grid;
+    grid-template-columns: 64px 1fr;
+    gap: 8px 12px;
+
+    margin-top: 18px;
+
+    font-size: 14px;
+  }
+
+  .lightbox-info dt {
+    color: #777;
+    font-weight: 800;
+  }
+
+  .lightbox-info dd {
+    font-weight: 800;
+  }
+
+  .close-btn {
+    position: fixed;
+    top: 24px;
+    right: 24px;
+    z-index: 1005;
+
+    width: 48px;
+    height: 48px;
+
+    cursor: pointer;
+
+    color: var(--ink);
+    font-size: 24px;
+    font-weight: 900;
+    line-height: 1;
+
+    background: rgba(255, 255, 255, .94);
+    border: 0;
+    border-radius: 50%;
+  }
+
+  .lightbox-nav {
+    display: flex;
+    gap: 10px;
+
+    margin-top: 28px;
+  }
+
+  .nav-btn {
+    flex: 1;
+
+    cursor: pointer;
+
+    padding: 10px;
+
+    font-size: 14px;
+    font-weight: 900;
+
+    background: var(--white);
+    border: 2px solid var(--ink);
+    border-radius: 14px;
+    box-shadow: 2px 2px 0 var(--ink);
+  }
+
+  .nav-btn:hover {
+    background: var(--green);
+  }
+
+  /* =========================================================
+     TABLET
+     ========================================================= */
+
+  @media (max-width: 980px) {
+
+    .gallery-grid,
     .gallery-grid.featured {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 30px 22px;
-    }
-
-    .art-card {
-      cursor: pointer;
-      background: var(--white);
-      border: 2px solid var(--ink);
-      border-radius: 20px;
-      padding: 12px;
-      box-shadow: 4px 4px 0 var(--ink);
-      transition: transform .18s ease, box-shadow .18s ease;
-      position: relative;
-    }
-
-    .art-card:hover {
-      transform: translateY(-4px) rotate(-.4deg);
-      box-shadow: 6px 8px 0 var(--ink);
-    }
-
-    .art-card:focus-visible {
-      outline: 4px solid var(--blue);
-      outline-offset: 4px;
-    }
-
-    .art-image {
-      aspect-ratio: 4 / 3;
-      border: 2px solid var(--ink);
-      border-radius: 14px;
-      overflow: hidden;
-      background:
-        linear-gradient(135deg, rgba(255,255,255,.35) 25%, transparent 25%) -18px 0/36px 36px,
-        linear-gradient(225deg, rgba(255,255,255,.35) 25%, transparent 25%) -18px 0/36px 36px,
-        linear-gradient(315deg, rgba(255,255,255,.35) 25%, transparent 25%) 0 0/36px 36px,
-        linear-gradient(45deg, rgba(255,255,255,.35) 25%, transparent 25%) 0 0/36px 36px,
-        #f3eadf;
-      display: grid;
-      place-items: center;
-      position: relative;
-    }
-
-    .art-image img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .placeholder {
-      text-align: center;
-      padding: 20px;
-      font-weight: 900;
-      color: #7d746d;
-    }
-
-    .placeholder span {
-      display: block;
-      font-size: 34px;
-      margin-bottom: 5px;
-    }
-
-    .award-tag {
-      position: absolute;
-      top: 22px;
-      left: 22px;
-      z-index: 2;
-      display: inline-block;
-      border: 2px solid var(--ink);
-      border-radius: 999px;
-      background: var(--yellow);
-      padding: 6px 10px;
-      font-size: 12px;
-      line-height: 1;
-      font-weight: 900;
-    }
-
-    .art-meta {
-      padding: 15px 5px 5px;
-    }
-
-    .art-meta .where {
-      color: #6d6d6d;
-      font-size: 13px;
-      font-weight: 800;
-      margin-bottom: 5px;
-    }
-
-    .art-meta h3 {
-      font-size: 18px;
-      line-height: 1.35;
-      margin-bottom: 6px;
-    }
-
-    .art-meta .name {
-      font-weight: 900;
-    }
-
-    .art-meta .school {
-      color: #696969;
-      font-size: 14px;
-    }
-
-    .empty-state {
-      padding: 50px 20px;
-      text-align: center;
-      border: 2px dashed #999;
-      border-radius: 20px;
-      color: #777;
-      background: rgba(255,255,255,.55);
-    }
-
-    footer {
-      background: var(--ink);
-      color: var(--white);
-      text-align: center;
-      padding: 34px 20px;
-      line-height: 1.9;
-    }
-
-    footer strong {
-      font-size: 18px;
-    }
-
-    /* LIGHTBOX */
-    .lightbox {
-      position: fixed;
-      inset: 0;
-      z-index: 999;
-      background: rgba(25,25,25,.78);
-      backdrop-filter: blur(7px);
-      padding: 22px;
-      display: none;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .lightbox.open {
-      display: flex;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
     .lightbox-panel {
-      width: min(1060px, 100%);
-      max-height: calc(100vh - 44px);
-      overflow: auto;
-      background: var(--cream);
-      border: 3px solid var(--ink);
-      border-radius: 26px;
-      box-shadow: 8px 8px 0 rgba(0,0,0,.45);
-      position: relative;
-      display: grid;
-      grid-template-columns: 1.4fr .85fr;
+      width: calc(100vw - 18px);
+      height: calc(100vh - 18px);
+
+      grid-template-columns: 1fr;
+      grid-template-rows: minmax(0, 1fr) auto;
+
+      border-radius: 16px;
     }
 
     .lightbox-art {
-      min-height: 520px;
-      padding: 28px;
-      background: #f2ede6;
-      display: grid;
-      place-items: center;
-      border-right: 3px solid var(--ink);
-    }
-
-    .lightbox-art .art-image {
-      width: 100%;
-      max-width: 690px;
-      box-shadow: 8px 8px 0 rgba(53,53,53,.14);
-      background-color: #fff;
+      padding: 10px 10px 4px;
     }
 
     .lightbox-info {
-      padding: 72px 28px 30px;
-      position: relative;
+      max-height: 34vh;
+
+      padding: 16px 18px 18px;
+
+      border-top: 1px solid rgba(47, 51, 69, .18);
+      border-left: 0;
     }
 
     .lightbox-info .award {
-      display: inline-block;
-      background: var(--yellow);
-      border: 2px solid var(--ink);
-      border-radius: 999px;
-      padding: 7px 11px;
-      font-weight: 900;
-      font-size: 13px;
-      margin-bottom: 20px;
+      margin-bottom: 8px;
+      padding: 5px 9px;
     }
 
     .lightbox-info h3 {
-      font-size: clamp(26px, 3vw, 38px);
-      line-height: 1.25;
-      margin-bottom: 18px;
+      margin-bottom: 8px;
+
+      font-size: 22px;
     }
 
     .lightbox-info dl {
-      display: grid;
-      grid-template-columns: 72px 1fr;
-      gap: 8px 12px;
-      margin-top: 20px;
-    }
+      grid-template-columns: 56px 1fr 56px 1fr;
+      gap: 5px 8px;
 
-    .lightbox-info dt {
-      color: #777;
-      font-weight: 800;
-    }
-
-    .lightbox-info dd {
-      font-weight: 800;
-    }
-
-    .close-btn {
-      position: absolute;
-      right: 18px;
-      top: 16px;
-      width: 42px;
-      height: 42px;
-      border-radius: 50%;
-      border: 2px solid var(--ink);
-      background: var(--white);
-      cursor: pointer;
-      font-size: 24px;
-      line-height: 1;
-      font-weight: 900;
-      box-shadow: 3px 3px 0 var(--ink);
-      z-index: 5;
+      margin-top: 10px;
     }
 
     .lightbox-nav {
-      display: flex;
-      gap: 10px;
-      margin-top: 34px;
+      margin-top: 14px;
     }
+  }
 
-    .nav-btn {
-      flex: 1;
-      border: 2px solid var(--ink);
-      border-radius: 14px;
-      background: var(--white);
-      padding: 11px 12px;
-      cursor: pointer;
-      font-weight: 900;
-      box-shadow: 3px 3px 0 var(--ink);
-    }
+  /* =========================================================
+     MOBILE
+     ========================================================= */
 
-    .nav-btn:hover {
-      background: var(--green);
-    }
-
-    @media (max-width: 920px) {
-      .gallery-grid,
-      .gallery-grid.featured {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-
-      .lightbox-panel {
-        grid-template-columns: 1fr;
-      }
-
-      .lightbox-art {
-        min-height: 390px;
-        border-right: 0;
-        border-bottom: 3px solid var(--ink);
-      }
-
-      .lightbox-info {
-        padding-top: 34px;
-      }
-    }
-
-    @media (max-width: 640px) {
-     
-      main {
-        width: min(100% - 22px, 1180px);
-        padding-top: 34px;
-      }
-
-      .intro-box {
-        padding: 22px;
-      }
-
-      .gallery-grid,
-      .gallery-grid.featured {
-        grid-template-columns: 1fr;
-      }
-
-      .section-heading {
-        align-items: flex-start;
-        flex-direction: column;
-      }
-
-      .lightbox {
-        padding: 8px;
-      }
-
-      .lightbox-panel {
-        max-height: calc(100vh - 16px);
-        border-radius: 18px;
-      }
-
-      .lightbox-art {
-        padding: 18px;
-        min-height: 300px;
-      }
-
-      .lightbox-info {
-        padding: 26px 20px 24px;
-      }
-
-      .close-btn {
-        position: fixed;
-        right: 16px;
-        top: 16px;
-      }
-    }
-
-    /* =========================================================
-       2026.09  VISUAL UPDATE
-       線上美術館：作品優先、童趣策展版
-       ========================================================= */
-
-    :root {
-      --cream: #fffaf3;
-      --cream-2: #fff1d8;
-      --ink: #2f3345;
-      --pink: #f26f68;
-      --pink-soft: #ffe0dc;
-      --yellow: #ffd65a;
-      --yellow-soft: #fff1b7;
-      --green: #79d3b9;
-      --green-soft: #dff6ee;
-      --blue: #9ed8f5;
-      --blue-soft: #e2f4fd;
-      --purple-soft: #eee7ff;
-      --white: #ffffff;
-      --shadow: 5px 5px 0 var(--ink);
-      --radius-lg: 30px;
-      --radius-md: 20px;
-      --radius-sm: 14px;
-    }
-
-    body {
-      background:
-        radial-gradient(circle at 12px 12px, rgba(47,51,69,.055) 2px, transparent 2.5px) 0 0/34px 34px,
-        var(--cream);
-    }
+  @media (max-width: 700px) {
 
     main {
-      width: min(1240px, calc(100% - 34px));
-      padding-top: 62px;
+      width: min(100% - 20px, 1240px);
+      padding-top: 34px;
     }
 
     .intro-box {
-      position: relative;
-      overflow: hidden;
-      background: rgba(255,255,255,.9);
-      padding: 34px 38px;
-      border-radius: 32px;
-    }
-
-    .intro-box::after {
-      content: "●  ▲  ✦";
-      position: absolute;
-      right: 28px;
-      bottom: 17px;
-      color: var(--green);
-      font-size: 20px;
-      letter-spacing: 8px;
-      opacity: .42;
-      transform: rotate(-7deg);
+      padding: 24px 22px 44px;
     }
 
     .filters {
-      position: sticky;
-      top: 12px;
-      z-index: 30;
-      margin: 34px 0 64px;
-      padding: 18px 20px 20px;
-      border: 2px solid var(--ink);
-      border-radius: 26px;
-      background: rgba(255,250,243,.94);
-      backdrop-filter: blur(14px);
-      box-shadow: 4px 4px 0 rgba(47,51,69,.18);
-    }
+      top: 6px;
 
-    .filter-label {
-      font-size: 14px;
-      letter-spacing: .08em;
-      color: #62687c;
-      margin-top: 6px;
-    }
+      margin-bottom: 46px;
+      padding: 14px;
 
-    .filter-btn {
-      padding: 9px 15px;
-      box-shadow: 2px 2px 0 var(--ink);
-      background: var(--white);
-    }
-
-    .filter-btn.active {
-      background: var(--yellow);
-      transform: translate(-1px, -1px);
-      box-shadow: 4px 4px 0 var(--ink);
+      border-radius: 22px;
     }
 
     .section {
-      position: relative;
-      margin-top: 78px;
-      padding: 32px 30px 38px;
-      border-radius: 36px;
-    }
+      margin-top: 48px;
+      padding: 24px 14px 28px;
 
-    #specialSection {
-      background: linear-gradient(180deg, rgba(255,241,183,.72), rgba(255,255,255,.46));
-    }
-
-    #artistSection {
-      background: linear-gradient(180deg, rgba(226,244,253,.82), rgba(255,255,255,.48));
-    }
-
-    .section::before {
-      content: "";
-      position: absolute;
-      inset: 12px;
-      border: 2px dashed rgba(47,51,69,.14);
-      border-radius: 27px;
-      pointer-events: none;
-    }
-
-    .section-heading {
-      position: relative;
-      z-index: 2;
-      padding: 0 4px 16px;
-      border-bottom: 3px solid var(--ink);
-    }
-
-    .section-heading h2 {
-      letter-spacing: -.02em;
-    }
-
-    .section-heading .en {
-      color: #72788a;
+      border-radius: 26px;
     }
 
     .gallery-grid,
     .gallery-grid.featured {
-      position: relative;
-      z-index: 2;
-      gap: 28px 22px;
+      grid-template-columns: 1fr;
     }
 
-    .art-card {
-      border-radius: 22px;
-      padding: 11px;
-      box-shadow: 5px 5px 0 rgba(47,51,69,.9);
-      transform-origin: center bottom;
+    .section-heading {
+      flex-direction: column;
+      align-items: flex-start;
     }
-
-    .art-card:nth-child(3n + 1) { transform: rotate(-.35deg); }
-    .art-card:nth-child(3n + 2) { transform: rotate(.28deg); }
-    .art-card:nth-child(3n) { transform: rotate(-.12deg); }
-
-    .art-card:hover {
-      transform: translateY(-7px) rotate(0deg);
-      box-shadow: 7px 10px 0 var(--ink);
-    }
-
-    .art-image {
-      background: #fffdf8;
-    }
-
-    /* 作品縮圖不裁切，完整保留兒童作品 */
-    .art-image img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      background: #fff;
-    }
-
-    .placeholder {
-      color: #81796f;
-    }
-
-    .award-tag {
-      top: 20px;
-      left: 20px;
-      box-shadow: 2px 2px 0 var(--ink);
-    }
-
-    #artistSection .award-tag {
-      background: var(--blue-soft);
-    }
-
-    .art-meta {
-      padding: 16px 7px 7px;
-    }
-
-    .art-meta h3 {
-      font-size: 19px;
-    }
-
-    footer {
-      margin-top: 0;
-      background:
-        radial-gradient(circle at 10px 10px, rgba(255,255,255,.08) 1.5px, transparent 2px) 0 0/26px 26px,
-        var(--ink);
-      padding: 42px 20px;
-    }
-
-
-    /* =========================================================
-       NEW LIGHTBOX — 作品優先
-       ========================================================= */
 
     .lightbox {
-      background: rgba(20,22,30,.91);
-      backdrop-filter: blur(12px);
-      padding: 14px;
+      padding: 0;
     }
 
     .lightbox-panel {
-      width: min(1500px, calc(100vw - 28px));
-      height: min(94vh, 980px);
-      max-height: none;
-      overflow: hidden;
-      background: #171922;
-      border: 0;
-      border-radius: 22px;
-      box-shadow: 0 28px 90px rgba(0,0,0,.45);
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) 310px;
-      position: relative;
+      width: 100vw;
+      height: 100dvh;
+
+      grid-template-rows: minmax(0, 1fr) auto;
+
+      border-radius: 0;
     }
 
     .lightbox-art {
-      min-height: 0;
-      height: 100%;
-      padding: 18px;
-      background:
-        radial-gradient(circle at 12px 12px, rgba(255,255,255,.035) 1.5px, transparent 2px) 0 0/28px 28px,
-        #171922;
-      border: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-    }
-
-    .lightbox-art .art-image {
-      width: 100%;
-      height: 100%;
-      max-width: none;
-      aspect-ratio: auto;
-      border: 0;
-      border-radius: 8px;
-      overflow: hidden;
-      box-shadow: none;
-      background: transparent;
-    }
-
-    .lightbox-art .art-image img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      background: transparent;
-    }
-
-    .lightbox-art .placeholder {
-      width: min(900px, 92%);
-      aspect-ratio: 4 / 3;
-      display: grid;
-      place-content: center;
-      background: #fffaf3;
-      border-radius: 16px;
-      border: 3px dashed rgba(47,51,69,.3);
+      padding: 54px 6px 4px;
     }
 
     .lightbox-info {
-      padding: 74px 24px 26px;
-      background: #fffaf3;
-      color: var(--ink);
-      overflow-y: auto;
-      border-left: 1px solid rgba(255,255,255,.08);
-    }
-
-    .lightbox-info .award {
-      background: var(--yellow);
-      margin-bottom: 16px;
-    }
-
-    .lightbox-info h3 {
-      font-size: clamp(24px, 2.4vw, 34px);
-      margin-bottom: 16px;
+      max-height: 32vh;
+      padding: 12px 14px 14px;
     }
 
     .lightbox-info dl {
-      margin-top: 18px;
-      grid-template-columns: 64px 1fr;
-      font-size: 14px;
-    }
-
-    .close-btn {
-      position: fixed;
-      right: 24px;
-      top: 24px;
-      width: 48px;
-      height: 48px;
-      background: rgba(255,255,255,.94);
-      box-shadow: none;
-      border: 0;
-      color: var(--ink);
-      z-index: 1005;
+      grid-template-columns: 54px 1fr;
     }
 
     .lightbox-nav {
-      margin-top: 28px;
+      gap: 8px;
     }
 
-    .nav-btn {
-      box-shadow: 2px 2px 0 var(--ink);
-      padding: 10px;
-      font-size: 14px;
+    .close-btn {
+      top: 12px;
+      right: 12px;
+
+      width: 44px;
+      height: 44px;
     }
-
-    @media (max-width: 980px) {
-      .lightbox-panel {
-        width: calc(100vw - 18px);
-        height: calc(100vh - 18px);
-        grid-template-columns: 1fr;
-        grid-template-rows: minmax(0, 1fr) auto;
-        border-radius: 16px;
-      }
-
-      .lightbox-art {
-        padding: 10px 10px 4px;
-      }
-
-      .lightbox-info {
-        max-height: 34vh;
-        padding: 16px 18px 18px;
-        border-left: 0;
-        border-top: 1px solid rgba(47,51,69,.18);
-      }
-
-      .lightbox-info .award {
-        margin-bottom: 8px;
-        padding: 5px 9px;
-      }
-
-      .lightbox-info h3 {
-        font-size: 22px;
-        margin-bottom: 8px;
-      }
-
-      .lightbox-info dl {
-        display: grid;
-        grid-template-columns: 56px 1fr 56px 1fr;
-        gap: 5px 8px;
-        margin-top: 10px;
-      }
-
-      .lightbox-nav {
-        margin-top: 14px;
-      }
-    }
-
-    @media (max-width: 700px) {
-
-      main {
-        width: min(100% - 20px, 1240px);
-        padding-top: 34px;
-      }
-
-      .intro-box {
-        padding: 24px 22px 44px;
-      }
-
-      .filters {
-        top: 6px;
-        padding: 14px;
-        margin-bottom: 46px;
-        border-radius: 22px;
-      }
-
-      .section {
-        margin-top: 48px;
-        padding: 24px 14px 28px;
-        border-radius: 26px;
-      }
-
-      .gallery-grid,
-      .gallery-grid.featured {
-        grid-template-columns: 1fr;
-      }
-
-      .section-heading {
-        align-items: flex-start;
-        flex-direction: column;
-      }
-
-      .lightbox {
-        padding: 0;
-      }
-
-      .lightbox-panel {
-        width: 100vw;
-        height: 100dvh;
-        border-radius: 0;
-        grid-template-rows: minmax(0, 1fr) auto;
-      }
-
-      .lightbox-art {
-        padding: 54px 6px 4px;
-      }
-
-      .lightbox-info {
-        max-height: 32vh;
-        padding: 12px 14px 14px;
-      }
-
-      .lightbox-info dl {
-        grid-template-columns: 54px 1fr;
-      }
-
-      .lightbox-nav {
-        gap: 8px;
-      }
-
-      .close-btn {
-        right: 12px;
-        top: 12px;
-        width: 44px;
-        height: 44px;
-      }
-    }
-
-  </style>
+  }
+</style>
 </head>
 
 <body>
