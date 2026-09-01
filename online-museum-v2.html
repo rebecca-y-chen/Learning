@@ -49,96 +49,18 @@
       display: block;
     }
 
-    .museum-hero {
-      position: relative;
+    .main-banner {
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      line-height: 0;
       overflow: hidden;
-      padding: 84px 20px 68px;
-      background:
-        radial-gradient(circle at 12% 20%, rgba(255, 217, 92, .42) 0 90px, transparent 91px),
-        radial-gradient(circle at 88% 30%, rgba(119, 210, 189, .30) 0 110px, transparent 111px),
-        var(--cream-2);
-      border-bottom: 3px solid var(--ink);
     }
 
-    .museum-hero::before,
-    .museum-hero::after {
-      content: "";
-      position: absolute;
-      width: 160px;
-      height: 44px;
-      border: 3px solid var(--ink);
-      border-radius: 50%;
-      opacity: .08;
-      transform: rotate(-12deg);
-    }
-
-    .museum-hero::before {
-      left: -45px;
-      bottom: 36px;
-    }
-
-    .museum-hero::after {
-      right: -50px;
-      top: 46px;
-      transform: rotate(15deg);
-    }
-
-    .hero-inner {
-      width: min(1120px, 100%);
-      margin: 0 auto;
-      text-align: center;
-      position: relative;
-      z-index: 2;
-    }
-
-    .eyebrow {
-      display: inline-block;
-      padding: 8px 16px;
-      margin-bottom: 18px;
-      border: 2px solid var(--ink);
-      border-radius: 999px;
-      background: var(--white);
-      font-weight: 800;
-      letter-spacing: .08em;
-      box-shadow: 3px 3px 0 var(--ink);
-    }
-
-    .museum-hero h1 {
-      font-size: clamp(42px, 7vw, 86px);
-      line-height: 1.05;
-      color: var(--pink);
-      letter-spacing: -.03em;
-      margin-bottom: 18px;
-    }
-
-    .museum-hero .lead {
-      max-width: 720px;
-      margin: 0 auto;
-      font-size: clamp(17px, 2vw, 22px);
-      font-weight: 700;
-    }
-
-    .stats {
-      margin: 34px auto 0;
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 14px;
-      max-width: 820px;
-    }
-
-    .stat-card {
-      padding: 18px 12px;
-      border: 2px solid var(--ink);
-      border-radius: 18px;
-      background: var(--white);
-      box-shadow: 4px 4px 0 var(--ink);
-    }
-
-    .stat-card strong {
+    .main-banner img {
       display: block;
-      font-size: 28px;
-      line-height: 1.1;
-      margin-bottom: 4px;
+      width: 100%;
+      height: auto;
     }
 
     main {
@@ -510,14 +432,7 @@
     }
 
     @media (max-width: 640px) {
-      .museum-hero {
-        padding: 62px 18px 52px;
-      }
-
-      .stats {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
+     
       main {
         width: min(100% - 22px, 1180px);
         padding-top: 34px;
@@ -591,99 +506,6 @@
       background:
         radial-gradient(circle at 12px 12px, rgba(47,51,69,.055) 2px, transparent 2.5px) 0 0/34px 34px,
         var(--cream);
-    }
-
-    .museum-hero {
-      padding: 88px 20px 76px;
-      background:
-        radial-gradient(circle at 9% 25%, rgba(255,214,90,.95) 0 15px, transparent 16px),
-        radial-gradient(circle at 94% 20%, rgba(121,211,185,.9) 0 18px, transparent 19px),
-        radial-gradient(circle at 88% 79%, rgba(158,216,245,.8) 0 10px, transparent 11px),
-        radial-gradient(circle at 18% 82%, rgba(242,111,104,.65) 0 12px, transparent 13px),
-        linear-gradient(180deg, #fff0cf 0%, #fff8eb 100%);
-      border-bottom: 0;
-    }
-
-    .museum-hero::before {
-      width: 220px;
-      height: 76px;
-      left: -52px;
-      bottom: 24px;
-      border: 4px solid var(--pink);
-      opacity: .16;
-      transform: rotate(-8deg);
-    }
-
-    .museum-hero::after {
-      width: 210px;
-      height: 68px;
-      right: -48px;
-      top: 38px;
-      border: 4px solid var(--green);
-      opacity: .2;
-      transform: rotate(11deg);
-    }
-
-    .hero-inner::before,
-    .hero-inner::after {
-      content: "✦";
-      position: absolute;
-      font-size: clamp(34px, 5vw, 66px);
-      color: var(--pink);
-      opacity: .55;
-      line-height: 1;
-      pointer-events: none;
-    }
-
-    .hero-inner::before {
-      left: 4%;
-      top: 3%;
-      transform: rotate(-12deg);
-    }
-
-    .hero-inner::after {
-      right: 5%;
-      bottom: 5%;
-      color: var(--green);
-      transform: rotate(12deg);
-    }
-
-    .eyebrow {
-      padding: 9px 18px;
-      background: var(--white);
-      border-color: var(--ink);
-      box-shadow: 4px 4px 0 var(--ink);
-      transform: rotate(-1deg);
-    }
-
-    .museum-hero h1 {
-      color: var(--pink);
-      text-shadow: 3px 3px 0 rgba(255,255,255,.9);
-    }
-
-    .museum-hero .lead {
-      color: #43485d;
-    }
-
-    .stats {
-      gap: 16px;
-      max-width: 880px;
-      margin-top: 38px;
-    }
-
-    .stat-card {
-      border-radius: 22px;
-      padding: 19px 12px;
-      transition: transform .18s ease;
-    }
-
-    .stat-card:nth-child(1) { background: var(--yellow-soft); transform: rotate(-1deg); }
-    .stat-card:nth-child(2) { background: var(--green-soft); transform: rotate(1deg); }
-    .stat-card:nth-child(3) { background: var(--blue-soft); transform: rotate(-.6deg); }
-    .stat-card:nth-child(4) { background: var(--pink-soft); transform: rotate(.8deg); }
-
-    .stat-card:hover {
-      transform: translateY(-4px) rotate(0deg);
     }
 
     main {
@@ -1005,13 +827,6 @@
     }
 
     @media (max-width: 700px) {
-      .museum-hero {
-        padding: 64px 16px 54px;
-      }
-
-      .stats {
-        grid-template-columns: repeat(2, 1fr);
-      }
 
       main {
         width: min(100% - 20px, 1240px);
@@ -1085,35 +900,15 @@
 </head>
 
 <body>
+  
+<!-- --------------------
+     MAIN BANNER
+--------------------- -->
+  <header class="main-banner">
 
-  <header class="museum-hero">
-    <div class="hero-inner">
-      <div class="eyebrow">2026 雙北公車友善月</div>
-      <h1>線上美術館</h1>
-      <p class="lead">
-        看見孩子眼中的友善城市。<br>
-        42 件得獎作品，邀請你一起走進雙北孩子的想像世界。
-      </p>
-
-      <div class="stats">
-        <div class="stat-card">
-          <strong>42</strong>
-          <span>件得獎作品</span>
-        </div>
-        <div class="stat-card">
-          <strong>2</strong>
-          <span>座城市</span>
-        </div>
-        <div class="stat-card">
-          <strong>3</strong>
-          <span>參賽組別</span>
-        </div>
-        <div class="stat-card">
-          <strong>2</strong>
-          <span>得獎獎項</span>
-        </div>
-      </div>
-    </div>
+    <img
+      src="images/online-museum/gallery-banner.jpg"
+      alt="2026雙北公車友善月｜線上美術館">
   </header>
 
   <main>
