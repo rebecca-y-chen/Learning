@@ -823,7 +823,7 @@
   <main>
 
     <section class="intro-box">
-      <h2>歡迎來逛展！</h2>
+      <h2>歡迎來到線上美術館！</h2>
       <p>
         這裡收藏本屆「2026 雙北公車友善月｜兒童繪畫比賽」得獎作品。
         你可以依照獎項、城市與組別自由切換展區，也可以點擊作品進入放大瀏覽模式。
@@ -936,81 +936,644 @@
       image: "images/artworks/special-01.jpg"
     */
 
-    const artworks = [];
+    const artworks = [
 
-    function addArtwork(award, city, group, number, prefix) {
-      const displayNumber = String(number).padStart(2, "0");
+      /*
+      ==========================================================
+      移動美術館特優獎｜12 件
+      ==========================================================
+      */
 
-      artworks.push({
-        id: prefix + "-" + displayNumber,
-        award: award,
-        awardName: award === "special"
-          ? "移動美術館特優獎"
-          : "友善小藝術家獎",
-        city: city,
-        group: group,
+      // ---------- 臺北市｜幼兒組 ----------
 
-        // ↓↓↓ 正式名單出來後改這三個欄位 ↓↓↓
-        name: "【得獎者姓名 " + displayNumber + "】",
+      {
+        id: "special-01",
+        award: "special",
+        awardName: "移動美術館特優獎",
+        city: "臺北市",
+        group: "幼兒組",
+
+        name: "【得獎者姓名 01】",
         school: "【學校名稱】",
         title: "【作品名稱】",
 
-        // ↓↓↓ 有正式作品圖片後填入路徑 ↓↓↓
-        image: ""
-      });
-    }
+        image: "images/online-museum/artworks/special-01.jpg"
+      },
+
+      {
+        id: "special-02",
+        award: "special",
+        awardName: "移動美術館特優獎",
+        city: "臺北市",
+        group: "幼兒組",
+
+        name: "【得獎者姓名 02】",
+        school: "【學校名稱】",
+        title: "【作品名稱】",
+
+        image: "images/online-museum/artworks/special-02.jpg"
+      },
 
 
-    /*
+      // ---------- 新北市｜幼兒組 ----------
+
+      {
+        id: "special-03",
+        award: "special",
+        awardName: "移動美術館特優獎",
+        city: "新北市",
+        group: "幼兒組",
+
+        name: "【得獎者姓名 03】",
+        school: "【學校名稱】",
+        title: "【作品名稱】",
+
+        image: "images/online-museum/artworks/special-03.jpg"
+      },
+
+      {
+        id: "special-04",
+        award: "special",
+        awardName: "移動美術館特優獎",
+        city: "新北市",
+        group: "幼兒組",
+
+        name: "【得獎者姓名 04】",
+        school: "【學校名稱】",
+        title: "【作品名稱】",
+
+        image: "images/online-museum/artworks/special-04.jpg"
+      },
+
+
+      // ---------- 臺北市｜國小低中年級組 ----------
+
+      {
+        id: "special-05",
+        award: "special",
+        awardName: "移動美術館特優獎",
+        city: "臺北市",
+        group: "國小低中年級組",
+
+        name: "【得獎者姓名 05】",
+        school: "【學校名稱】",
+        title: "【作品名稱】",
+
+        image: "images/online-museum/artworks/special-05.jpg"
+      },
+
+      {
+        id: "special-06",
+        award: "special",
+        awardName: "移動美術館特優獎",
+        city: "臺北市",
+        group: "國小低中年級組",
+
+        name: "【得獎者姓名 06】",
+        school: "【學校名稱】",
+        title: "【作品名稱】",
+
+        image: "images/online-museum/artworks/special-06.jpg"
+      },
+
+
+      // ---------- 新北市｜國小低中年級組 ----------
+
+      {
+        id: "special-07",
+        award: "special",
+        awardName: "移動美術館特優獎",
+        city: "新北市",
+        group: "國小低中年級組",
+
+        name: "【得獎者姓名 07】",
+        school: "【學校名稱】",
+        title: "【作品名稱】",
+
+        image: "images/online-museum/artworks/special-07.jpg"
+      },
+
+      {
+        id: "special-08",
+        award: "special",
+        awardName: "移動美術館特優獎",
+        city: "新北市",
+        group: "國小低中年級組",
+
+        name: "【得獎者姓名 08】",
+        school: "【學校名稱】",
+        title: "【作品名稱】",
+
+        image: "images/online-museum/artworks/special-08.jpg"
+      },
+
+
+      // ---------- 臺北市｜國小中高年級組 ----------
+
+      {
+        id: "special-09",
+        award: "special",
+        awardName: "移動美術館特優獎",
+        city: "臺北市",
+        group: "國小中高年級組",
+
+        name: "【得獎者姓名 09】",
+        school: "【學校名稱】",
+        title: "【作品名稱】",
+
+        image: "images/online-museum/artworks/special-09.jpg"
+      },
+
+      {
+        id: "special-10",
+        award: "special",
+        awardName: "移動美術館特優獎",
+        city: "臺北市",
+        group: "國小中高年級組",
+
+        name: "【得獎者姓名 10】",
+        school: "【學校名稱】",
+        title: "【作品名稱】",
+
+        image: "images/online-museum/artworks/special-10.jpg"
+      },
+
+
+      // ---------- 新北市｜國小中高年級組 ----------
+
+      {
+        id: "special-11",
+        award: "special",
+        awardName: "移動美術館特優獎",
+        city: "新北市",
+        group: "國小中高年級組",
+
+        name: "【得獎者姓名 11】",
+        school: "【學校名稱】",
+        title: "【作品名稱】",
+
+        image: "images/online-museum/artworks/special-11.jpg"
+      },
+
+      {
+        id: "special-12",
+        award: "special",
+        awardName: "移動美術館特優獎",
+        city: "新北市",
+        group: "國小中高年級組",
+
+        name: "【得獎者姓名 12】",
+        school: "【學校名稱】",
+        title: "【作品名稱】",
+
+        image: "images/online-museum/artworks/special-12.jpg"
+      },
+
+
+      /*
       ==========================================================
-      12 名｜移動美術館特優獎
-      臺北 6 名 + 新北 6 名
+      友善小藝術家獎｜30 件
       ==========================================================
-    */
+      */
 
-    let specialNo = 1;
+      // ---------- 臺北市｜幼兒組 ----------
 
-    [
-      ["臺北市", "幼兒組", 2],
-      ["新北市", "幼兒組", 2],
+      {
+        id: "artist-01",
+        award: "artist",
+        awardName: "友善小藝術家獎",
+        city: "臺北市",
+        group: "幼兒組",
 
-      ["臺北市", "國小低中年級組", 2],
-      ["新北市", "國小低中年級組", 2],
+        name: "【得獎者姓名 01】",
+        school: "【學校名稱】",
+        title: "【作品名稱】",
 
-      ["臺北市", "國小中高年級組", 2],
-      ["新北市", "國小中高年級組", 2]
-    ].forEach(([city, group, count]) => {
-      for (let i = 0; i < count; i++) {
-        addArtwork("special", city, group, specialNo, "special");
-        specialNo++;
+        image: "images/online-museum/artworks/artist-01.jpg"
+      },
+
+      {
+        id: "artist-02",
+        award: "artist",
+        awardName: "友善小藝術家獎",
+        city: "臺北市",
+        group: "幼兒組",
+
+        name: "【得獎者姓名 02】",
+        school: "【學校名稱】",
+        title: "【作品名稱】",
+
+        image: "images/online-museum/artworks/artist-02.jpg"
+      },
+
+      {
+        id: "artist-03",
+        award: "artist",
+        awardName: "友善小藝術家獎",
+        city: "臺北市",
+        group: "幼兒組",
+
+        name: "【得獎者姓名 03】",
+        school: "【學校名稱】",
+        title: "【作品名稱】",
+
+        image: "images/online-museum/artworks/artist-03.jpg"
+      },
+
+      {
+        id: "artist-04",
+        award: "artist",
+        awardName: "友善小藝術家獎",
+        city: "臺北市",
+        group: "幼兒組",
+
+        name: "【得獎者姓名 04】",
+        school: "【學校名稱】",
+        title: "【作品名稱】",
+
+        image: "images/online-museum/artworks/artist-04.jpg"
+      },
+
+      {
+        id: "artist-05",
+        award: "artist",
+        awardName: "友善小藝術家獎",
+        city: "臺北市",
+        group: "幼兒組",
+
+        name: "【得獎者姓名 05】",
+        school: "【學校名稱】",
+        title: "【作品名稱】",
+
+        image: "images/online-museum/artworks/artist-05.jpg"
+      },
+
+
+      // ---------- 新北市｜幼兒組 ----------
+
+      {
+        id: "artist-06",
+        award: "artist",
+        awardName: "友善小藝術家獎",
+        city: "新北市",
+        group: "幼兒組",
+
+        name: "【得獎者姓名 06】",
+        school: "【學校名稱】",
+        title: "【作品名稱】",
+
+        image: "images/online-museum/artworks/artist-06.jpg"
+      },
+
+      {
+        id: "artist-07",
+        award: "artist",
+        awardName: "友善小藝術家獎",
+        city: "新北市",
+        group: "幼兒組",
+
+        name: "【得獎者姓名 07】",
+        school: "【學校名稱】",
+        title: "【作品名稱】",
+
+        image: "images/online-museum/artworks/artist-07.jpg"
+      },
+
+      {
+        id: "artist-08",
+        award: "artist",
+        awardName: "友善小藝術家獎",
+        city: "新北市",
+        group: "幼兒組",
+
+        name: "【得獎者姓名 08】",
+        school: "【學校名稱】",
+        title: "【作品名稱】",
+
+        image: "images/online-museum/artworks/artist-08.jpg"
+      },
+
+      {
+        id: "artist-09",
+        award: "artist",
+        awardName: "友善小藝術家獎",
+        city: "新北市",
+        group: "幼兒組",
+
+        name: "【得獎者姓名 09】",
+        school: "【學校名稱】",
+        title: "【作品名稱】",
+
+        image: "images/online-museum/artworks/artist-09.jpg"
+      },
+
+      {
+        id: "artist-10",
+        award: "artist",
+        awardName: "友善小藝術家獎",
+        city: "新北市",
+        group: "幼兒組",
+
+        name: "【得獎者姓名 10】",
+        school: "【學校名稱】",
+        title: "【作品名稱】",
+
+        image: "images/online-museum/artworks/artist-10.jpg"
+      },
+
+
+      // ---------- 臺北市｜國小低中年級組 ----------
+
+      {
+        id: "artist-11",
+        award: "artist",
+        awardName: "友善小藝術家獎",
+        city: "臺北市",
+        group: "國小低中年級組",
+
+        name: "【得獎者姓名 11】",
+        school: "【學校名稱】",
+        title: "【作品名稱】",
+
+        image: "images/online-museum/artworks/artist-11.jpg"
+      },
+
+      {
+        id: "artist-12",
+        award: "artist",
+        awardName: "友善小藝術家獎",
+        city: "臺北市",
+        group: "國小低中年級組",
+
+        name: "【得獎者姓名 12】",
+        school: "【學校名稱】",
+        title: "【作品名稱】",
+
+        image: "images/online-museum/artworks/artist-12.jpg"
+      },
+
+      {
+        id: "artist-13",
+        award: "artist",
+        awardName: "友善小藝術家獎",
+        city: "臺北市",
+        group: "國小低中年級組",
+
+        name: "【得獎者姓名 13】",
+        school: "【學校名稱】",
+        title: "【作品名稱】",
+
+        image: "images/online-museum/artworks/artist-13.jpg"
+      },
+
+      {
+        id: "artist-14",
+        award: "artist",
+        awardName: "友善小藝術家獎",
+        city: "臺北市",
+        group: "國小低中年級組",
+
+        name: "【得獎者姓名 14】",
+        school: "【學校名稱】",
+        title: "【作品名稱】",
+
+        image: "images/online-museum/artworks/artist-14.jpg"
+      },
+
+      {
+        id: "artist-15",
+        award: "artist",
+        awardName: "友善小藝術家獎",
+        city: "臺北市",
+        group: "國小低中年級組",
+
+        name: "【得獎者姓名 15】",
+        school: "【學校名稱】",
+        title: "【作品名稱】",
+
+        image: "images/online-museum/artworks/artist-15.jpg"
+      },
+
+
+      // ---------- 新北市｜國小低中年級組 ----------
+
+      {
+        id: "artist-16",
+        award: "artist",
+        awardName: "友善小藝術家獎",
+        city: "新北市",
+        group: "國小低中年級組",
+
+        name: "【得獎者姓名 16】",
+        school: "【學校名稱】",
+        title: "【作品名稱】",
+
+        image: "images/online-museum/artworks/artist-16.jpg"
+      },
+
+      {
+        id: "artist-17",
+        award: "artist",
+        awardName: "友善小藝術家獎",
+        city: "新北市",
+        group: "國小低中年級組",
+
+        name: "【得獎者姓名 17】",
+        school: "【學校名稱】",
+        title: "【作品名稱】",
+
+        image: "images/online-museum/artworks/artist-17.jpg"
+      },
+
+      {
+        id: "artist-18",
+        award: "artist",
+        awardName: "友善小藝術家獎",
+        city: "新北市",
+        group: "國小低中年級組",
+
+        name: "【得獎者姓名 18】",
+        school: "【學校名稱】",
+        title: "【作品名稱】",
+
+        image: "images/online-museum/artworks/artist-18.jpg"
+      },
+
+      {
+        id: "artist-19",
+        award: "artist",
+        awardName: "友善小藝術家獎",
+        city: "新北市",
+        group: "國小低中年級組",
+
+        name: "【得獎者姓名 19】",
+        school: "【學校名稱】",
+        title: "【作品名稱】",
+
+        image: "images/online-museum/artworks/artist-19.jpg"
+      },
+
+      {
+        id: "artist-20",
+        award: "artist",
+        awardName: "友善小藝術家獎",
+        city: "新北市",
+        group: "國小低中年級組",
+
+        name: "【得獎者姓名 20】",
+        school: "【學校名稱】",
+        title: "【作品名稱】",
+
+        image: "images/online-museum/artworks/artist-20.jpg"
+      },
+
+
+      // ---------- 臺北市｜國小中高年級組 ----------
+
+      {
+        id: "artist-21",
+        award: "artist",
+        awardName: "友善小藝術家獎",
+        city: "臺北市",
+        group: "國小中高年級組",
+
+        name: "【得獎者姓名 21】",
+        school: "【學校名稱】",
+        title: "【作品名稱】",
+
+        image: "images/online-museum/artworks/artist-21.jpg"
+      },
+
+      {
+        id: "artist-22",
+        award: "artist",
+        awardName: "友善小藝術家獎",
+        city: "臺北市",
+        group: "國小中高年級組",
+
+        name: "【得獎者姓名 22】",
+        school: "【學校名稱】",
+        title: "【作品名稱】",
+
+        image: "images/online-museum/artworks/artist-22.jpg"
+      },
+
+      {
+        id: "artist-23",
+        award: "artist",
+        awardName: "友善小藝術家獎",
+        city: "臺北市",
+        group: "國小中高年級組",
+
+        name: "【得獎者姓名 23】",
+        school: "【學校名稱】",
+        title: "【作品名稱】",
+
+        image: "images/online-museum/artworks/artist-23.jpg"
+      },
+
+      {
+        id: "artist-24",
+        award: "artist",
+        awardName: "友善小藝術家獎",
+        city: "臺北市",
+        group: "國小中高年級組",
+
+        name: "【得獎者姓名 24】",
+        school: "【學校名稱】",
+        title: "【作品名稱】",
+
+        image: "images/online-museum/artworks/artist-24.jpg"
+      },
+
+      {
+        id: "artist-25",
+        award: "artist",
+        awardName: "友善小藝術家獎",
+        city: "臺北市",
+        group: "國小中高年級組",
+
+        name: "【得獎者姓名 25】",
+        school: "【學校名稱】",
+        title: "【作品名稱】",
+
+        image: "images/online-museum/artworks/artist-25.jpg"
+      },
+
+
+      // ---------- 新北市｜國小中高年級組 ----------
+
+      {
+        id: "artist-26",
+        award: "artist",
+        awardName: "友善小藝術家獎",
+        city: "新北市",
+        group: "國小中高年級組",
+
+        name: "【得獎者姓名 26】",
+        school: "【學校名稱】",
+        title: "【作品名稱】",
+
+        image: "images/online-museum/artworks/artist-26.jpg"
+      },
+
+      {
+        id: "artist-27",
+        award: "artist",
+        awardName: "友善小藝術家獎",
+        city: "新北市",
+        group: "國小中高年級組",
+
+        name: "【得獎者姓名 27】",
+        school: "【學校名稱】",
+        title: "【作品名稱】",
+
+        image: "images/online-museum/artworks/artist-27.jpg"
+      },
+
+      {
+        id: "artist-28",
+        award: "artist",
+        awardName: "友善小藝術家獎",
+        city: "新北市",
+        group: "國小中高年級組",
+
+        name: "【得獎者姓名 28】",
+        school: "【學校名稱】",
+        title: "【作品名稱】",
+
+        image: "images/online-museum/artworks/artist-28.jpg"
+      },
+
+      {
+        id: "artist-29",
+        award: "artist",
+        awardName: "友善小藝術家獎",
+        city: "新北市",
+        group: "國小中高年級組",
+
+        name: "【得獎者姓名 29】",
+        school: "【學校名稱】",
+        title: "【作品名稱】",
+
+        image: "images/online-museum/artworks/artist-29.jpg"
+      },
+
+      {
+        id: "artist-30",
+        award: "artist",
+        awardName: "友善小藝術家獎",
+        city: "新北市",
+        group: "國小中高年級組",
+
+        name: "【得獎者姓名 30】",
+        school: "【學校名稱】",
+        title: "【作品名稱】",
+
+        image: "images/online-museum/artworks/artist-30.jpg"
       }
-    });
 
-
-    /*
-      ==========================================================
-      30 名｜友善小藝術家獎
-      臺北 15 名 + 新北 15 名
-      ==========================================================
-    */
-
-    let artistNo = 1;
-
-    [
-      ["臺北市", "幼兒組", 5],
-      ["新北市", "幼兒組", 5],
-
-      ["臺北市", "國小低中年級組", 5],
-      ["新北市", "國小低中年級組", 5],
-
-      ["臺北市", "國小中高年級組", 5],
-      ["新北市", "國小中高年級組", 5]
-    ].forEach(([city, group, count]) => {
-      for (let i = 0; i < count; i++) {
-        addArtwork("artist", city, group, artistNo, "artist");
-        artistNo++;
-      }
-    });
+    ];
 
 
     const filters = {
